@@ -1,0 +1,102 @@
+% This file is public domain.
+% This document additionally requires the datetime2-english module
+% to be installed.
+
+% arara: pdflatex
+\documentclass[english]{report}
+
+\usepackage{datetime2}
+
+%\DTMsetup{showseconds=false,datesep=/,timesep=.}
+
+\newcommand{\testdate}[1]{%
+  \DTMsetstyle{#1}\section{Style `#1'}\par
+  \begin{tabular}{ll}
+  Now: & \DTMnow.\\
+  Positive Time Zone: & \DTMuse{mydate+}\\
+  Negative Time Zone: & \DTMuse{mydate-}\\
+  Zero Time Zone: & \DTMuse{mydate0}
+  \end{tabular}\par
+  \typeout{Date-Time (#1): \DTMnow.}%
+}
+
+\newcommand{\testtime}[1]{%
+  \DTMsettimestyle{#1}%
+  \section{#1}\par
+  \begin{tabular}{ll}
+  Now: & \DTMcurrenttime.\\
+  0 milliseconds: & \DTMusetime{mydate+}.\\
+  45 milliseconds: & \DTMusetime{mydate2}.\\
+  Noon: & \DTMusetime{noon}.\\
+  Midnight (0hrs): & \DTMusetime{midnight1}.\\
+  Midnight (24hrs): & \DTMusetime{midnight2}.\\
+  Morning: & \DTMusetime{8am}.\\
+  Evening: & \DTMusetime{8pm}.\\
+  Post-Midday: & \DTMusetime{1203}.\\
+  Post-Midnight (24hr): & \DTMusetime{2401}.\\
+  Post-Midnight (0hr): & \DTMusetime{0001}.
+  \end{tabular}\par
+  \typeout{Time (#1): \DTMcurrenttime.
+   \DTMusetime{mydate}.
+   \DTMusetime{mydate2}.
+   \DTMusetime{noon}.
+   \DTMusetime{midnight1}.
+   \DTMusetime{midnight2}.
+   \DTMusetime{8am}.
+   \DTMusetime{8pm}.
+   \DTMusetime{1203}.
+   \DTMusetime{2401}.
+   \DTMusetime{0001}.
+  }%
+}
+
+\begin{document}
+\chapter{Date-Time Styles}
+\DTMsavetimestamp{mydate+}{2015-04-01T08:05:00+01:00}
+\DTMsavetimestamp{mydate-}{2015-04-01T08:05:00-01:00}
+\DTMsavetimestamp{mydate0}{2015-04-01T08:05:00+00:00}
+
+\testdate{default}
+
+\testdate{iso}
+
+\testdate{pdf}
+
+\testdate{ddmmyyyy}
+
+\testdate{dmyyyy}
+
+\testdate{dmyy}
+
+\testdate{mmddyyyy}
+
+\testdate{mdyyyy}
+
+\testdate{mdyy}
+
+\testdate{yyyymd}
+
+\chapter{Time Styles}
+
+\DTMsavetimestamp{mydate2}{2015-04-01T08:13:45+01:00}
+\DTMsavetime{noon}{12:00:00}
+\DTMsavetime{midnight1}{00:00:00}
+\DTMsavetime{midnight2}{24:00:00}
+\DTMsavetime{8am}{08:00:00}
+\DTMsavetime{8pm}{20:00:00}
+\DTMsavetime{1203}{12:03:00}
+\DTMsavetime{2401}{24:01:00}
+\DTMsavetime{0001}{00:01:00}
+
+\testtime{hmmss}
+
+\testtime{englishampm}
+
+\renewcommand*{\DTMenglishampmfmt}[1]{\protect\textsc{#1}}
+
+\bigskip
+
+(Redefining \verb|\DTMenglishampmfmt| for following test.)
+\testtime{englishampm}
+
+\end{document}

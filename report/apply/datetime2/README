@@ -1,0 +1,22 @@
+LaTeX Package : datetime2 v1.5.6  (2020-03-02)
+
+Author        : Nicola Talbot
+		https://www.dickimaw-books.com/contact
+
+LICENCE
+
+This material is subject to the LaTeX Project Public License.
+See http://www.ctan.org/license/lppl1.3
+for the details of that license.
+
+Copyright 2015-2020 Nicola Talbot
+
+Provides commands for formatting dates, times and time zones.
+Language and regional support is provided by independently
+maintained and installed modules.
+
+The datetime2 package replaces the datetime package, which is now
+obsolete.
+
+http://www.dickimaw-books.com/
+
