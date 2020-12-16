@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,oneside,draft]{article}
+\documentclass[12pt,a4paper,oneside,draft]{IEEEconf}
 \usepackage[useregional]{datetime2}
 \usepackage[pdf]{graphviz}
 \usepackage{hyperref}
@@ -70,9 +70,9 @@ Advisor: Chun-I Fan
 % Cover page
 \maketitle
 
-\newpage
-\tableofcontents
-\newpage
+%\newpage
+%\tableofcontents
+%\newpage
 
 \section{Abstract}
 A research of container's modern cyber security issue.
@@ -113,8 +113,10 @@ efficiently implement a "duplicate" or "copy" operation on modifiable resources.
 \cite{CoW_wiki} We often use the CoW while fork() or mmap().
 
 \subsubsection{mmap}
+// FIXME
 
 \subsubsection{race condition}
+// FIXME
 
 \subsubsection{Dirty CoW demo code\cite{Dirty_CoW}}
 Let's analyze the Proof of concept (POC) of dirty CoW.\\
@@ -122,8 +124,7 @@ There are 2 function have race condition, \hyperlink{madvise}{madviseThread} and
 \hyperlink{procself}{procselfmemThread}.
 \lstinputlisting[language=C, linerange={106-107}]{dirtyc0w.c}
 
-Create 2 thread and give them argvs.\\
-\newline
+Create 2 threads and give them argvs.\\
 
 \hypertarget{madvise}{madviseThread}
 \lstinputlisting[language=C, linerange={33-39,45-48}]{dirtyc0w.c}
