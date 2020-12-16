@@ -1,6 +1,11 @@
 {
     "cSpell.ignoreWords": [
         "chun",
+        "dontneed",
+        "madv",
+        "madvise",
+        "mmap",
+        "mmaped",
         "nsysu",
         "oester",
         "pdfpagemode"

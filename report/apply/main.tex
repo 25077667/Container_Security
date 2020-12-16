@@ -1,8 +1,15 @@
 \documentclass[12pt,a4paper,oneside,draft]{article}
 \usepackage[useregional]{datetime2}
-
+\usepackage[pdf]{graphviz}
 \usepackage{hyperref}
-\usepackage{biblatex}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\usepackage{pstool}
+\usepackage[final]{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
 \addbibresource{mergedBib.bib}
 
 % Link conf.
@@ -12,19 +19,45 @@
     linkcolor=blue,
     filecolor=magenta,      
     urlcolor=cyan,
-    bookmarks=true,
     pdfpagemode=FullScreen,
 }
 \urlstyle{same}
+
+\lstset{ 
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=4,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
 
 \font\mytitle=cmr12 at 30pt
 
 \title{{\mytitle Container Security}}
 \author{Chih-Hsuan Yang\\
-%\begin{large}
-National Sun-Yet-San University \\
+
+National Sun-Yet-San University, Taiwan \\
 Bachelor's degree graduation project \\
-%\end{large}
+
 Advisor: Chun-I Fan
 }
 
@@ -55,9 +88,9 @@ I often used to run a docker container to host my services. For example: my home
 servers and some services in Information security club at NSYSU.
 But there are some vulnerabilities about container technique. Like "Dirty CoW\cite{Dirty_CoW}"
 and "Escape vulnerabilities".\\
-Dirty CoW is a vulnerability in the Linux kernel. It is a local privilege escalation bug
+"Dirty CoW is a vulnerability in the Linux kernel. It is a local privilege escalation bug
 that exploits a race condition in the implementation of the copy-on-write mechanism in the
-kernel's memory-management subsystem\cite{Dirty_CoW_wiki}. It founded by Phil Oester. I
+kernel's memory-management subsystem"\cite{Dirty_CoW_wiki}. It founded by Phil Oester. I
 was 16, the first year I had touched the docker container. I tried to use the Dirty CoW
 vulnerability to take the root privilege of my Android phone.\\
 Escape vulnerability is a subcategory of sandbox security. At first, security researchers often
@@ -73,13 +106,54 @@ issue is the top-priority requirement.\\
 
 
 \section{Papers Review}
+\subsection{Study of the Dirty Copy On Write\cite{Study_Dirty_Cow}}
+In this paper show the race condition, and the mechanism of "copy on write".
+"Copy on write" is "A resource-management technique used in computer programming to
+efficiently implement a "duplicate" or "copy" operation on modifiable resources."
+\cite{CoW_wiki} We often use the CoW while fork() or mmap().
+
+\subsubsection{mmap}
+
+\subsubsection{race condition}
+
+\subsubsection{Dirty CoW demo code\cite{Dirty_CoW}}
+Let's analyze the Proof of concept (POC) of dirty CoW.\\
+There are 2 function have race condition, \hyperlink{madvise}{madviseThread} and
+\hyperlink{procself}{procselfmemThread}.
+\lstinputlisting[language=C, linerange={106-107}]{dirtyc0w.c}
+
+Create 2 thread and give them argvs.\\
+\newline
+
+\hypertarget{madvise}{madviseThread}
+\lstinputlisting[language=C, linerange={33-39,45-48}]{dirtyc0w.c}
+
+The madvise() is a system call, which gives advice about use of memory.
+The MADV\_DONTNEED is a flag to tell kernel "Do not expect access it in the near
+future." And the manual said: "Note that, when applied to shared mappings,
+MADV\_DONTNEED might not lead to immediate freeing of the pages in the range. The
+kernel is free to delay freeing the pages until an appropriate moment.\cite{Madvise}"\\
+
+That is the problem! We ask kernel we would not access it in the near future. The kernel
+would delay a moments to free it. But, at the meanwhile, our another thread asks for write
+it.
+
+\hypertarget{procself}{procselfmemThread}
+\lstinputlisting[language=C, linerange={50-53,61-63,67-71}]{dirtyc0w.c}
+If the scheduler context switch from \hyperlink{madvise}{madviseThread} to the
+\hyperlink{procself}{procselfmemThread}, while the madvise() just was having been called.
+The permission of the page of the mmaped file would not change.
+
+Therefore we could get the permission for I/O.
+
+\subsection{Linux Kernel OS Local Root Exploit\cite{root_exploit}}
 
 \section{Methods}
 
 \section{Expected Outcome}
-The PoC code and the solution of a container cyber attack.
+Generate the PoC code and the solution of a container cyber attack.
 
 \printbibheading[heading=bibnumbered]
-\printbibliography
+\printbibliography[sorting=none]
 
 \end{document}
