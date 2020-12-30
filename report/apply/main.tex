@@ -78,16 +78,15 @@ Advisor: Chun-I Fan
 %\newpage
 
 \section{Abstract}
-This is a research of container's modern cybersecurity issue. Many companies use containers
-to run their microservices. For example: GCP(Google Cloud Platform), AWS(Amazon Web Services)
-and Microsoft Azure are using this technique to separate subscribers resources and services.
-Because containers could make their hardware resources be used efficiently. But if the hacker
-attacks the kernel or get privilege escalation of containers, and it would influence the host or
-the other containers.\\
-This research would analyze some kernel vulnerabilities, which could inspire in the container
-and influence the host or the other containers. I would patch the privileged resources be
-operated atomically and check the boundary of memory operations to prevent overflow and race
-condition issues.
+%This research focuses on the container’s modern cybersecurity issue. 
+Recently, many companies use containers to run their microservices, since containers could
+make their hardware resources be used efficiently. For example, GCP(Google Cloud Platform),
+AWS(Amazon Web Services), and Microsoft Azure are using this technique to separate subscribers'
+resources and services. However, if the hacker attacks the kernel or gets privilege
+escalation of containers, then such attacks would influence the host or the other containers.
+Therefore, this research would analyze some kernel vulnerabilities, which could inspire in
+the container and influence the host or the other containers. This project would aim and patch
+a kernel vulnerability. Hope this research would make the technique of container more secure.
 
 \section{Motivation}
 The Container is a virtualization technique to package applications and dependencies to run in
@@ -214,11 +213,9 @@ to influence the other containers or host.
 The Linux kernel is a monolithic kernel, which is over 28 million lines of codes now(2020). There
 are many mechanisms to solve the real life situations. Study those CVEs' related mechanism in the
 kernel, might have more chance to find new vulnerabilities.
-Moreover, I am really interested to realize how the kernel works. This would make me know Linux
-kernel more.
 
 \subsection{Aim a vulnerability}
-After studying the CVEs and related mechanisms. I want to find a vulnerability of privilege
+After studying the CVEs and related mechanisms. This project would find a vulnerability of privilege
 escalation in the container by attacking the kernel.
 
 \subsection{Implement the PoC}
