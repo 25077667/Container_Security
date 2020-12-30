@@ -78,9 +78,16 @@ Advisor: Chun-I Fan
 %\newpage
 
 \section{Abstract}
-A research of container's modern cyber security issue.
-Many companies use container to run their microservices.\\
-// FIXME: More info and more clear.
+This is a research of container's modern cybersecurity issue. Many companies use containers
+to run their microservices. For example: GCP(Google Cloud Platform), AWS(Amazon Web Services)
+and Microsoft Azure are using this technique to separate subscribers resources and services.
+Because containers could make their hardware resources be used efficiently. But if the hacker
+attacks the kernel or get privilege escalation of containers, and it would influence the host or
+the other containers.\\
+This research would analyze some kernel vulnerabilities, which could inspire in the container
+and influence the host or the other containers. I would patch the privileged resources be
+operated atomically and check the boundary of memory operations to prevent overflow and race
+condition issues.
 
 \section{Motivation}
 The Container is a virtualization technique to package applications and dependencies to run in
@@ -170,13 +177,13 @@ The \hyperlink{dirty cow}{Dirty CoW} vulnerability is a exploit from kernel. But
 of container and host OS are share the same kernel. This vulnerability can be used in
 container to attack the kernel, and gives this application root privilege, changes this
 containers as a privileged container or supervises the other containers. Therefore, we should
-protect the host form the container(which belongs to type\RN{3} threat in this paper).
+protect the host form the container(which belongs to type (\RN{3}) threat in this paper).
 
 \subsubsection{Virtual machine and container}
-// FIXME: draw the architecture of VM and container.
+// FIXME: Draw the architecture of VM and container.
 
 \subsubsection{Linux kernel features}
-//FIXME: Introduce these features for isolating processes in Linux.
+// FIXME: Introduce these features for isolating processes in Linux.
 
 \paragraph{namespaces}\mbox{}\\
 // FIXME: Namespaces perform the job of isolation and virtualization of system resources
@@ -187,7 +194,7 @@ for a collection of processes.\cite{Road_Ahead}
 \cite{cgroup_wiki}
 
 \paragraph{capabilities}\mbox{}\\
-// FIXME: Divides the privileges traditionally associated with superuser into distinct
+// FIXME: Divide the privileges traditionally associated with superuser into distinct
 units.
 
 \paragraph{seccomp}\mbox{}\\
