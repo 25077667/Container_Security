@@ -203,10 +203,32 @@ units.
 
 \section{Methods}
 \subsection{Study CVEs about the Linux kernel}
+I will study several kernel vulnerabilities were discover in packet socket: CVE-2016-8655
+\cite{CVE-2016-8655}, CVE-2017-7308\cite{CVE-2017-7308}, and CVE-2020-14386\cite{CVE-2020-14386}.
+
+And study some kernel exploit techniques\cite{Kernel_exploitation}, because the container shares
+the kernel. If I could exploit the kernel in the suffering container, it might have more chance
+to influence the other containers or host.
+
 \subsection{Study related mechanisms}
+The Linux kernel is a monolithic kernel, which is over 28 million lines of codes now(2020). There
+are many mechanisms to solve the real life situations. Study those CVEs' related mechanism in the
+kernel, might have more chance to find new vulnerabilities.
+Moreover, I am really interested to realize how the kernel works. This would make me know Linux
+kernel more.
+
+\subsection{Aim a vulnerability}
+After studying the CVEs and related mechanisms. I want to find a vulnerability of privilege
+escalation in the container by attacking the kernel.
+
 \subsection{Implement the PoC}
-Implement the PoC of known but not patched vulnerability.
+Implement the proof of concept of the aimed vulnerability.
+
 \subsection{Implement the patch and pull request}
+Being a security researcher, we cannot just only exploit the software, but also give patches to
+the maintainer. The Linux kernel is an open source project under GPL-2.0 license in GitHub.
+I would pull request to the repository. If my patch could be merged into the kernel to solve the
+container vulnerability.
 
 \section{Expected Outcome}
 Would research some related vulnerabilities, and implement the PoC code.
