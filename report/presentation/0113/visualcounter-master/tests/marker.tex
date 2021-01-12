@@ -1,0 +1,40 @@
+\usemodule[visualcounter]
+
+\definevisualcounter
+  [dots]
+  [markers]
+  [counter=userpage, 
+   maxwidth=\textwidth/2,
+   distance={(\the\dimexpr\visualcounterparameter{maxwidth})/last_counter - width}]
+
+\definevisualcounter
+  [fancypage1]
+  [dots]
+  [counter=userpage, width=0.5EmWidth, maxwidth=\textwidth, 
+   pastmarker={fullsquare xyscaled (0.5EmWidth, 2ExHeight)},
+   activemarker={fullsquare xyscaled (0.5EmWidth, 4ExHeight)},
+   futuremarker={fullsquare xyscaled (0.5EmWidth, 1ExHeight)},
+  ]
+
+\definevisualcounter
+  [fancypage3]
+  [progressbar]
+  [counter=userpage, width=\the\dimexpr\textwidth/3\relax]
+
+\definevisualcounter
+  [fancypage4]
+  [dots]
+  [counter=userpage]
+
+
+\setupframed[background=color,backgroundcolor=red]
+
+\setuppapersize[S6][S6]
+
+\setuppagenumbering[location=]
+\setupheadertexts[\usevisualcounter{fancypage1}]
+\setupfootertexts[\usevisualcounter{fancypage3}][\usevisualcounter{fancypage4}]
+
+\starttext
+\dorecurse{25}{\input knuth \page }
+\stoptext

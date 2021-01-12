@@ -1,0 +1,35 @@
+\usemodule[visualcounter]
+
+\definevisualcounter
+  [fancypage1]
+  [countdown]
+  [counter=userpage]
+
+\definevisualcounter
+  [fancypage2]
+  [pulseline]
+  [counter=userpage]
+
+\definevisualcounter
+  [fancypage3]
+  [mayanumbers]
+  [counter=userpage,maxwidth=2cm]
+
+\definevisualcounter
+  [fancypage4]
+  [scratchmarks]
+  [counter=userpage,maxwidth=2cm]
+
+\setupframed[background=color,backgroundcolor=red]
+
+\setuppapersize[S6][S6]
+
+\setupcounter[userpage][numberconversion=Characters]
+
+\setuppagenumbering[location=]
+\setupheadertexts[\usevisualcounter{fancypage1}][\usevisualcounter{fancypage2}]
+\setupfootertexts[\usevisualcounter{fancypage3}][\usevisualcounter{fancypage4}]
+
+\starttext
+\dorecurse{12}{\input knuth \page }
+\stoptext
