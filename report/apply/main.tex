@@ -108,8 +108,8 @@ host OS. Nowadays, the sandbox not only be used in analyzing, but also used to e
 normal application for an isolated environment. But if the application could modify the
 outside resources without the kernel permission. That loses the purpose of isolation. That
 might cause the information leaked or the kernel be hacked.\\
-Hence, there is a big problem about: "How to make sure my services isolated and secure?" I
-am the leader of Information security club. I should maintain all the services working
+Hence, there is a big problem about: "How to make sure my services isolated and secure?" The
+author is the leader of Information security club. He should maintain all the services working
 perfectly. Moreover we are information security club. Therefore, the security and performance
 issue is the top-priority requirement.\\
 
@@ -122,7 +122,12 @@ efficiently implement a "duplicate" or "copy" operation on modifiable resources.
 \cite{CoW_wiki} We often use the CoW while fork() or mmap().
 
 \subsubsection{mmap}
-// FIXME: Introduce the mechanism of memory mapping.
+This is a system call of mapping files or devices in to memory, which creates a
+new mapping in the virtual address space of the calling process. Some libiraries
+are also mapped into the virtual address space to handle the function call. 
+
+\paragraph{Why use mmap}
+\paragraph{How to use mmap}
 
 \subsubsection{Copy on write}
 // FIXME: Many callers request same modifiable resources, and the kernel could use this
@@ -130,7 +135,6 @@ technique to enhance the performance of these callers.
 
 \subsubsection{Race condition}
 // FIXME: Processes or threads are racing the same modifiable resources.
-
 
 \subsubsection{\hypertarget{dirty cow}{Dirty CoW} demo code\cite{Dirty_CoW}}
 Let's analyze the proof of concept(PoC) of dirty CoW.(Oester, 2016)\\
@@ -213,6 +217,10 @@ to influence the other containers or host.
 The Linux kernel is a monolithic kernel, which is over 28 million lines of codes now(2020). There
 are many mechanisms to solve the real life situations. Study those CVEs' related mechanism in the
 kernel, might have more chance to find new vulnerabilities.
+
+\subsection{Implement a simple container}
+
+\subsection{List secure issues of the simple container}
 
 \subsection{Aim a vulnerability}
 After studying the CVEs and related mechanisms. This project would find a vulnerability of privilege
