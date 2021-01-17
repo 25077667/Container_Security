@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <errno.h>
+#include <string.h>
 #define STK_SIZE 327680
 
 static long c_pid;
@@ -13,6 +15,9 @@ static char *c_stkptr;
 static int run(void *argv)
 {
     char **arg = *(char ***)argv;
+    // FILE *f  = fopen("a", "w");
+    // fprintf(f,"This is in child!\n");
+    // fclose(f);
     return execvp(arg[0], arg);
 }
 
@@ -25,6 +30,8 @@ int cont_start(char *argv[], int do_wait)
 {
     c_stkptr = (char *) malloc(STK_SIZE);
     c_pid = (long) loader(argv);
+    if(c_pid)
+        printf("%s\n", strerror(errno));
     printf("Start container: %s with id: %d\n", argv[0], c_pid);
     // FIXME: attach child
     if (do_wait)
