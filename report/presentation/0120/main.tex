@@ -12,7 +12,7 @@
 \subtitle{Bachelor's degree graduation project}
 \author{Chih-Hsuan Yang}
 \institute{National Sun Yat-sen University}
-\date{\today\\v1.1}
+\date{\today\\v1.2}
 
 \AtBeginSection[]{
     \begin{frame}
@@ -115,7 +115,8 @@
 \begin{frame}
     \frametitle{namespace}
     \begin{itemize}
-        \item From Linux kernel 3.8
+        \item Start from 2.4.19(2003)
+        \item Completed in Linux kernel 3.8(2013)
         \item System calls
               \begin{itemize}
                   \item clone, unshare, setns
@@ -138,6 +139,9 @@
                   \item SIGTERM, SIGKILL
                   \item The defunct
               \end{itemize}
+        \item Starting in Linux 3.8, unprivileged processes can create user namespaces, \dots \
+              unprivileged applications now have access to functionality that was formerly limited to root. \
+              \dots Thus, it may happen that user namespaces have some as-yet unknown security issues.\cite{lwn_531114}
     \end{itemize}
 \end{frame}
 
