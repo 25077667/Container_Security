@@ -12,7 +12,7 @@
 \subtitle{Bachelor's degree graduation project}
 \author{Chih-Hsuan Yang}
 \institute{National Sun Yat-sen University}
-\date{\today\\v0.1}
+\date{\today\\v1.1}
 
 \AtBeginSection[]{
     \begin{frame}
@@ -92,11 +92,19 @@
 \begin{frame}
     \frametitle{List of attack surface}
     \begin{itemize}
-        \item Stack overflow?
-        \item Kernel exploit
         \item cgroups with race condition
-        \item namespace with wrong privileges
-        \item Init.
+        \item namespace
+              \begin{itemize}
+                  \item wrong privileges
+                  \item Cannot cross namespace? Really?
+              \end{itemize}
+        \item init.
+              \begin{itemize}
+                  \item stack overflow(thread)?
+                  \item fork and CoW?
+                  \item defunct processing
+              \end{itemize}
+        \item lib/syscall/kernel exploit
     \end{itemize}
 \end{frame}
 
@@ -295,11 +303,19 @@
 \begin{frame}
     \frametitle{List of attack surface}
     \begin{itemize}
-        \item Stack overflow?
-        \item Kernel exploit
         \item cgroups with race condition
-        \item namespace with wrong privileges
-        \item Init.
+        \item namespace
+              \begin{itemize}
+                  \item wrong privileges
+                  \item Cannot cross namespace? Really?
+              \end{itemize}
+        \item init.
+              \begin{itemize}
+                  \item stack overflow(thread)?
+                  \item fork and CoW?
+                  \item defunct processing
+              \end{itemize}
+        \item lib/syscall/kernel exploit
     \end{itemize}
 \end{frame}
 
