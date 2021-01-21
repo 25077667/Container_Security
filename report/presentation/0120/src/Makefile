@@ -1,7 +1,7 @@
-rootfs=rootfs
+rootfs=myroot
 output=c
 all: init
-	gcc *.[ch] -o ${output}
+	gcc -DROOTFS=${rootfs} *.[ch] -o ${output}
 
 init:
 	./build.sh ${rootfs}

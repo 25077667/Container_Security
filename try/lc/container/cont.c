@@ -9,6 +9,9 @@
 #include <unistd.h>
 #define STK_SIZE 327680
 
+#define STRINGIZE(x) #x
+#define STRINGIZE_VALUE_OF(x) STRINGIZE(x)
+
 static long c_pid;
 static char *c_stkptr;
 
@@ -16,9 +19,13 @@ static void isol()
 {
     unshare(CLONE_FILES | CLONE_FS | CLONE_SYSVSEM | CLONE_NEWCGROUP);
     sethostname("container", 10);
-    if (chroot("./rootfs"))
+#ifdef ROOTFS
+    if (chroot(STRINGIZE_VALUE_OF(ROOTFS)))
         perror("chroot error");
-
+#else
+    if (chroot(STRINGIZE_VALUE_OF(rootfs)))
+        perror("chroot error");
+#endif
     printf("In container PID: %ld\n", (long) getpid());
 }
 
