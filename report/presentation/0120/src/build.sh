@@ -25,8 +25,8 @@ echo
 libs=()
 #----------Copy lib----------
 for app in ${support_list[@]}; do
-    echo "Add $(which $app | xargs ldd | grep '\(\/lib[^\ ]\+\)' -o | tr '\n' ' ')for $app"
-    for l in $(which $app | xargs ldd | grep '\(\/lib[^\ ]\+\)' -o | tr '\n' ' '); do
+    echo "Add $(which $app | xargs ldd | grep '\(\(\/usr\)\?\/lib[^\ ]\+\)' -o | tr '\n' ' ')for $app"
+    for l in $(which $app | xargs ldd | grep '\(\(\/usr\)\?\/lib[^\ ]\+\)' -o | tr '\n' ' '); do
         if [[ ! " ${libs[@]} " =~ " $l " ]]; then
             libs+=("$l")
         fi
