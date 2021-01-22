@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "This is the self test script in contaiiner!"
+echo "This is the self test script in container!"
 echo "Support bash cat echo ls rm hostname tree, 7 commands."
 
 echo "$SHELL\n$PATH"
