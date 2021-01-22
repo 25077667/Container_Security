@@ -1,0 +1,32 @@
+➜  container git:(main) ✗ sudo ./c bash
+Success on creating container
+Start container: bash with clone id: 375696
+In container PID: 1
+bash-5.0# ./test.sh
+This is the self test script in container!
+Support bash cat echo ls rm hostname tree, 7 commands.
+/bin/bash
+./test.sh
+-------FILE: ./test.sh --------
+     1	#!/bin/bash
+     2	
+     3	echo "This is the self test script in container!"
+     4	echo "Support bash cat echo ls rm hostname tree, 7 commands."
+     5	
+     6	echo "$SHELL"
+     7	echo $0
+     8	
+     9	echo "-------FILE: $0 --------"
+    10	cat -n $0
+    11	echo "----------------------"
+    12	
+    13	echo $(hostname) > 天竺鼠車車
+    14	cat 天竺鼠車車
+    15	rm 天竺鼠車車
+    16	ls
+----------------------
+container
+bin  dev  etc  home  lib  lib64  mnt  opt  proc  root  run  sbin  sys  test.sh	tmp  usr  var
+bash-5.0# exit
+exit
+➜  container git:(main) ✗
