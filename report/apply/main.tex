@@ -53,17 +53,16 @@
   stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
   stringstyle=\color{mymauve},     % string literal style
   tabsize=4,	                     % sets default tabsize to ˋ spaces
-  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  title=\lstname,                  % show the filename of files included with \lstinputlisting; also try caption instead of title
+  extendedchars=true
 }
 
 \font\mytitle=cmr12 at 30pt
 
 \title{{\mytitle Container Security}}
 \author{Chih-Hsuan Yang\\
-
 National Sun-Yet-San University, Taiwan \\
 Bachelor's degree graduation project \\
-
 Advisor: Chun-I Fan
 }
 
@@ -126,27 +125,36 @@ secure system. We have to do this research in this project.
 \section{Papers Review}
 \subsection{Study of the Dirty Copy On Write}
 In this paper\cite{Study_Dirty_Cow} show the race condition, and the mechanism of "copy on write".
-"Copy on write" is "A resource-management technique used in computer programming to
+"Copy on write" is " a resource-management technique used in computer programming to
 efficiently implement a "duplicate" or "copy" operation on modifiable resources."
-\cite{CoW_wiki} We often use the CoW while fork() or mmap().
+\cite{CoW_wiki} It often be inspire when fork() or mmap().
 
-\subsubsection{mmap}
+\paragraph{mmap}
 This is a system call of mapping files or devices in to memory, which creates a
-new mapping in the virtual address space of the calling process. Some libiraries
-are also mapped into the virtual address space to handle the function call.
+new mapping in the virtual address space of the caller process. Such that
+the process could operate the instance of file in memory directly.
+And some libraries are also mapped into the virtual address space to share and handle
+the function call. Therefore, the processes could take the same view of libraries in
+it's memory space.
 
-\paragraph{Why use mmap}
-\paragraph{How to use mmap}
+\paragraph{Copy on write}
+This mechanism purposes of a resource being duplicated but not modified, it is not
+necessary to create a new resource. Therefore the kernel can make callers share
+the same memory resources. The mmap is a system call could inspire this mechanism
+in above paragraph. Some processes request same memory resources, and the kernel
+supplies the same memory page to callers.
 
-\subsubsection{Copy on write}
-// FIXME: Many callers request same modifiable resources, and the kernel could use this
-technique to enhance the performance of these callers.
+\paragraph{Race condition}
+That is processes or threads are racing the same modifiable resources. For example:
+There is a page(4KB as default) of memory initialized as 0. And there are 2 threads
+or processes share that page. Consider one of the tasks is assigning the page full of
+character 'A'. However, the schedular context switches to the other task assigns that
+page full of 'B'. And the schedular context switches again to the first task.
+There is a problem now. What is the page for the first task looked like? Obviously,
+it does not meet the expectation for the first task.
 
-\subsubsection{Race condition}
-// FIXME: Processes or threads are racing the same modifiable resources.
-
-\subsubsection{Dirty CoW demo code}\cite{Dirty_CoW}\\
-Let's analyze the proof of concept(PoC) of dirty CoW.(Oester, 2016)\\
+\subsubsection{Dirty CoW demo code}
+Let's analyze the proof of concept(PoC) of dirty CoW.(Oester, 2016)\cite{Dirty_CoW}
 The key of inspiring this vulnerability is the mmaped memory space, which is mapped with
 the PROT\_READ flag. The PROT\_READ flag declares the page is read only.
 \lstinputlisting[language=C, linerange={87-89, 101-101}, firstnumber=87]{src/dirtyc0w.c}
@@ -211,6 +219,12 @@ units.
 
 \paragraph{seccomp}\mbox{}\\
 // FIXME: Only some specified process could call some specified system calls.
+
+\subsection{Study of Security Flaws in the Linux Kernel by Fuzzing}
+This paper\cite{Fuzzing}.
+
+\subsection{PINE: Optimizing Performance Isolation in Container Environments}
+This paper\cite{Optimizing}.
 
 
 \section{Methods}
