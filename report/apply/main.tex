@@ -10,6 +10,7 @@
 \usepackage{xparse}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{enumerate}
 \graphicspath{{./images/}}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -41,7 +42,7 @@
   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
   frame=single,	                   % adds a frame around the code
   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-  keywordstyle=\color{red},       % keyword style
+  keywordstyle=\color{red},        % keyword style
   morekeywords={*,...},            % if you want to add more keywords to the set
   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
   numbersep=5pt,                   % how far the line-numbers are from the code
@@ -79,6 +80,8 @@ Advisor: Chun-I Fan
 %\tableofcontents
 %\newpage
 
+% ================ Abstract ================
+
 \section{Abstract}
 Recently, many companies use containers to run their microservices, since containers could
 make their hardware resources be used efficiently. For example, GCP(Google Cloud Platform),
@@ -90,6 +93,8 @@ The container escalation could inspire in a container and influence the host or 
 other containers. This project would use the medical system with FHIR(Fast Healthcare
 Interoperability Resources) to simulate the real world threat and purpose a secure solution
 to protect patient's privacy.
+
+% ================ Motivation ================
 
 \section{Motivation}
 The Container is a virtualization technique to package applications and dependencies to run in
@@ -115,15 +120,27 @@ Hence, there is a big problem about: "How to make sure my services isolated and 
 author of this paper is the leader of Information security club. He should maintain all
 the services working perfectly. Moreover we are information security club. Therefore,
 the security and performance issue is the top-priority requirement.\\
-Second, the medical system is the most famous part internationally. Including face the COVID-19
+Second, in order to present the container security, we would take the medical system for
+example.
+The medical system is the most famous part internationally. Including face the COVID-19
 in Taiwan, we not have the local COVID-19 case in more than 250 days.\cite{COVID19_CNN}
 However, the medical profession needs to renew the exchanging EHR(electronic health records)
 system these years. In order to protect the privacy of patients, and producing the high
 performance system to exchange the EHR, we need a easy deployment, effective runtime, and
 secure system. We have to do this research in this project.
 
+% ================ Paper review ================
+
 \section{Papers Review}
-\subsection{Study of the Dirty Copy On Write}
+\subsection{Introduction}
+In this section will introduce why we choose these papers, some what did the paper say, and
+some related mechanisms about that issue.
+In this project will focus on (\RN{1}) \hyperlink{security}{security}, (\RN{2}) \
+\hyperlink{easy_management}{easy management}, \
+and (\RN{3}) \hyperlink{heigh_performance}{high performance}.
+
+\hypertarget{security}{\subsection{Security}}
+\subsubsection{Study of the Dirty Copy On Write}
 In this paper\cite{Study_Dirty_Cow} show the race condition, and the mechanism of "copy on write".
 "Copy on write" is " a resource-management technique used in computer programming to
 efficiently implement a "duplicate" or "copy" operation on modifiable resources."
@@ -168,7 +185,7 @@ It creates 2 threads, which would have a race condition of the mmaped memory spa
 In one thread, call a system call "madvise", would make the user thread gain the root
 privilege to operate the protected page temporary. And the flag MADV\_DONTNEED would
 tell the kernel: "Do not Expected access it in the near future.\cite{Madvise}" Moreover,
-this flag might not lead to immediate freeing of pages in the range.The kernel is free
+this flag might not lead to immediate freeing of pages in the range. The kernel is free
 to delay free the pages until an appropriate moment.\cite{Madvise}
 
 \hypertarget{madvise}{madviseThread}
@@ -187,7 +204,7 @@ If the schedular context switches the madviseThread to procselfmemThread, while 
 adviseThread is calling the "madvise" system call. It would cause the procselfmemThread
 gain the root privilege from madviseThread to control the mmaped file.
 
-\subsection{Container Security: Issues, Challenges, and the Road Ahead}
+\subsubsection{Container Security: Issues, Challenges, and the Road Ahead}
 This paper\cite{Road_Ahead} has derived 4 generalized container security issues:
 (\RN{1}) protecting a container from applications inside it, (\RN{2}) inter-container
 protection, (\RN{3}) protecting the host from containers, and (\RN{4}) protecting containers
@@ -199,49 +216,63 @@ container to attack the kernel, and gives this application root privilege, chang
 containers as a privileged container or supervises the other containers. Therefore, we should
 protect the host form the container(which belongs to type (\RN{3}) threat in this paper).
 
-\subsubsection{Virtual machine and container}
+\paragraph{Virtual machine and container}
 // FIXME: Draw the architecture of VM and container.
 
-\subsubsection{Linux kernel features}
+\paragraph{Linux kernel features}
 // FIXME: Introduce these features for isolating processes in Linux.
 
-\paragraph{namespaces}\mbox{}\\
+\subparagraph{namespaces}\mbox{}\\
 // FIXME: Namespaces perform the job of isolation and virtualization of system resources
 for a collection of processes.\cite{Road_Ahead}
 
-\paragraph{cgroups}\mbox{}\\
+\subparagraph{cgroups}\mbox{}\\
 // FIXME: Limits, accounts for, and isolates the resource usage of a collection of processes.
 \cite{cgroup_wiki}
 
-\paragraph{capabilities}\mbox{}\\
+\subparagraph{capabilities}\mbox{}\\
 // FIXME: Divide the privileges traditionally associated with superuser into distinct
 units.
 
-\paragraph{seccomp}\mbox{}\\
+\subparagraph{seccomp}\mbox{}\\
 // FIXME: Only some specified process could call some specified system calls.
 
-\subsection{Study of Security Flaws in the Linux Kernel by Fuzzing}
-This paper\cite{Fuzzing}.
+\subsubsection{Kernel fuzzing}
 
-\subsection{PINE: Optimizing Performance Isolation in Container Environments}
-This paper\cite{Optimizing}.
+\hypertarget{easy_management}{\subsection{Easy management}}
+\subsubsection{A paper}
 
+\hypertarget{heigh_performance}{\subsection{High performance}}
+\subsubsection{PINE: Optimizing Performance Isolation in Container Environments}
+This paper\cite{Optimizing} introduce a high throughput and low latency module
+
+
+% ================ Methods ================
 
 \section{Methods}
-\subsection{Study CVEs about the Linux kernel}
-This project will study several kernel vulnerabilities were discover in packet socket: CVE-2016-8655
-\cite{CVE-2016-8655}, CVE-2017-7308\cite{CVE-2017-7308}, and CVE-2020-14386\cite{CVE-2020-14386}.
+This project would use the MapReduce process.
+\digraph{methFlow}{
+  rankdir=LR;
+  Study -> Security -> Merge;
+  Study -> Implement -> Merge;
+}
+// FIXME: the width of digraph
+
+
+\subsection{Security}
+\subsubsection{Study CVEs and related mechanisms}
+The Linux kernel is a monolithic kernel, which is over 28 million lines of codes now(2020). There
+are many mechanisms to solve the real life situations. Study those CVEs' related mechanism in the
+kernel, might have more chance to find new vulnerabilities.
+
+This project will study several container vulnerabilities for example: CVE-2016-8655
+\cite{CVE-2016-8655}, CVE-2016-9962\cite{CVE-2016-9962}, and CVE-2020-14386\cite{CVE-2020-14386}.
 
 And study some kernel exploit techniques\cite{Kernel_exploitation}, because the container shares
 the kernel. If I could exploit the kernel in the suffering container, it might have more chance
 to influence the other containers or host.
 
-\subsection{Study related mechanisms}
-The Linux kernel is a monolithic kernel, which is over 28 million lines of codes now(2020). There
-are many mechanisms to solve the real life situations. Study those CVEs' related mechanism in the
-kernel, might have more chance to find new vulnerabilities.
-
-\subsection{Implement a simple container}
+\subsubsection{Implement a simple container}
 The Linux kernel supply some system calls to clone a process(also in thread) in their own namespace
 and group. We could implement a simple container by ourself, so that we can make a list of
 vulnerabilities may happen.
@@ -249,21 +280,57 @@ vulnerabilities may happen.
 \UseRawInputEncoding\lstinputlisting[language={}]{src/lc_out.txt}
 % \end{lstlisting}
 
+\subsubsection{List secure details of the simple container}
+In my rough opinion, there are 5 types of container security risks, (\RN{1}) Host OS risks, (\RN{2})
+Orchestration system risks, (\RN{3}) Container runtime risks, (\RN{4}) Registry risks, (\RN{5})
+Images risks. In this stage we should research the details of those risk, and purpose some solutions.
 
-\subsection{List secure issues of the simple container}
+\paragraph{Host OS risks}
+\begin{itemize}
+  \item Improper user permission
+  \item Kernel vulnerabilities
+\end{itemize}
 
-\subsection{Aim a vulnerability}
-After studying the CVEs and related mechanisms. This project would find a vulnerability of privilege
-escalation in the container by attacking the kernel.
+\paragraph{Orchestration system risks}
+\begin{itemize}
+  \item Unbounded domain access
+  \item Weak credentials
+  \item Mismanaged inter-container network traffic
+  \item Mixed of workload sensitivity levels
+\end{itemize}
 
-\subsection{Implement the PoC}
-Implement the proof of concept of the aimed vulnerability.
+\paragraph{Container runtime risks}
+\begin{itemize}
+  \item Runtime software vulnerabilities
+  \item Unbounded network access from containers
+  \item Insecure container runtime configurations
+\end{itemize}
 
-\subsection{Implement the patch and pull request}
+\paragraph{Registry risks}
+\begin{itemize}
+  \item Insecure connections to registries
+  \item Old images in registries
+\end{itemize}
+
+\paragraph{Images risks}
+\begin{itemize}
+  \item Image vulnerabilities
+  \item Embedded malware or secrets
+\end{itemize}
+
+\subsubsection{Aim a vulnerability and implement the PoC}
+After listing the risks. This project would find a vulnerability of privilege escalation in
+the container and affect with other containers.
+
+\subsubsection{Implement the patch and pull request}
 Being a security researcher, we cannot just only exploit the software, but also give patches to
 the maintainer. The Linux kernel is an open source project under GPL-2.0 license in GitHub.
 I would pull request to the repository. If my patch could be merged into the kernel to solve the
 container vulnerability.
+
+\subsection{Merge}
+
+% ================ Expected Outcome ================
 
 \section{Expected Outcome}
 Would research some related vulnerabilities, and implement the PoC code.
