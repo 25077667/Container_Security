@@ -1,5 +1,10 @@
 digraph methFlow {
-rankdir=LR;
-Study -> Security -> Merge;
-Study -> Implement -> Merge;
+Study[margin="0"]
+Merge[margin="0"]
+"Container\n Security"[margin="0"]
+"FHIR\nSystem "[margin="0"]
+
+Study -> "Container\n Security"-> Merge
+Study -> "FHIR\nSystem " -> Merge
+rankdir=LR
 }
