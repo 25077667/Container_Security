@@ -26,7 +26,7 @@
     linkcolor=blue,
     filecolor=magenta,      
     urlcolor=cyan,
-    pdfpagemode=FullScreen,
+    pdfpagemode=UseNone
 }
 \urlstyle{same}
 
@@ -362,17 +362,50 @@ center confidential, integral, and available.
 The interface would be designed as a website. Which make every user could access in different platform.
 
 \subsubsection{Back-end}
-\subsubsection{Database},
-\subsubsection{Access controller}
-\subsubsection{High performance server}
+This project would use the container technique at the back-end. Would isolate different services in
+different container. We would also design a access controller for variadic requests, and
+design a high performance kernel module to speed up the IO and caching.
+
+\paragraph{Access controller}
+The access controller would be implemented as a kernel module. Because malicious user has fewer
+probability to break the Linux kernel, if this module have no bugs.
+The access controller would use the the whitelisting method to enforce the accessibility policy.
+It would reserve the essential system calls in the container, and discard all unused system calls.
+
+\paragraph{High performance server}
+This project would implement a kernel module for the high performance server. Which could hook the IO
+system calls from the web server. The module would replace the normal IO calls to asynchronous IO,
+which could enhance the concurrency performance to provide high throughput.
+
+Moreover, this project would design an efficient algorithm to predict and cache the container's
+application data. To reduce the latency, while backend server requiring data.
 
 \subsection{Merge}
+The last step is combining the FHIR system and container security. This project would demonstrate
+an escalation of normal container(ie. Docker) to steal patients' information form web server.
+However, our container can detect and prevent malicious user escaping the container of web server.
+
+In addition, the performance issue is also the key point in this project. We would provide a
+high performance FHIR system for the real life requirement. Therefore, we would also improve the
+IO performance at the final stage in this project.
 
 % ================ Expected Outcome ================
 
 \section{Expected Outcome}
-Would research some related vulnerabilities, and implement the PoC code.
-Moreover this project will generate the patch of the vulnerability(s) to protect these attack(s).
+This project will implement a high performance FHIR medical data exchange system to demonstrate
+the container escalation. We want to deploy FHIR system in containers. The container technique
+cloud isolate the environments between different container. Apart from, it is faster to start-up,
+lighter in memory/storage usage at run time and easier to deploy than virtual machines.
+
+Therefore, this project have 2 parts: FHIR and container security.
+\paragraph{Container security}
+We would implement a vulnerability PoC, patch, and demonstration for container escalation.
+Hope this research could make the container technique become more secure, and provide the medical
+data exchange system more reliable.
+\paragraph{FHIR system}
+We would implement the medical data exchange system with the FHIR standard. The implementation
+considers the most two important issue: security issue and performance issue. Hope this project
+could be the medical data exchange system model role of implementation in Taiwan.
 
 \printbibheading[heading=bibnumbered]
 \printbibliography\newrefcontext
