@@ -12,6 +12,8 @@
 \usepackage{enumerate}
 \usepackage{CJKutf8}
 \usepackage{pifont}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 \graphicspath{{./images/}}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -59,9 +61,9 @@
   extendedchars=true,
 }
 
-\font\mytitle=cmr12 at 30pt
+% \font\mytitle=cmr12 at 30pt
 
-\title{{\mytitle Container Security}}
+\title{{The Container Security in Healthcare Data Exchange System}}
 \author{Chih-Hsuan Yang\\
 National Sun-Yet-San University, Taiwan \\
 Bachelor's degree graduation project \\
@@ -86,13 +88,14 @@ Advisor: Chun-I Fan
 Recently, many companies use containers to run their microservices, since containers could
 make their hardware resources be used efficiently. For example, GCP(Google Cloud Platform),
 AWS(Amazon Web Services), and Microsoft Azure are using this technique to separate subscribers'
-resources and services. However, if the hacker attacks the kernel or gets privilege
-escalation of containers, then such attacks would influence the host or the other containers.
-Therefore, this research would analyze, implement, and protect the container escalation.
-The container escalation could inspire in a container and influence the host or the
-other containers. This project would use the medical system with FHIR(Fast Healthcare
-Interoperability Resources)\cite{FHIR_home} to simulate the real world threat and purpose a
-secure solution to protect patient's privacy.
+resources and services. However, if the hacker gets privilege escalation of containers, then
+such attacks would influence the host or the other containers.
+Therefore, this research would analyze, implement, and protect the container escalation in
+healthcare data exchange system.
+The container escalation would be inspired in a container and influence the host or the
+other containers. The healthcare data exchanging system will take the FHIR(Fast
+Healthcare Interoperability Resources)\cite{FHIR_home} to simulate the real world threat and
+purpose a secure solution to protect patient's privacy.
 
 % ================ Motivation ================
 
@@ -132,8 +135,31 @@ secure system. We have to do this research in this project.
 % ================ Related works ================
 
 \section{Related works}
-In this section will introduce why we choose these papers, some what did the paper say, and
-some related mechanisms about that issue.
+In this section will introduce some paper, some concepts, and some related mechanisms
+about this issue.
+\subsection{Virtual machines and containers}
+Different names are used to refer to containers in the literature including OS level
+virtualization and lightweight virtualization\cite{Road_Ahead}. However the virtual
+machines are providing functionality of a physical computer. The virtual machines
+would take a copy of the guest OS, and execute with the virtualization layer on
+the host OS. Which difference shows in \ref*{VM_cont}
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[squarednode/.style={rectangle, draw=red!60, fill=red!5, very thick}]
+    % Nodes
+    \node[squarednode] (hardware)                         {Hardware};
+    \node[squarednode] (host) [above=of hardware]         {Host OS};
+    \node[squarednode] (virtualization) [above=of host]   {Virtualization layer};
+    \node[squarednode] (process) [above=of virtualization]{Process};
+
+    % \draw[blue, very thick] (0,0) rectangle (3, 1);
+  \end{tikzpicture}
+  \caption[]{Comparison between containers and virtual machines}
+  \label{VM_cont}
+\end{figure}
+// TODO: draw the figure
+
+
 In this project will focus on (\RN{1}) \hyperlink{security}{security}, and (\RN{2})
 \hyperlink{heigh_performance}{high performance}.
 
@@ -214,9 +240,6 @@ of container and host OS are share the same kernel. This vulnerability can be us
 container to attack the kernel, and gives this application root privilege, changes this
 containers as a privileged container or supervises the other containers. Therefore, we should
 protect the host form the container(which belongs to type (\RN{3}) threat in this paper).
-
-\paragraph{Virtual machine and container}
-// FIXME: Draw the architecture of VM and container.
 
 \paragraph{Linux kernel features}
 // FIXME: Introduce these features for isolating processes in Linux.
@@ -412,7 +435,10 @@ could be the medical data exchange system model role of implementation in Taiwan
 
 \section{Academic Advisor}
 \begin{itemize}
-  \item Organize to a complete structure.
+  \item Give advises of security issues.
+  \item Give advises of the front-end of user interface.
+  \item Introduce the vision of medical data exchanging system.
+  \item Organize this research to a complete structure.
   \item Extend to a formal paper, and publish.
 \end{itemize}
 
