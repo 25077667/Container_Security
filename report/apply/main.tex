@@ -13,7 +13,7 @@
 \usepackage{CJKutf8}
 \usepackage{pifont}
 \usepackage{tikz}
-\usetikzlibrary{positioning}
+\usetikzlibrary{positioning, fit}
 \graphicspath{{./images/}}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -135,40 +135,112 @@ secure system. We have to do this research in this project.
 % ================ Related works ================
 
 \section{Related works}
-In this section will introduce some paper, some concepts, and some related mechanisms
-about this issue.
-\subsection{Virtual machines and containers}
+This section will focus on (\RN{1}) \hyperlink{concepts}{concepts} (\RN{2}) \hyperlink{security}{security}, and (\RN{3})
+\hyperlink{heigh_performance}{high performance}.
+
+\subsection{Concepts}
+\hypertarget{concepts}{}
+\subsubsection{Virtual machines and containers}
 Different names are used to refer to containers in the literature including OS level
 virtualization and lightweight virtualization\cite{Road_Ahead}. However the virtual
 machines are providing functionality of a physical computer. The virtual machines
 would take a copy of the guest OS, and execute with the virtualization layer on
-the host OS. Which difference shows in \ref*{VM_cont}
+the host OS. Which difference shows in Figure: \ref*{VM_cont}
+\begin{figure}
+  \begin{center}
+    \begin{tikzpicture}[squarednode/.style={align=center, rectangle, draw=red!60,
+            fill=red!5, very thick, scale=0.7}]
+      % VM
+      \node[squarednode] (hardware)[text width=4.5cm]                               {Hardware};
+      \node[squarednode] (host) [text width=4.5cm,above=2mm of hardware]            {Host OS};
+      \node[squarednode] (virtualization) [text width=4.5cm, above=2mm of host]     {Virtualization layer};
+      \node[squarednode] (guest) [text width=2cm, above=2mm of virtualization]      {Guest OS};
+      \node[squarednode] (guest1) [text width=2cm, right=2mm of guest]              {Guest OS};
+      \node[squarednode] (process) [text width=2cm, above=2mm of guest]             {Process};
+      \node[squarednode] (process1) [text width=2cm, above=2mm of guest1]           {Process};
+      \node[draw=green!60, fit=(hardware)(process)(process1), label={Virtual Machine}] {};
+
+      % Container
+      \node[squarednode] (hardware1) [text width=4.5cm, right = 5mm of hardware]    {Hardware};
+      \node[squarednode] (host1) [text width=4.5cm, above=2mm of hardware1]         {Host OS};
+      \node[squarednode] (virtualization1) [text width=4.5cm, above=2mm of host1]   {Virtualization layer};
+      \node[squarednode] (process2) [text width=2cm, above=2mm of virtualization1]   {Process};
+      \node[squarednode] (process3) [text width=2cm, right=2mm of process2]          {Process};
+      \node[draw=blue!60, fit=(hardware1)(process2)(process3), label={Container}] {};
+
+    \end{tikzpicture}
+    \caption[]{Comparison between containers and virtual machines}
+    \label{VM_cont}
+  \end{center}
+\end{figure}
+// FIXME: Align the figure
+
+\subsubsection{FHIR}
+The FHIR is a standard for healthcare data exchange. The FHIR standard will be used in
+in Taiwan in the near future\cite{MOHW_FHIR}. The FHIR will be used to provide the PHR
+(Personal Healthcare Records) in Taiwan. Therefore we choose the most popular standard
+"FHIR" for the target.
+
+\subsubsection{Linux kernel features}
+There are 4 basic features for the abstract containerization services in Linux environment.
+The 4 basic features are: (\RN{1}) namespace, (\RN{2}) cgroups, (\RN{3}) capabilities,
+and (\RN{4}) seccomp.
+
+In addition, there are 3 terminologies of the computer science related to container security in
+the Linux kernel. Which are (\RN{1}) mmap, (\RN{2}) Copy on write, and (\RN{3}) Race condition.
+
+\paragraph{namespaces}
+The Linux kernel provides the namespaces to perform the job of isolation and virtualization
+of system resources for a collection of processes\cite{Road_Ahead}.
+User namespaces can be nested; that is, each user namespace—except the initial ("root")
+namespace—has a parent user namespace, and can have zero or more child user namespaces.
+\cite{user_namespaces}
+The nested namespace would look like the Figure \ref*{Nested}.
 \begin{figure}
   \centering
-  \begin{tikzpicture}[squarednode/.style={rectangle, draw=red!60, fill=red!5, very thick}]
-    % Nodes
-    \node[squarednode] (hardware)                         {Hardware};
-    \node[squarednode] (host) [above=of hardware]         {Host OS};
-    \node[squarednode] (virtualization) [above=of host]   {Virtualization layer};
-    \node[squarednode] (process) [above=of virtualization]{Process};
+  \begin{tikzpicture}[
+      roundnode/.style={circle, draw=green!60, fill=green!5, very thick, minimum size=7mm},
+      squarednode/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=5mm},
+    ]
+    %Nodes
+    \node[circle,draw](z){0}
+    child{node[circle,draw]{1} child{node[circle,draw] (p_4){3}} child[missing]}
+    child{node[circle,draw]{2} child{node[circle,draw] {5}}
+        child{node[circle,draw](n_1){6/0} child{node[circle,draw](n_2){2}} child{node[circle,draw](n_3){3}} } };
+    \node[draw=blue!60, fit=(z)(n_2)(n_3)(p_4), label={Parent UID}] {};
+    \node[draw=red!60, fit=(n_1)(n_2)(n_3), label={Child UID}] {};
 
-    % \draw[blue, very thick] (0,0) rectangle (3, 1);
   \end{tikzpicture}
-  \caption[]{Comparison between containers and virtual machines}
-  \label{VM_cont}
+  \caption[]{The nested user namespaces}
+  \label{Nested}
 \end{figure}
-// TODO: draw the figure
 
+\paragraph{cgroups}
+This feature can limit, account for, and isolate the hardware resource usage of a
+collection of processes\cite{cgroup_wiki}.
+The container could use this feature to set the maximum/minimum usage of hardware
+resources, which could guarantee processes' resources using reasonability.
 
-In this project will focus on (\RN{1}) \hyperlink{security}{security}, and (\RN{2})
-\hyperlink{heigh_performance}{high performance}.
+\paragraph{capabilities}
+This feature divides the privileges traditionally associated with superuser into
+distinct units. For the purpose of performing permission checks, traditional UNIX
+implementations distinguish two categories of processes: privileged and unprivileged.
+Privileged processes would bypass all kernel permission checks, while unprivileged
+processes are subject to full permission checking based on the process's credentials
+\cite{capabilities}.
 
-\hypertarget{security}{\subsection{Security}}
-\subsubsection{Study of the Dirty Copy On Write}
-In this paper\cite{Study_Dirty_Cow} show the race condition, and the mechanism of
-"copy on write". "Copy on write" is " a resource-management technique used in
-computer programming to efficiently implement a "duplicate" or "copy" operation
-on modifiable resources." \cite{CoW_wiki} It often be inspire when fork() or mmap().
+Take ping command for example. The ping needs to generate and receive ICMP packets,
+and usually that's done using the "raw sockets" – a feature limited to root only
+(CAP\_NET\_RAW). Because it could also be abused to sniff and disrupt other traffic
+on the system. And we can set the capability to the file to get accessibility to
+execute the file.
+Therefore, when we set the CAP\_NET\_RAW capability to the /bin/ping, we could use
+the ping command as your user.
+
+\paragraph{seccomp}
+The seccomp feature is that only some specified process could call some specified
+system calls. We could set a policy of while some file be loaded, and we often use
+this system call to enforce the whitelisting or blacklisting policy.
 
 \paragraph{mmap}
 This is a system call of mapping files or devices in to memory, which creates a
@@ -194,6 +266,14 @@ the other task, which assigns that page full of 'B'. Then the schedular context 
 again to the first task. There is a problem now. What is the page for the first
 task looked like? Obviously, it does not meet the expectation for the first task.
 This is race condition.
+
+\subsection{Security}
+\hypertarget{security}{}
+\subsubsection{Study of the Dirty Copy On Write}
+This paper\cite{Study_Dirty_Cow} show the race condition, and the mechanism of
+"copy on write". "Copy on write" is "a resource-management technique used in
+computer programming to efficiently implement a "duplicate" or "copy" operation
+on modifiable resources." \cite{CoW_wiki} It often be inspire when fork() or mmap().
 
 \subsubsection{Dirty CoW demo code}
 Let's analyze the proof of concept(PoC) of dirty CoW.(Oester, 2016)\cite{Dirty_CoW}
@@ -235,33 +315,36 @@ This paper\cite{Road_Ahead} has derived 4 generalized container security issues:
 protection, (\RN{3}) protecting the host from containers, and (\RN{4}) protecting containers
 from a malicious or semi-honest host.\cite{Road_Ahead}
 
-The Dirty CoW vulnerability is a exploit from kernel. But the benefit
-of container and host OS are share the same kernel. This vulnerability can be used in
-container to attack the kernel, and gives this application root privilege, changes this
-containers as a privileged container or supervises the other containers. Therefore, we should
-protect the host form the container(which belongs to type (\RN{3}) threat in this paper).
+The (\RN{1}), (\RN{3}), and (\RN{3}) issue could implement the protection by the software
+based solutions.
 
-\paragraph{Linux kernel features}
-// FIXME: Introduce these features for isolating processes in Linux.
+For the (\RN{1}) protecting a container from applications, this paper recommends that
+we could use the different capabilities and the LSM(Linux secure module). Take
+CVE-2017-5123\cite{CVE-2017-5123} for example. The vulnerability here is the third argument of
+waitpid() system call didn't ensure that the user specified pointer points to user space
+and not kernel space. Since unprivileged users shouldn’t be able to write arbitrarily
+to kernel memory.
 
-\subparagraph{namespaces}\mbox{}\\
-// FIXME: Namespaces perform the job of isolation and virtualization of system resources
-for a collection of processes.\cite{Road_Ahead}
+The solution of CVE-2017-5123 without update the Linux kernel is insert a
+LSM to the kernel, which monitor the runtime behaviors of system call. If any process
+use the waitpid() with a pointer point to kernel as the third argument, the LSM should block
+the operation and raise a signal to user.
 
-\subparagraph{cgroups}\mbox{}\\
-// FIXME: Limits, accounts for, and isolates the resource usage of a collection of processes.
-\cite{cgroup_wiki}
+For the (\RN{2}) inter-container protection, this paper recommends that we could use the
+LSM, namespaces, and cgroups to limit the container. Take CVE-2016-8655\cite{CVE-2016-8655}
+for example. This vulnerability is a bug in net/packet/af\_packet.c. We often use the
+CAP\_NET\_RAW namespace in container to make unprivileged user could sue some privileged
+net-util commands. The bug is there exist a race condition probability to race the unauthorized
+data inside packet\_set\_ring() and packet\_setsockopt()\cite{CVE-2016-8655-lwn}.
+// FIXME: Explain the code here.
 
-\subparagraph{capabilities}\mbox{}\\
-// FIXME: Divide the privileges traditionally associated with superuser into distinct
-units.
+For the (\RN{3}) protecting the host from containers issue.
+Take the Dirty CoW vulnerability for example, which is an exploitation from the Linux kernel,
+the vulnerability could change the victim container to a privileged container. Therefore, we should
+protect the host form the container, which belongs to type (\RN{3}) threat in this paper.
 
-\subparagraph{seccomp}\mbox{}\\
-// FIXME: Only some specified process could call some specified system calls.
-
-\subsubsection{Kernel fuzzing}
-
-\hypertarget{heigh_performance}{\subsection{High performance}}
+\subsection{High performance}
+\hypertarget{heigh_performance}{}
 This section will study some IO performance and caching issues. Because the medical
 data exchange system demands stringent specification of the response time.
 The IO is the most often causing the bottleneck in the low latency required system.
@@ -271,8 +354,19 @@ latency.
 
 \subsubsection{PINE: Optimizing Performance Isolation in Container Environments}
 This paper\cite{Optimizing} introduce a high throughput and low latency module to control
-the IO streams.
+the IO streams. Which implement a module to accord a calculated optimization parameters,
+and check if the process throughput is satisfied or the 99.9\% throughput is satisfied.
 
+That is if the throughput reached the bottleneck, then the model would extend the
+bandwidth by the cgroup. The latency evaluation is more difficult than throughput
+evaluation. This paper\cite{Optimizing} used the statistical data to calculated the
+99.9\% of latency is it in the margin of error in 3 standard deviation, if not the
+module will raise the priority of the IO queue.
+
+\subsubsection{The epoll vs. io\_uring performance comparison}
+// FIXME: Introduce the epoll and the io\_uring.
+// FIXME: Mode the introduction to the concepts subsection
+// FIXME: Use the [report](https://hackmd.io/@shanvia/B1Ds1vlAD) as reference
 
 % ================ Methods ================
 
@@ -325,9 +419,7 @@ The Linux kernel supply some system calls to clone a process(also in thread) in 
 and group. We could implement a simple container by ourself, so that we can make a list of
 vulnerabilities may happen.
 % \begin{lstlisting}
-\begin{CJK*}{UTF8}{bsmi}
-  \UseRawInputEncoding\lstinputlisting[language={}]{src/lc_out.txt}
-\end{CJK*}
+\UseRawInputEncoding\lstinputlisting[language={}]{src/lc_out.txt}
 % \end{lstlisting}
 
 \subsubsection{List secure details of the simple container}
