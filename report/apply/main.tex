@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{IEEEconf}
+\documentclass[12pt,a4paper]{article}
 \usepackage[useregional]{datetime2}
 \usepackage[pdf]{graphviz}
 \usepackage{hyperref}
@@ -135,8 +135,8 @@ We have to do this research in this project.
 % ================ Related works ================
 
 \section{Related works}
-This section will focus on (\RN{1}) \hyperlink{concepts}{concepts} (\RN{2}) \hyperlink{security}{security}, and (\RN{3})
-\hyperlink{heigh_performance}{high performance}.
+This section will focus on (\RN{1}) \hyperlink{concepts}{concepts} (\RN{2}) \hyperlink{security}{containter security}, and (\RN{3})
+\hyperlink{heigh_performance}{high-performance server}.
 
 \subsection{Concepts}
 \hypertarget{concepts}{}
@@ -295,7 +295,7 @@ it up.
 
 Therefore, we have not required any system call on submission and completion in optimal.
 
-\subsection{Security}
+\subsection{Containter Security}
 \hypertarget{security}{}
 \subsubsection{Study of the Dirty Copy On Write}
 This paper\cite{Study_Dirty_Cow} show the race condition, and the mechanism of
@@ -374,7 +374,7 @@ Take the Dirty CoW vulnerability for example, which is exploitation from the Lin
 the vulnerability could change the victim container to a privileged container. Therefore, we should
 protect the host from the container, which belongs to type (\RN{3}) threat in this paper.
 
-\subsection{High performance}
+\subsection{High-performance Server}
 \hypertarget{heigh_performance}{}
 This section will study some IO performance and caching issues. Because the medical
 data exchange system demands the stringent specification of the response time.
@@ -553,7 +553,7 @@ the container escalation. We want to deploy the FHIR system in containers. The c
 cloud isolates the environments between different containers. Apart from that, it is faster to start-up,
 lighter in memory/storage usage at run time, and easier to deploy than virtual machines.
 
-Therefore, this project has 2 parts: FHIR and container security.
+Therefore, this project has 2 parts: FHIR system and container security.
 \paragraph{Container security}
 We would implement a vulnerability PoC, patch, and demonstration for container escalation.
 Hope this research could make the container technique more secure, and provide the medical
@@ -563,7 +563,7 @@ We would implement the medical data exchange system with the FHIR standard. The 
 considers the most two important issues: security issues and performance issues. Hope this project
 could be the medical data exchange system model role of implementation in Taiwan.
 
-\printbibheading[heading=bibnumbered]
+% \printbibheading[heading=bibnumbered]
 \printbibliography\newrefcontext
 
 \section{Academic Advisor}
