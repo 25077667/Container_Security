@@ -95,16 +95,15 @@ Advisor: Chun-I Fan
 % ================ Abstract ================
 \section{Abstract}
 Recently, many companies use containers to run their microservices, since containers could
-make their hardware resources be used efficiently. For example, GCP(Google Cloud Platform),
-AWS(Amazon Web Services), and Microsoft Azure are using this technique to separate subscribers'
-resources and services. However, if the hacker gets privilege escalation of containers, then
-such attacks would influence the host or the other containers.
-Therefore, this research would analyze, implement, and protect the container escalation in
-healthcare data exchange system.
+make their hardware resources be used efficiently. And the newest healthcare data exchange
+standard FHIR (Fast Healthcare Interoperability Resources) \cite{FHIR_home} has been implemented
+in a container by IBM, Microsoft, and firebase. That is deploying the FHIR in a container is the
+trend of the world. However, if the hacker gets privilege escalation of containers, then
+such attacks would influence the host or the other containers. Therefore, this research would
+analyze, implement, and protect the container escalation in healthcare data exchange system.
 The container escalation would be inspired in a container and influence the host or the
-other containers. The healthcare data exchanging system will take the FHIR(Fast
-Healthcare Interoperability Resources) \cite{FHIR_home} to simulate the real-world threat and
-purpose a secure solution to protect patient's privacy.
+other containers. The healthcare data exchanging system will take the FHIR to simulate
+the real-world threat and purpose a secure solution to protect patient's privacy.
 
 % ================ Motivation ================
 
@@ -156,7 +155,8 @@ machines are providing the functionality of a physical computer. The virtual mac
 would take a copy of the guest OS, and execute with the virtualization layer on
 the host OS. Which difference shows in Figure \ref*{VM_cont}.
 \begin{figure}
-  \begin{center}
+  \begin{subfigure}{.6\linewidth}
+    \centering
     \begin{tikzpicture}[squarednode/.style={align=center, rectangle, draw=red!60,
             fill=red!5, very thick, scale=0.7}]
       % VM
@@ -180,7 +180,28 @@ the host OS. Which difference shows in Figure \ref*{VM_cont}.
     \end{tikzpicture}
     \caption[]{Comparison between containers and virtual machines}
     \label{VM_cont}
-  \end{center}
+  \end{subfigure}
+  \begin{subfigure}{0.45\linewidth}
+    \centering
+    \begin{tikzpicture}[
+        roundnode/.style={circle, draw=green!60, fill=green!5, very thick, minimum size=7mm},
+        squarednode/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=5mm},
+        scale=0.7
+      ]
+      %Nodes
+      \node[circle,draw](z){0}
+      child{node[circle,draw]{1} child{node[circle,draw] (p_4){3}} child[missing]}
+      child{node[circle,draw]{2} child{node[circle,draw] {5}}
+          child{node[circle,draw](n_1){6/0} child{node[circle,draw](n_2){2}} child{node[circle,draw](n_3){3}} } };
+      \node[draw=blue!60, fit=(z)(n_2)(n_3)(p_4), label={Parent UID}] {};
+      \node[draw=red!60, fit=(n_1)(n_2)(n_3), label=below:{Child UID}] {};
+
+    \end{tikzpicture}
+    \caption[]{The nested user namespaces}
+    \label{Nested}
+  \end{subfigure}
+  \caption{}
+  \label{Fig1}
 \end{figure}
 
 \subsubsection{FHIR}
@@ -208,24 +229,6 @@ User namespaces can be nested; that is, each user namespace—except the initial
 namespace—has a parent user namespace and can have zero or more child user namespaces.
 \cite{user_namespaces}
 The nested namespace would look like the Figure \ref*{Nested}.
-\begin{figure}
-  \centering
-  \begin{tikzpicture}[
-      roundnode/.style={circle, draw=green!60, fill=green!5, very thick, minimum size=7mm},
-      squarednode/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=5mm},
-    ]
-    %Nodes
-    \node[circle,draw](z){0}
-    child{node[circle,draw]{1} child{node[circle,draw] (p_4){3}} child[missing]}
-    child{node[circle,draw]{2} child{node[circle,draw] {5}}
-        child{node[circle,draw](n_1){6/0} child{node[circle,draw](n_2){2}} child{node[circle,draw](n_3){3}} } };
-    \node[draw=blue!60, fit=(z)(n_2)(n_3)(p_4), label={Parent UID}] {};
-    \node[draw=red!60, fit=(n_1)(n_2)(n_3), label={Child UID}] {};
-
-  \end{tikzpicture}
-  \caption[]{The nested user namespaces}
-  \label{Nested}
-\end{figure}
 
 \paragraph{cgroups}
 This feature can limit, account for, and isolate the hardware resource usage of a
@@ -436,7 +439,7 @@ significantly.
 \end{figure}
 
 % ================ Methods ================
-\newpage
+% \newpage
 \section{Methods}
 This project would use the MapReduce model. As shown in Figure \ref*{Fig:model}.
 
