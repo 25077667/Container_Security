@@ -15,6 +15,7 @@
 \usepackage{tikz}
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{wrapfig}
 \usetikzlibrary{positioning, fit}
 \graphicspath{{./images/}}
 \usepackage{geometry}
@@ -143,66 +144,66 @@ We have to do this research in this project.
 % ================ Related works ================
 
 \section{Related works}
-This section will focus on (\RN{1}) \hyperlink{concepts}{concepts} (\RN{2}) \hyperlink{security}{containter security}, and (\RN{3})
+This section will focus on (\RN{1}) \hyperlink{preliminaries}{preliminaries} (\RN{2}) \hyperlink{security}{containter security}, and (\RN{3})
 \hyperlink{heigh_performance}{high-performance server}.
 
-\subsection{Concepts}
-\hypertarget{concepts}{}
-\subsubsection{Virtual machines and containers}
-Different names are used to refer to containers in the literature including OS-level
-virtualization and lightweight virtualization \cite{Road_Ahead}. However, virtual
-machines are providing the functionality of a physical computer. The virtual machines
-would take a copy of the guest OS, and execute with the virtualization layer on
-the host OS. Which difference shows in Figure \ref*{VM_cont}.
-\begin{figure}
-  \begin{subfigure}{.6\linewidth}
-    \centering
-    \begin{tikzpicture}[squarednode/.style={align=center, rectangle, draw=red!60,
-            fill=red!5, very thick, scale=0.7}]
-      % VM
-      \node[squarednode] (hardware)[text width=4.5cm]                               {Hardware};
-      \node[squarednode] (host) [text width=4.5cm,above=2mm of hardware]            {Host OS};
-      \node[squarednode] (virtualization) [text width=4.5cm, above=2mm of host]     {Virtualization layer};
-      \node[squarednode] (guest) [text width=2cm, left of = virtualization, above=2mm of virtualization]      {Guest OS};
-      \node[squarednode] (guest1) [text width=2cm, right=2mm of guest]              {Guest OS};
-      \node[squarednode] (process) [text width=2cm, above=2mm of guest]             {Process};
-      \node[squarednode] (process1) [text width=2cm, above=2mm of guest1]           {Process};
-      \node[draw=green!60, fit=(hardware)(process)(process1), label={Virtual Machine}] {};
+\subsection{Preliminaries}
+\hypertarget{preliminaries}{}
+% \subsubsection{Virtual machines and containers}
+% Different names are used to refer to containers in the literature including OS-level
+% virtualization and lightweight virtualization \cite{Road_Ahead}. However, virtual
+% machines are providing the functionality of a physical computer. The virtual machines
+% would take a copy of the guest OS, and execute with the virtualization layer on
+% the host OS. Which difference shows in Figure \ref*{VM_cont}.
+\begin{wrapfigure}{r}{6cm}
+  % \begin{subfigure}{.6\linewidth}
+  %   \centering
+  %   \begin{tikzpicture}[squarednode/.style={align=center, rectangle, draw=red!60,
+  %           fill=red!5, very thick, scale=0.7}]
+  %     % VM
+  %     \node[squarednode] (hardware)[text width=4.5cm]                               {Hardware};
+  %     \node[squarednode] (host) [text width=4.5cm,above=2mm of hardware]            {Host OS};
+  %     \node[squarednode] (virtualization) [text width=4.5cm, above=2mm of host]     {Virtualization layer};
+  %     \node[squarednode] (guest) [text width=2cm, left of = virtualization, above=2mm of virtualization]      {Guest OS};
+  %     \node[squarednode] (guest1) [text width=2cm, right=2mm of guest]              {Guest OS};
+  %     \node[squarednode] (process) [text width=2cm, above=2mm of guest]             {Process};
+  %     \node[squarednode] (process1) [text width=2cm, above=2mm of guest1]           {Process};
+  %     \node[draw=green!60, fit=(hardware)(process)(process1), label={Virtual Machine}] {};
 
-      % Container
-      \node[squarednode] (hardware1) [text width=4.5cm, right = 8mm of hardware]    {Hardware};
-      \node[squarednode] (host1) [text width=4.5cm, above=2mm of hardware1]         {Host OS};
-      \node[squarednode] (virtualization1) [text width=4.5cm, above=2mm of host1]   {Virtualization layer};
-      \node[squarednode] (process2) [text width=2cm, left of = virtualization1, above=2mm of virtualization1]   {Process};
-      \node[squarednode] (process3) [text width=2cm, right=2mm of process2]          {Process};
-      \node[draw=blue!60, fit=(hardware1)(process2)(process3), label={Container}] {};
+  %     % Container
+  %     \node[squarednode] (hardware1) [text width=4.5cm, right = 8mm of hardware]    {Hardware};
+  %     \node[squarednode] (host1) [text width=4.5cm, above=2mm of hardware1]         {Host OS};
+  %     \node[squarednode] (virtualization1) [text width=4.5cm, above=2mm of host1]   {Virtualization layer};
+  %     \node[squarednode] (process2) [text width=2cm, left of = virtualization1, above=2mm of virtualization1]   {Process};
+  %     \node[squarednode] (process3) [text width=2cm, right=2mm of process2]          {Process};
+  %     \node[draw=blue!60, fit=(hardware1)(process2)(process3), label={Container}] {};
 
-    \end{tikzpicture}
-    \caption[]{Comparison between containers and virtual machines}
-    \label{VM_cont}
-  \end{subfigure}
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \begin{tikzpicture}[
-        roundnode/.style={circle, draw=green!60, fill=green!5, very thick, minimum size=7mm},
-        squarednode/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=5mm},
-        scale=0.7
-      ]
-      %Nodes
-      \node[circle,draw](z){0}
-      child{node[circle,draw]{1} child{node[circle,draw] (p_4){3}} child[missing]}
-      child{node[circle,draw]{2} child{node[circle,draw] {5}}
-          child{node[circle,draw](n_1){6/0} child{node[circle,draw](n_2){2}} child{node[circle,draw](n_3){3}} } };
-      \node[draw=blue!60, fit=(z)(n_2)(n_3)(p_4), label={Parent UID}] {};
-      \node[draw=red!60, fit=(n_1)(n_2)(n_3), label=below:{Child UID}] {};
+  %   \end{tikzpicture}
+  %   \caption[]{Comparison between containers and virtual machines}
+  %   \label{VM_cont}
+  % \end{subfigure}
+  % \begin{subfigure}{0.45\linewidth}
+  \centering
+  \begin{tikzpicture}[
+      roundnode/.style={circle, draw=green!60, fill=green!5, very thick, minimum size=7mm},
+      squarednode/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=5mm},
+      scale=0.7
+    ]
+    %Nodes
+    \node[circle,draw](z){0}
+    child{node[circle,draw]{1} child{node[circle,draw] (p_4){3}} child[missing]}
+    child{node[circle,draw]{2} child{node[circle,draw] {5}}
+        child{node[circle,draw, scale=0.65](n_1){6/0} child{node[circle,draw](n_2){2}} child{node[circle,draw](n_3){3}} } };
+    \node[draw=blue!60, fit=(z)(n_2)(n_3)(p_4), label={Parent UID}] {};
+    \node[draw=red!60, fit=(n_1)(n_2)(n_3), label=below:{Child UID}, scale=0.9] {};
 
-    \end{tikzpicture}
-    \caption[]{The nested user namespaces}
-    \label{Nested}
-  \end{subfigure}
-  \caption{}
-  \label{Fig1}
-\end{figure}
+  \end{tikzpicture}
+  \caption[]{The nested user namespaces}
+  \label{Nested}
+  % \end{subfigure}
+  % \caption{}
+  % \label{Fig1}
+\end{wrapfigure}
 
 \subsubsection{FHIR}
 The FHIR is a standard for healthcare data exchange. The FHIR standard will be used in
