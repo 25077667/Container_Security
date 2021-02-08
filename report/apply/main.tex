@@ -16,19 +16,12 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{wrapfig}
+\usepackage{indentfirst}
 \usetikzlibrary{positioning, fit}
 \graphicspath{{./images/}}
 \usepackage{geometry}
 \geometry{margin=2cm}
-
-% enum list
-\usepackage{paralist}
-\let\itemize\compactitem
-\let\enditemize\endcompactitem
-\let\enumerate\compactenum
-\let\endenumerate\endcompactenum
-\let\description\compactdesc
-\let\enddescription\endcompactdesc
+\setlength{\parindent}{2em}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
@@ -149,40 +142,26 @@ This section will focus on (\RN{1}) \hyperlink{preliminaries}{preliminaries} (\R
 
 \subsection{Preliminaries}
 \hypertarget{preliminaries}{}
-% \subsubsection{Virtual machines and containers}
-% Different names are used to refer to containers in the literature including OS-level
-% virtualization and lightweight virtualization \cite{Road_Ahead}. However, virtual
-% machines are providing the functionality of a physical computer. The virtual machines
-% would take a copy of the guest OS, and execute with the virtualization layer on
-% the host OS. Which difference shows in Figure \ref*{VM_cont}.
+\subsubsection{FHIR}
+The FHIR is a standard for healthcare data exchange. The FHIR standard will be used in
+in Taiwan in the near future \cite{MOHW_FHIR}. The FHIR will be used to provide the PHR
+(Personal Healthcare Records) in Taiwan. Therefore we choose the most popular standard
+"FHIR" for the target.
+
+\subsubsection{Linux kernel features}
+First, there are 4 basic features for the abstract containerization services in the Linux
+environment.
+The 4 basic features are: (\RN{1}) namespace, (\RN{2}) cgroups, (\RN{3}) capabilities,
+and (\RN{4}) seccomp.
+
+\paragraph{namespaces}
+The Linux kernel provides the namespaces to perform the job of isolation and virtualization
+of system resources for a collection of processes \cite{Road_Ahead}.
+User namespaces can be nested; that is, each user namespace—except the initial ("root")
+namespace—has a parent user namespace and can have zero or more child user namespaces.
+\cite{user_namespaces}
+
 \begin{wrapfigure}{r}{6cm}
-  % \begin{subfigure}{.6\linewidth}
-  %   \centering
-  %   \begin{tikzpicture}[squarednode/.style={align=center, rectangle, draw=red!60,
-  %           fill=red!5, very thick, scale=0.7}]
-  %     % VM
-  %     \node[squarednode] (hardware)[text width=4.5cm]                               {Hardware};
-  %     \node[squarednode] (host) [text width=4.5cm,above=2mm of hardware]            {Host OS};
-  %     \node[squarednode] (virtualization) [text width=4.5cm, above=2mm of host]     {Virtualization layer};
-  %     \node[squarednode] (guest) [text width=2cm, left of = virtualization, above=2mm of virtualization]      {Guest OS};
-  %     \node[squarednode] (guest1) [text width=2cm, right=2mm of guest]              {Guest OS};
-  %     \node[squarednode] (process) [text width=2cm, above=2mm of guest]             {Process};
-  %     \node[squarednode] (process1) [text width=2cm, above=2mm of guest1]           {Process};
-  %     \node[draw=green!60, fit=(hardware)(process)(process1), label={Virtual Machine}] {};
-
-  %     % Container
-  %     \node[squarednode] (hardware1) [text width=4.5cm, right = 8mm of hardware]    {Hardware};
-  %     \node[squarednode] (host1) [text width=4.5cm, above=2mm of hardware1]         {Host OS};
-  %     \node[squarednode] (virtualization1) [text width=4.5cm, above=2mm of host1]   {Virtualization layer};
-  %     \node[squarednode] (process2) [text width=2cm, left of = virtualization1, above=2mm of virtualization1]   {Process};
-  %     \node[squarednode] (process3) [text width=2cm, right=2mm of process2]          {Process};
-  %     \node[draw=blue!60, fit=(hardware1)(process2)(process3), label={Container}] {};
-
-  %   \end{tikzpicture}
-  %   \caption[]{Comparison between containers and virtual machines}
-  %   \label{VM_cont}
-  % \end{subfigure}
-  % \begin{subfigure}{0.45\linewidth}
   \centering
   \begin{tikzpicture}[
       roundnode/.style={circle, draw=green!60, fill=green!5, very thick, minimum size=7mm},
@@ -200,40 +179,13 @@ This section will focus on (\RN{1}) \hyperlink{preliminaries}{preliminaries} (\R
   \end{tikzpicture}
   \caption[]{The nested user namespaces}
   \label{Nested}
-  % \end{subfigure}
-  % \caption{}
-  % \label{Fig1}
+
 \end{wrapfigure}
-
-\subsubsection{FHIR}
-The FHIR is a standard for healthcare data exchange. The FHIR standard will be used in
-in Taiwan in the near future \cite{MOHW_FHIR}. The FHIR will be used to provide the PHR
-(Personal Healthcare Records) in Taiwan. Therefore we choose the most popular standard
-"FHIR" for the target.
-
-\subsubsection{Linux kernel features}
-First, there are 4 basic features for the abstract containerization services in the Linux
-environment.
-The 4 basic features are: (\RN{1}) namespace, (\RN{2}) cgroups, (\RN{3}) capabilities,
-and (\RN{4}) seccomp.
-
-Second, there are 3 terminologies of computer science related to container security in
-the Linux kernel. Which are (\RN{5}) mmap, (\RN{6}) Copy on write, and (\RN{7}) Race condition.
-
-And finally, there are 2 I/O Linux system calls that would be considered to enhance the I/O performance.
-Which are the (\RN{8}) epoll and (\RN{9}) io\_uring.
-
-\paragraph{namespaces}
-The Linux kernel provides the namespaces to perform the job of isolation and virtualization
-of system resources for a collection of processes \cite{Road_Ahead}.
-User namespaces can be nested; that is, each user namespace—except the initial ("root")
-namespace—has a parent user namespace and can have zero or more child user namespaces.
-\cite{user_namespaces}
-The nested namespace would look like the Figure \ref*{Nested}.
+The nested namespace is shown in Figure \ref*{Nested}.
 
 \paragraph{cgroups}
 This feature can limit, account for, and isolate the hardware resource usage of a
-collection of processes \cite{cgroup_wiki}.
+collection of processes \cite{cgroup_wiki} .
 The container could use this feature to set the maximum/minimum usage of hardware
 resources, which could guarantee processes' resources using reasonability.
 
@@ -243,7 +195,7 @@ distinct units. To performing permission checks, traditional UNIX
 implementations distinguish two categories of processes: privileged and unprivileged.
 Privileged processes would bypass all kernel permission checks, while unprivileged
 processes are subject to full permission checking based on the process's credentials
-\cite{capabilities}.
+\cite{capabilities} .
 
 Take ping command for example. The ping needs to generate and receive ICMP packets,
 and usually that's done using the "raw sockets" – a feature limited to root only
@@ -257,6 +209,9 @@ the ping command as your user.
 The seccomp feature is that only some specified process could call some specified
 system calls. We could set a policy of while some file be loaded, and we often use
 this system call to enforce the whitelisting or blacklisting policy.
+
+Second, there are 3 terminologies of computer science related to container security in
+the Linux kernel. Which are (\RN{5}) mmap, (\RN{6}) Copy on write, and (\RN{7}) Race condition.
 
 \paragraph{mmap}
 This is a system call of mapping files or devices in to memory, which creates a
@@ -283,6 +238,9 @@ again to the first task. There is a problem now. What is the page for the first
 task looked like? It does not meet the expectation for the first task.
 This is race condition.
 
+Finally, there are 2 I/O Linux system calls that would be considered to enhance the I/O performance.
+Which are the (\RN{8}) epoll and (\RN{9}) io\_uring.
+
 \paragraph{epoll}
 The epoll system call is a scalable I/O event notification facility, which similar
 task to poll and select. Its function is to monitor multiple file descriptors to
@@ -306,18 +264,18 @@ file descriptor to the completion queue. The user could traverse over the CQ to 
 the finished file descriptor. Which also reduced a system call to tell the kernel we picked
 it up.
 
-Therefore, we have not required any system call on submission and completion in optimal.
+Therefore, we do not required any system call on submission and completion in optimal.
 
 \subsection{Containter Security}
 \hypertarget{security}{}
 \subsubsection{Study of the Dirty Copy On Write}
-This paper \cite{Study_Dirty_Cow} show the race condition, and the mechanism of
+Delwar Alam, et al. \cite{Study_Dirty_Cow} show the race condition, and the mechanism of
 "copy on write". "Copy on Write" is "a resource-management technique used in
 computer programming to efficiently implement a "duplicate" or "copy" operation
-on modifiable resources." \cite{CoW_wiki} It often inspires when fork() or mmap().
+on modifiable resources \cite{CoW_wiki} ." It often inspires when fork() or mmap().
 
 \subsubsection{Dirty CoW demo code}
-Let's analyze the proof of concept (PoC) of dirty CoW. (Oester, 2016) \cite{Dirty_CoW}
+Let's analyze the proof of concept (PoC) of dirty CoW \cite{Dirty_CoW} . (Oester, 2016)
 The key to inspiring this vulnerability is the mmaped memory space, which is mapped with
 the PROT\_READ flag. The PROT\_READ flag declares the page is read-only.
 \lstinputlisting[language=C, linerange={87-89, 101-101}, firstnumber=87]{src/dirtyc0w.c}
@@ -330,9 +288,9 @@ It creates 2 threads, which would have a race condition of the mmaped memory spa
 
 In one thread, call a system call "madvise", would make the user thread gain the root
 privilege to operate the protected page temporarily. And the flag MADV\_DONTNEED would
-tell the kernel: "Do not expect to access it in the near future. \cite{Madvise}" Moreover,
+tell the kernel: "Do not expect to access it in the near future \cite{Madvise} ." Moreover,
 this flag might not lead to immediate freeing of pages in the range. The kernel is free
-to delay free the pages until an appropriate moment. \cite{Madvise}
+to delay free the pages until an appropriate moment \cite{Madvise} .
 
 \hypertarget{madvise}{madviseThread}
 \lstinputlisting[language=C, linerange={33-39,45-48}, firstnumber=33]{src/dirtyc0w.c}
@@ -341,7 +299,7 @@ In another thread, open its memory resource file. This file is a special file, w
 the process reads its memory by itself.\\
 Then, we move the printer of file descriptor of the memory resource file to the mmaped
 space. And try to write it. But the mmaped space is read-only space. We expected the
-kernel would create a copy of this space and write the copy \cite{root_exploit}.\\
+kernel would create a copy of this space and write the copy \cite{root_exploit} .\\
 \hypertarget{procself}{procselfmemThread}
 \lstinputlisting[language=C, linerange={50-53,61-63,67-71}, firstnumber=50]{src/dirtyc0w.c}
 
@@ -354,12 +312,12 @@ to gain the root privilege from madviseThread to control the mmaped file.
 This paper \cite{Road_Ahead} has derived 4 generalized container security issues:
 (\RN{1}) protecting a container from applications inside it, (\RN{2}) inter-container
 protection, (\RN{3}) protecting the host from containers, and (\RN{4}) protecting containers
-from a malicious or semi-honest host. \cite{Road_Ahead}
+from a malicious or semi-honest host \cite{Road_Ahead} .
 
 The (\RN{1}), (\RN{3}), and (\RN{3}) issue could implement the protection by the software
 based solutions.
 
-For the (\RN{1}) protecting a container from applications, this paper recommends that
+For the (\RN{1}) issue, this paper recommends that
 we could use the different capabilities and the LSM(Linux secure module). Take
 CVE-2017-5123 \cite{CVE-2017-5123} for example. The vulnerability here is the third argument of
 waitpid() system call didn't ensure that the user-specified pointer points to userspace
@@ -371,21 +329,21 @@ LSM to the kernel, which monitors the runtime behaviors of system call. If any p
 use the waitpid() with a pointer point to the kernel as the third argument, the LSM should
 block the operation and raise a signal to the user.
 
-For the (\RN{2}) inter-container protection, this paper recommends that we could use the
+For the (\RN{2}) issue, this paper recommends that we could use the
 LSM, namespaces, and cgroups to limit the container. Take CVE-2016-8655 \cite{CVE-2016-8655}
 for example. This vulnerability is a bug in net/packet/af\_packet.c. We often use the
 CAP\_NET\_RAW namespace in the container to make unprivileged user could use some privileged
 net-util commands. The bug is there exist a race condition probability to race the unauthorized
-data inside packet\_set\_ring() and packet\_setsockopt() \cite{CVE-2016-8655-lwn}. Such that,
+data inside packet\_set\_ring() and packet\_setsockopt() \cite{CVE-2016-8655-lwn} . Such that,
 there is a chance to modify the socket version to TPACKET\_V1 before the packet\_set\_ring
 function. However, which would be kfree the timer in the TPACKET\_V1. We can take the timer,
 which is used after free, to control the SLAB adopter to write the st\_uid by itself
-\cite{AF_PACKET}.
+\cite{AF_PACKET} .
 
-For the (\RN{3}) protecting the host from containers issue.
-Take the Dirty CoW vulnerability for example, which is exploitation from the Linux kernel,
-the vulnerability could change the victim container to a privileged container. Therefore, we should
-protect the host from the container, which belongs to type (\RN{3}) threat in this paper.
+For the (\RN{3}) issue, take the Dirty CoW vulnerability for example, which is exploitation
+from the Linux kernel, the vulnerability could change the victim container to a privileged
+container. Therefore, we should protect the host from the container, which belongs to type
+(\RN{3}) threat in this paper.
 
 \subsection{High-performance Server}
 \hypertarget{heigh_performance}{}
@@ -407,42 +365,38 @@ evaluation. This paper \cite{Optimizing} used the statistical data to calculate 
 module will raise the priority of the I/O queue.
 
 \subsubsection{The epoll vs. io\_uring performance comparison}
+\begin{wrapfigure}{r}{.45\textwidth}
+  % \centering
+  \includegraphics[width=.4\textwidth]{io_uring.png}
+  \caption{The comparison of do\_request function.}
+  \label{fig:iouring}
+\end{wrapfigure}
 The healthcare data exchange system would request for "small data" frequently.
 Hence, the low latency has the priority over the high throughput in this project.
 We often use the system call: "epoll" for asynchronous I/O with many files
 descriptors, rather than sequential accessing those file descriptors in this scenario.
 The figure \ref*{fig:iouring} \cite{epoll_vs_iouring} shows the io\_uring could do request in fewer time
 significantly.
+\begin{wrapfigure}{R}{.45\textwidth}
+  % \centering
+  \digraph[scale=.6]{methFlow}{
+  Study[margin="0"]
+  Combination[margin="0"]
+  "Container\noexpand\n Security"[margin="0"]
+  "FHIR\noexpand\nSystem"[margin="0"]
 
-\begin{figure}
-  \centering
-  \begin{subfigure}{.45\linewidth}
-    \includegraphics[width=.99\textwidth]{io_uring.png}
-    \caption{The comparison of do\_request function.}
-    \label{fig:iouring}
-  \end{subfigure}
-  \begin{subfigure}{.45\linewidth}
-    \digraph[scale=.7]{methFlow}{
-    Study[margin="0"]
-    Merge[margin="0"]
-    "Container\noexpand\n Security"[margin="0"]
-    "FHIR\noexpand\nSystem"[margin="0"]
-
-    Study -> "Container\noexpand\n Security"-> Merge
-    Study -> "FHIR\noexpand\nSystem" -> Merge
-    rankdir=LR
-    }
-    \caption[]{The mapReduce model in this project}
-    \label{Fig:model}
-  \end{subfigure}
-  \caption{}
-  \label{Fig:dummy}
-\end{figure}
+  Study -> "Container\noexpand\n Security"-> Combination
+  Study -> "FHIR\noexpand\nSystem" -> Combination
+  rankdir=LR
+  }
+  \caption[]{The mapReduce model in this project}
+  \label{Fig:model}
+\end{wrapfigure}
 
 % ================ Methods ================
-% \newpage
 \section{Methods}
-This project would use the MapReduce model. As shown in Figure \ref*{Fig:model}.
+
+This project would use the MapReduce model which is shown in Figure \ref*{Fig:model}.
 
 \subsection{Study}
 \subsubsection{Study CVEs and related mechanisms}
@@ -462,56 +416,19 @@ This project will implement the FHIR \cite{FHIR_home} data exchange system to de
 security risk. Hence, we should study FHIR standard, JSON format(RFC7159), XML format(RFC4825), and
 RESTful APIs.
 
-\subsubsection{Efficient I/O with io\_uring} \cite{Efficient_IO_uring}
-This is a new asynchronous I/O API in Linux kernel 5.1. POSIX has aio\_read() and aio\_write() to
-satisfy asynchronous I/O, however, the implementation of those is most often lackluster and performance
-is poor. We will study and implement the new asynchronous I/O API: io\_uring in this project to
-optimize the performance of the FHIR data exchange system.
+\subsubsection{Efficient I/O with io\_uring}
+This is a new asynchronous I/O API in Linux kernel 5.1 \cite{Efficient_IO_uring} . POSIX has
+aio\_read() and aio\_write() to satisfy asynchronous I/O, however, the implementation of those
+is most often lackluster and performance is poor. We will study and implement the new asynchronous
+I/O API: io\_uring in this project to optimize the performance of the FHIR data exchange system.
 
 \subsection{Container Security}
 \subsubsection{Implement a simple container}
 The Linux kernel supply some system calls to clone a process(also in thread) in their namespace
 and group. We could implement a simple container by ourselves so that we can make a list of
 vulnerabilities that may happen.
-% \begin{lstlisting}
-\UseRawInputEncoding\lstinputlisting[language={}]{src/lc_out.txt}
-% \end{lstlisting}
 
-\subsubsection{List secure details of the simple container}
-In my rough opinion, there are 5 types of container security risks, (\RN{1}) Host OS risks, (\RN{2})
-Orchestration system risks, (\RN{3}) Container runtime risks, (\RN{4}) Registry risks, (\RN{5})
-Images risks. In this stage, we should research the details of those risks, and purpose some solutions.
-\\
-\begin{enumerate}[I.]
-  \item{Host OS risks}
-        \begin{itemize}
-          \item Improper user permission
-          \item Kernel vulnerabilities
-        \end{itemize}
-  \item{Orchestration system risks}
-        \begin{itemize}
-          \item Unbounded domain access
-          \item Weak credentials
-          \item Mismanaged inter-container network traffic
-          \item Mixed of workload sensitivity levels
-        \end{itemize}
-  \item{Container runtime risks}
-        \begin{itemize}
-          \item Runtime software vulnerabilities
-          \item Unbounded network access from containers
-          \item Insecure container runtime configurations
-        \end{itemize}
-  \item{Registry risks}
-        \begin{itemize}
-          \item Insecure connections to registries
-          \item Old images in registries
-        \end{itemize}
-  \item{Images risks}
-        \begin{itemize}
-          \item Image vulnerabilities
-          \item Embedded malware or secrets
-        \end{itemize}
-\end{enumerate}
+\UseRawInputEncoding\lstinputlisting[language={}]{src/lc_out.txt}
 
 \subsubsection{Aim a vulnerability and implement the PoC}
 After listing the risks. This project would find a vulnerability of privilege escalation in
@@ -549,7 +466,7 @@ which could enhance the concurrency performance to provide high throughput.
 Moreover, this project would design an efficient algorithm to predict and cache the container's
 application data. To reduce the latency, while backend server requiring data.
 
-\subsection{Merge}
+\subsection{System combination}
 The last step is combining the FHIR system and container security. This project would demonstrate
 an escalation of normal containers(ie. Docker) to steal patients' information from the webserver.
 However, our container can detect and prevent a malicious user from escaping the container of the
