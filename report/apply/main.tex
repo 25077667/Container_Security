@@ -108,27 +108,31 @@ at run time, and easier to deploy than virtual machines. Because the container s
 kernel with the host OS and other containers and deploys by a configure file.\\
 First, we often used to run a docker container to host our services. For example assignments,
 , servers and some services in the information security club at NSYSU(National Sun Yat-sen University).
-But there are some threats to the container technique. Like "Dirty CoW" \cite{Dirty_CoW}
+However there are some threats to the container technique, such as "Dirty CoW" \cite{Dirty_CoW}
 and "Escape vulnerabilities".\\
+
 Dirty CoW is a vulnerability in the Linux kernel. It is a local privilege escalation bug
 that exploits a race condition in the implementation of the copy-on-write mechanism in the
 kernel's memory-management subsystem \cite{Dirty_CoW_wiki}. It was founded by Phil Oester. We
 were 16, the first year we had touched the docker container. We tried to use the Dirty CoW
 vulnerability to take the root privilege of my Android phone.\\
+
 Escape vulnerability is a subcategory of sandbox security. At first, security researchers often
 need a sandbox to help them analyze malware, which prevents the malware influence researcher's
 host OS. Nowadays, the sandbox not only is used in analyzing, but also used to execute a
 normal application for an isolated environment. However, if the application could modify the
 outside resources without the kernel permission. That loses the purpose of isolation. That
 might cause the information to leak or the kernel is hacked.\\
+
 Hence, there is a big problem about: "How to make sure my services are isolated and secure?" The
 author of this paper is the leader of the information security club. He should maintain all
 the services working perfectly. Moreover, we are an information security club. Therefore,
 the security and performance issue is the top-priority requirement.\\
+
 Second, to present the container security, we would take the medical system for
 example.
 The medical system is the most famous part internationally. Including face the COVID-19
-in Taiwan, we do not have the local COVID-19 case in more than 250 days. \cite{COVID19_CNN}
+in Taiwan, we do not have the local COVID-19 case in more than 250 days \cite{COVID19_CNN} .
 However, the medical profession needs to renew the exchanging EHR(Electronic Health Records)
 system these years. To protect the privacy of patients, and producing a high-performance
 system to exchange the EHR, we need an easy deployment, effective runtime, and a secure system.
@@ -158,8 +162,8 @@ and (\RN{4}) seccomp.
 The Linux kernel provides the namespaces to perform the job of isolation and virtualization
 of system resources for a collection of processes \cite{Road_Ahead}.
 User namespaces can be nested; that is, each user namespace—except the initial ("root")
-namespace—has a parent user namespace and can have zero or more child user namespaces.
-\cite{user_namespaces}
+namespace—has a parent user namespace and can have zero or more child user namespaces
+\cite{user_namespaces} .
 
 \begin{wrapfigure}{r}{6cm}
   \centering
@@ -200,8 +204,8 @@ processes are subject to full permission checking based on the process's credent
 Take ping command for example. The ping needs to generate and receive ICMP packets,
 and usually that's done using the "raw sockets" – a feature limited to root only
 (CAP\_NET\_RAW). Because it could also be abused to sniff and disrupt other traffic
-on the system. And we can set the capability to the file to get accessibility to
-execute the file.
+on the system. Moreover, we can set the capability to the file to get accessibility
+to execute the file.
 Therefore, when we set the CAP\_NET\_RAW capability to the /bin/ping, we could use
 the ping command as your user.
 
@@ -238,13 +242,13 @@ again to the first task. There is a problem now. What is the page for the first
 task looked like? It does not meet the expectation for the first task.
 This is race condition.
 
-Finally, there are 2 I/O Linux system calls that would be considered to enhance the I/O performance.
-Which are the (\RN{8}) epoll and (\RN{9}) io\_uring.
+Finally, there are 2 I/O Linux system calls that would be considered to enhance the I/O
+performance, which are the (\RN{8}) epoll and (\RN{9}) io\_uring.
 
 \paragraph{epoll}
 The epoll system call is a scalable I/O event notification facility, which similar
 task to poll and select. Its function is to monitor multiple file descriptors to
-see whether I/O is possible on any of them. Which uses RB-tree to search the monitored
+see whether I/O is possible on any of them, which uses RB-tree to search the monitored
 file descriptor.
 
 \paragraph{io\_uring}
@@ -261,7 +265,7 @@ to tell the kernel that we want to have an asynchronous I/O.
 
 After the kernel finishes the I/O operation, the kernel will put the index of the finished
 file descriptor to the completion queue. The user could traverse over the CQ to pick up
-the finished file descriptor. Which also reduced a system call to tell the kernel we picked
+the finished file descriptors, which also reduced a system call to tell the kernel we picked
 it up.
 
 Therefore, we do not required any system call on submission and completion in optimal.
@@ -275,7 +279,7 @@ computer programming to efficiently implement a "duplicate" or "copy" operation
 on modifiable resources \cite{CoW_wiki} ." It often inspires when fork() or mmap().
 
 \subsubsection{Dirty CoW demo code}
-Let's analyze the proof of concept (PoC) of dirty CoW \cite{Dirty_CoW} . (Oester, 2016)
+Let's analyze the proof of concept (PoC) of dirty CoW \cite{Dirty_CoW} . 
 The key to inspiring this vulnerability is the mmaped memory space, which is mapped with
 the PROT\_READ flag. The PROT\_READ flag declares the page is read-only.
 \lstinputlisting[language=C, linerange={87-89, 101-101}, firstnumber=87]{src/dirtyc0w.c}
@@ -297,19 +301,20 @@ to delay free the pages until an appropriate moment \cite{Madvise} .
 
 In another thread, open its memory resource file. This file is a special file, which allows
 the process reads its memory by itself.\\
+
 Then, we move the printer of file descriptor of the memory resource file to the mmaped
 space. And try to write it. But the mmaped space is read-only space. We expected the
 kernel would create a copy of this space and write the copy \cite{root_exploit} .\\
 \hypertarget{procself}{procselfmemThread}
 \lstinputlisting[language=C, linerange={50-53,61-63,67-71}, firstnumber=50]{src/dirtyc0w.c}
 
-But there is a problem! There is another thread that is racing this page with root privilege.
-If the schedular context switches the madviseThread to procselfmemThread, while the
-adviseThread is calling the "madvise" system call. It would cause the procselfmemThread
-to gain the root privilege from madviseThread to control the mmaped file.
+However there is a problem! There is another thread that is racing this page with root
+privilege. If the schedular context switches the madviseThread to procselfmemThread, while
+the adviseThread is calling the "madvise" system call. It would cause the
+procselfmemThread to gain the root privilege from madviseThread to control the mmaped file.
 
 \subsubsection{Container Security: Issues, Challenges, and the Road Ahead}
-This paper \cite{Road_Ahead} has derived 4 generalized container security issues:
+Sari Sultan et al. \cite{Road_Ahead} have derived 4 generalized container security issues:
 (\RN{1}) protecting a container from applications inside it, (\RN{2}) inter-container
 protection, (\RN{3}) protecting the host from containers, and (\RN{4}) protecting containers
 from a malicious or semi-honest host \cite{Road_Ahead} .
@@ -354,14 +359,14 @@ To support a high-performance system, we can design a module to control the thro
 intelligently, and use the cache-friendly architecture to minimize the latency.
 
 \subsubsection{PINE: Optimizing Performance Isolation in Container Environments}
-This paper \cite{Optimizing} introduce a high throughput and low latency module to control
+Youhuizi Li et al. \cite{Optimizing} introduce a high throughput and low latency module to control
 the I/O streams. Which implement a module to accord calculated optimization parameters,
 and check if the process throughput is satisfied or the 99.9\% throughput is satisfied.
 
 That is if the throughput reached the bottleneck, then the model would extend the
 bandwidth by the cgroup. The latency evaluation is more difficult than throughput
-evaluation. This paper \cite{Optimizing} used the statistical data to calculate the
-99.9\% of latency is in the margin of error in 3 standard deviations, if not the
+evaluation. Youhuizi Li et al. \cite{Optimizing} used the statistical data to calculate
+the 99.9\% of latency is in the margin of error in 3 standard deviations, if not the
 module will raise the priority of the I/O queue.
 
 \subsubsection{The epoll vs. io\_uring performance comparison}
@@ -431,8 +436,8 @@ vulnerabilities that may happen.
 \UseRawInputEncoding\lstinputlisting[language={}]{src/lc_out.txt}
 
 \subsubsection{Aim a vulnerability and implement the PoC}
-After listing the risks. This project would find a vulnerability of privilege escalation in
-the container and affect other containers.
+This project would find a vulnerability of privilege escalation in the container and affect
+other containers.
 
 \subsubsection{Implement the patch and pull request}
 Being a security researcher, we cannot just only exploit the software, but also give patches to
@@ -448,15 +453,15 @@ The interface would be designed as a website, which makes every user could acces
 platforms.
 
 \subsubsection{Back-end}
-This project would use the container technique at the back-end. Would isolate different services in
-a different container. We would also design an access controller for variadic requests, and
-design a high-performance kernel module to speed up the I/O and caching.
+This project would use the container technique at the back-end. It would isolate different
+services in a different container. We would also design an access controller for variadic
+requests, and design a high-performance kernel module to speed up the I/O and caching.
 
 \paragraph{Access controller}
 The access controller would be implemented as a kernel module. Because malicious user has less
 probability to break the Linux kernel if this module has no bugs.
 The access controller would use the whitelisting method to enforce the accessibility policy.
-It would reserve the essential system calls in the container, and discard all unused system calls.
+It would reserve the essential system calls in the container and discard all unused system calls.
 
 \paragraph{High performance server}
 This project would implement a kernel module for the high performance server. Which could hook the I/O
@@ -464,7 +469,7 @@ system calls from the web server. The module would replace the normal I/O calls 
 which could enhance the concurrency performance to provide high throughput.
 
 Moreover, this project would design an efficient algorithm to predict and cache the container's
-application data. To reduce the latency, while backend server requiring data.
+application data to reduce the latency, while backend server requiring data.
 
 \subsection{System combination}
 The last step is combining the FHIR system and container security. This project would demonstrate
@@ -491,8 +496,8 @@ Hope this research could make the container technique more secure, and provide t
 data exchange system more reliable.
 \paragraph{FHIR system}
 We would implement the medical data exchange system with the FHIR standard. The implementation
-considers the most two important issues: security issues and performance issues. Hope this project
-could be the medical data exchange system model role of implementation in Taiwan.
+considers the most two important issues: security issues and performance issues. We hope this
+project could be the medical data exchange system model role of implementation in Taiwan.
 
 \printbibliography[heading=bibnumbered]
 
