@@ -109,7 +109,7 @@ kernel with the host OS and other containers and deploys by a configure file.\\
 First, we often used to run a docker container to host our services. For example assignments,
 , servers and some services in the information security club at NSYSU(National Sun Yat-sen University).
 However there are some threats to the container technique, such as "Dirty CoW" \cite{Dirty_CoW}
-and "Escape vulnerabilities".\\
+and "escape vulnerabilities".\\
 
 Dirty CoW is a vulnerability in the Linux kernel. It is a local privilege escalation bug
 that exploits a race condition in the implementation of the copy-on-write mechanism in the
@@ -279,7 +279,7 @@ computer programming to efficiently implement a "duplicate" or "copy" operation
 on modifiable resources \cite{CoW_wiki} ." It often inspires when fork() or mmap().
 
 \subsubsection{Dirty CoW demo code}
-Let's analyze the proof of concept (PoC) of dirty CoW \cite{Dirty_CoW} . 
+Let's analyze the proof of concept (PoC) of dirty CoW \cite{Dirty_CoW} .
 The key to inspiring this vulnerability is the mmaped memory space, which is mapped with
 the PROT\_READ flag. The PROT\_READ flag declares the page is read-only.
 \lstinputlisting[language=C, linerange={87-89, 101-101}, firstnumber=87]{src/dirtyc0w.c}
@@ -370,19 +370,19 @@ the 99.9\% of latency is in the margin of error in 3 standard deviations, if not
 module will raise the priority of the I/O queue.
 
 \subsubsection{The epoll vs. io\_uring performance comparison}
-\begin{wrapfigure}{r}{.45\textwidth}
+\begin{wrapfigure}[8]{r}{.45\textwidth}
   % \centering
-  \includegraphics[width=.4\textwidth]{io_uring.png}
+  \includegraphics[width=.45\textwidth]{io_uring.png}
   \caption{The comparison of do\_request function.}
-  \label{fig:iouring}
+  \label{Fig:iouring}
 \end{wrapfigure}
 The healthcare data exchange system would request for "small data" frequently.
 Hence, the low latency has the priority over the high throughput in this project.
 We often use the system call: "epoll" for asynchronous I/O with many files
 descriptors, rather than sequential accessing those file descriptors in this scenario.
-The figure \ref*{fig:iouring} \cite{epoll_vs_iouring} shows the io\_uring could do request in fewer time
+The figure \ref*{Fig:iouring} \cite{epoll_vs_iouring} shows the io\_uring could do request in fewer time
 significantly.
-\begin{wrapfigure}{R}{.45\textwidth}
+\begin{wrapfigure}[10]{R}{.45\textwidth}
   % \centering
   \digraph[scale=.6]{methFlow}{
   Study[margin="0"]
@@ -418,7 +418,7 @@ to influence the other containers or host.
 
 \subsubsection{Study FHIR and related standards}
 This project will implement the FHIR \cite{FHIR_home} data exchange system to demonstrate the container
-security risk. Hence, we should study FHIR standard, JSON format(RFC7159), XML format(RFC4825), and
+security risk. Hence, we should study FHIR standard, JSON format (RFC7159), XML format (RFC4825), and
 RESTful APIs.
 
 \subsubsection{Efficient I/O with io\_uring}
@@ -431,9 +431,14 @@ I/O API: io\_uring in this project to optimize the performance of the FHIR data 
 \subsubsection{Implement a simple container}
 The Linux kernel supply some system calls to clone a process(also in thread) in their namespace
 and group. We could implement a simple container by ourselves so that we can make a list of
-vulnerabilities that may happen.
+vulnerabilities that may happen for which is shown in Figure \ref*{Fig:sc}.
 
-\UseRawInputEncoding\lstinputlisting[language={}]{src/lc_out.txt}
+\begin{wrapfigure}[15]{r}{.45\textwidth}
+  % \centering
+  \includegraphics[width=.5\textwidth]{Screenshot from 2021-02-09 19-45-29.png}
+  \caption{The implementation of a simple container}
+  \label{Fig:sc}
+\end{wrapfigure}
 
 \subsubsection{Aim a vulnerability and implement the PoC}
 This project would find a vulnerability of privilege escalation in the container and affect
@@ -484,20 +489,37 @@ I/O performance at the final stage of this project.
 % ================ Expected Outcome ================
 
 \section{Expected Outcome}
-This project will implement a high performance FHIR medical data exchange system to demonstrate
-the container escalation. We want to deploy the FHIR system in containers. The container technique
-cloud isolates the environments between different containers. Apart from that, it is faster to start-up,
-lighter in memory/storage usage at run time, and easier to deploy than virtual machines.
+This project will deploy a secure and high-performance FHIR healthcare data exchange system
+in containers. We will demonstrate a container escalation and purpose an efficient mechanism
+to protect the patients' privacy. Many companies publish their FHIR system in containers,
+that make much medical organization easy to deploy. However, the medical organization might
+not have a professional security software engineer to maintain the performance issues and
+patients' privacy issues.
 
-Therefore, this project has 2 parts: FHIR system and container security.
+Therefore, this project would purpose a secure and high-performance solution for the medical
+organization. We hope this could help they facing the future cyber challenges.
+\paragraph{}
+This project has 2 parts: the FHIR system and container security.
 \paragraph{Container security}
 We would implement a vulnerability PoC, patch, and demonstration for container escalation.
-Hope this research could make the container technique more secure, and provide the medical
-data exchange system more reliable.
+Because the container technique is the trend of these microservices. The healthcare data
+exchanging center must use containers for quick deployment and management. Additionally, the
+information security issue becomes more and more important these days. To prevent the
+cracker breaks the healthcare data center and keep the patients' information is critical
+today. We hope this research could make the container technique more secure, and provide
+the healthcare data exchange system more reliable.
+
 \paragraph{FHIR system}
-We would implement the medical data exchange system with the FHIR standard. The implementation
-considers the most two important issues: security issues and performance issues. We hope this
-project could be the medical data exchange system model role of implementation in Taiwan.
+We would implement the healthcare data exchange system with the FHIR standard. The implementation
+would provide a high-performance service for anyone, anywhere, and anytime. The fifth-generation
+mobile telecommunications is happening, and the sixth-generation mobile telecommunications is
+coming.  More IoT devices will collect our healthcare data for medical demands, needing a low
+latency server to digest the data. We hope this project could implement a high-performance FHIR
+standard system, which makes data exchange effectively.
+\paragraph{}
+Finally, this project would combine these two parts into a container of a secure and
+high-performance FHIR system. We hope this project could be the model role of healthcare
+data exchange system of implementation in Taiwan.
 
 \printbibliography[heading=bibnumbered]
 
