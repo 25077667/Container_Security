@@ -218,7 +218,7 @@ Second, there are three terminologies of computer science related to container
 security in the Linux kernel. Which are (\RN{5}) mmap, (\RN{6}) Copy on write,
 and (\RN{7}) Race condition.
 
-\paragraph{mmap}
+\paragraph{`mmap`}
 This is a system call of mapping files or devices in to memory, which creates a
 new mapping in the virtual address space of the caller process. Such that
 the process could operate the instance of file in memory directly.
@@ -226,7 +226,7 @@ And some libraries are also mapped into the virtual address space to share and h
 the function call. Therefore, the processes could take the same view of libraries in
 it's memory space.
 
-\paragraph{copy on Write}
+\paragraph{Copy on write}
 This mechanism purposes of a resource being duplicated but not modified, it is not
 necessary to create a new entry. Therefore the kernel can make callers share
 the same memory resources. The mmap is a system call could inspire this mechanism
@@ -246,13 +246,13 @@ This is race condition.
 Finally, there are two I/O Linux system calls that would be considered to enhance
 the I/O performance, which are the (\RN{8}) epoll and (\RN{9}) io\_uring.
 
-\paragraph{epoll}
+\paragraph{`epoll`}
 The epoll system call is a scalable I/O event notification facility, which similar
 task to poll and select. Its function is to monitor multiple file descriptors to
 see whether I/O is possible on any of them, which uses RB-tree to search the monitored
 file descriptor.
 
-\paragraph{io\_uring}
+\paragraph{`io\_uring`}
 The io\_uring system call is a new feature in the Linux kernel 5.1. Which is also an
 asynchronous I/O API, supplying larger throughput and lower latency. This system call
 has 3 key elements: Submission Queue (SQ), Completion Queue (CQ), and Submission Queue
@@ -370,7 +370,7 @@ evaluation. Youhuizi Li et al. \cite{Optimizing} used the statistical data to ca
 the 99.9\% of latency is in the margin of error in 3 standard deviations, if not the
 module will raise the priority of the I/O queue.
 
-\subsubsection{epoll vs. io\_uring Performance Comparison}
+\subsubsection{`epoll` vs. `io\_uring` Performance Comparison}
 \begin{wrapfigure}[8]{r}{.45\textwidth}
   % \centering
   \includegraphics[width=.45\textwidth]{io_uring.png}
@@ -422,7 +422,7 @@ This project will implement the FHIR \cite{FHIR_home} data exchange system to de
 security risk. Hence, we should study FHIR standard, JSON format (RFC7159), XML format (RFC4825), and
 RESTful APIs.
 
-\subsubsection{Efficient I/O with io\_uring}
+\subsubsection{Efficient I/O with `io\_uring`}
 This is a new asynchronous I/O API in Linux kernel 5.1 \cite{Efficient_IO_uring}. POSIX has
 aio\_read() and aio\_write() to satisfy asynchronous I/O, however, the implementation of those
 is most often lackluster and performance is poor. We will study and implement the new asynchronous
