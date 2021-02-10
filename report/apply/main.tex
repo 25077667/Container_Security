@@ -152,13 +152,13 @@ in Taiwan in the near future \cite{MOHW_FHIR}. The FHIR will be used to provide 
 (Personal Healthcare Records) in Taiwan. Therefore we choose the most popular standard
 "FHIR" for the target.
 
-\subsubsection{Linux kernel features}
+\subsubsection{Linux Kernel Features}
 First, there are four basic features for the abstract containerization services in the
 Linux environment.
 The four basic features are: (\RN{1}) namespace, (\RN{2}) cgroups, (\RN{3}) capabilities,
 and (\RN{4}) seccomp.
 
-\paragraph{namespaces}
+\paragraph{Namespaces}
 The Linux kernel provides the namespaces to perform the job of isolation and virtualization
 of system resources for a collection of processes \cite{Road_Ahead}.
 User namespaces can be nested; that is, each user namespace—except the initial ("root")
@@ -187,13 +187,13 @@ namespace—has a parent user namespace and can have zero or more child user nam
 \end{wrapfigure}
 The nested namespace is shown in Figure \ref*{Nested}.
 
-\paragraph{cgroups}
+\paragraph{Cgroups}
 This feature can limit, account for, and isolate the hardware resource usage of a
 collection of processes \cite{cgroup_wiki}.
 The container could use this feature to set the maximum/minimum usage of hardware
 resources, which could guarantee processes' resources using reasonability.
 
-\paragraph{capabilities}
+\paragraph{Capabilities}
 This feature divides the privileges traditionally associated with superuser into
 distinct units. To performing permission checks, traditional UNIX
 implementations distinguish two categories of processes: privileged and unprivileged.
@@ -209,7 +209,7 @@ to execute the file.
 Therefore, when we set the CAP\_NET\_RAW capability to the /bin/ping, we could execute
 the ping command as your user.
 
-\paragraph{seccomp}
+\paragraph{SECCOMP}
 The seccomp feature is that only some specified process could call some specified
 system calls. We could set a policy of while some file be loaded, and we often use
 this system call to enforce the whitelisting or blacklisting policy.
@@ -226,14 +226,14 @@ And some libraries are also mapped into the virtual address space to share and h
 the function call. Therefore, the processes could take the same view of libraries in
 it's memory space.
 
-\paragraph{copy on write}
+\paragraph{Copy on Write}
 This mechanism purposes of a resource being duplicated but not modified, it is not
 necessary to create a new entry. Therefore the kernel can make callers share
 the same memory resources. The mmap is a system call could inspire this mechanism
 in above paragraph. When some processes request same memory resource, the kernel
 supplies the same memory page to callers.
 
-\paragraph{race condition}
+\paragraph{Race condition}
 That is processes or threads are racing the same mutable resource. For example:
 There is an accessible and mutable shared memory which be initialized as 0. And
 2 threads or processes sharing that page. Consider one of the tasks is assigning
@@ -279,7 +279,7 @@ Delwar Alam, et al. \cite{Study_Dirty_Cow} show the race condition, and the mech
 computer programming to efficiently implement a "duplicate" or "copy" operation
 on modifiable resources \cite{CoW_wiki}. It often inspires when fork() or mmap().
 
-\subsubsection{Dirty CoW demo code}
+\subsubsection{Dirty CoW Demo Code}
 Let's analyze the proof of concept (PoC) of the dirty CoW \cite{Dirty_CoW} vulnerability.
 The key of inspiring this vulnerability is the mmaped memory space, which is mapped with
 the PROT\_READ flag. The PROT\_READ flag declares the page is read-only.
@@ -314,7 +314,7 @@ privilege. If the schedular context switches the madviseThread to procselfmemThr
 the adviseThread is calling the "madvise" system call. It would cause the
 procselfmemThread to gain the root privilege from madviseThread to control the mmaped file.
 
-\subsubsection{Container Security: Issues, Challenges, and the Road Ahead}
+\subsubsection{Container Security: Issues, Challenges, and Road Ahead}
 Sari Sultan et al. \cite{Road_Ahead} have derived 4 generalized container security issues:
 (\RN{1}) protecting a container from applications inside it, (\RN{2}) inter-container
 protection, (\RN{3}) protecting the host from containers, and (\RN{4}) protecting containers
@@ -351,7 +351,7 @@ from the Linux kernel, the vulnerability could change the victim container to a 
 container. Therefore, we should protect the host from the container, which belongs to type
 (\RN{3}) threat in this paper.
 
-\subsection{High-performance Server}
+\subsection{High-Performance Server}
 \hypertarget{heigh_performance}{}
 This section will study some I/O performance and caching issues. Because the healthcare
 data exchange system demands the stringent specification of the response time.
@@ -370,7 +370,7 @@ evaluation. Youhuizi Li et al. \cite{Optimizing} used the statistical data to ca
 the 99.9\% of latency is in the margin of error in 3 standard deviations, if not the
 module will raise the priority of the I/O queue.
 
-\subsubsection{The epoll vs. io\_uring performance comparison}
+\subsubsection{epoll vs. io\_uring Performance Comparison}
 \begin{wrapfigure}[8]{r}{.45\textwidth}
   % \centering
   \includegraphics[width=.45\textwidth]{io_uring.png}
@@ -405,7 +405,7 @@ significantly.
 This project would use the MapReduce model which is shown in Figure \ref*{Fig:model}.
 
 \subsection{Study}
-\subsubsection{Study CVEs and related mechanisms}
+\subsubsection{Study CVEs and Related Mechanisms}
 The Linux kernel is a monolithic kernel, which is over 28 million lines of code now(2020). There
 are many mechanisms to solve real-world situations. Study those CVEs' related mechanism in the
 kernel, might have more chance to find new vulnerabilities.
@@ -417,7 +417,7 @@ And study some kernel exploit techniques \cite{Kernel_exploitation} because the 
 the kernel. If I could exploit the kernel in the suffering container, it might have more chance
 to influence the other containers or host.
 
-\subsubsection{Study FHIR and related standards}
+\subsubsection{Study FHIR and Related Standards}
 This project will implement the FHIR \cite{FHIR_home} data exchange system to demonstrate the container
 security risk. Hence, we should study FHIR standard, JSON format (RFC7159), XML format (RFC4825), and
 RESTful APIs.
@@ -429,7 +429,7 @@ is most often lackluster and performance is poor. We will study and implement th
 I/O API: io\_uring in this project to optimize the performance of the FHIR data exchange system.
 
 \subsection{Container Security}
-\subsubsection{Implement a simple container}
+\subsubsection{Implement Simple Container}
 The Linux kernel supply some system calls to clone a process(also in thread) in their namespace
 and group. We could implement a simple container by ourselves so that we can make a list of
 vulnerabilities that may happen for which is shown in Figure \ref*{Fig:sc}.
@@ -441,16 +441,16 @@ vulnerabilities that may happen for which is shown in Figure \ref*{Fig:sc}.
   \label{Fig:sc}
 \end{wrapfigure}
 
-\subsubsection{Aim a vulnerability and implement the PoC}
+\subsubsection{Aim Vulnerability and Implement PoC}
 This project would find a vulnerability of privilege escalation in the container and affect
 other containers.
 
-\subsubsection{Implement the patch and pull request}
+\subsubsection{Implement Patch and Pull Request}
 Being a security researcher, we cannot just only exploit the software, but also give patches to
 the maintainer. Make the container technique more secure.
 
 \subsection{FHIR system}
-\subsubsection{Front-end}
+\subsubsection{Front-End}
 This project would be designed a user-friendly interface. Make it easy to get data for the
 patient and the patient's family. And make the exchange of patient's data between different
 medical center confidential, integral, and available.
@@ -458,7 +458,7 @@ medical center confidential, integral, and available.
 The interface would be designed as a website, which makes every user could access on different
 platforms.
 
-\subsubsection{Back-end}
+\subsubsection{Back-End}
 This project would use the container technique at the back-end. It would isolate different
 services in a different container. We would also design an access controller for variadic
 requests, and design a high-performance kernel module to speed up the I/O and caching.
@@ -478,7 +478,7 @@ the throughput.
 Moreover, this project would design an efficient algorithm to predict and cache the container's
 application data to reduce the latency, while backend server requiring data.
 
-\subsection{System combination}
+\subsection{System Combination}
 The last step is combining the FHIR system and container security. This project would demonstrate
 an escalation of normal containers (ie. Docker) to steal patients' information from the webserver.
 However, our containers can detect and prevent a malicious user from escaping the container of the
