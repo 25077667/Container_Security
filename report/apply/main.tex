@@ -140,7 +140,7 @@ We have to do this research in this project.
 
 % ================ Related works ================
 
-\section{Related works}
+\section{Related Works}
 This section will focus on (\RN{1}) \hyperlink{preliminaries}{preliminaries} (\RN{2}) \hyperlink{security}{containter security}, and (\RN{3})
 \hyperlink{heigh_performance}{high-performance server}.
 
@@ -233,7 +233,7 @@ the same memory resources. The mmap is a system call could inspire this mechanis
 in above paragraph. When some processes request same memory resource, the kernel
 supplies the same memory page to callers.
 
-\paragraph{Race condition}
+\paragraph{Race Condition}
 That is processes or threads are racing the same mutable resource. For example:
 There is an accessible and mutable shared memory which be initialized as 0. And
 2 threads or processes sharing that page. Consider one of the tasks is assigning
@@ -273,7 +273,7 @@ Therefore, we do not required any system call on submission and completion in op
 
 \subsection{Containter Security}
 \hypertarget{security}{}
-\subsubsection{Study of the Dirty Copy On Write}
+\subsubsection{Study of the Dirty Copy on Write}
 Delwar Alam, et al. \cite{Study_Dirty_Cow} show the race condition, and the mechanism of
 "Copy on Write". "Copy on Write" is a resource-management technique used in
 computer programming to efficiently implement a "duplicate" or "copy" operation
@@ -449,7 +449,7 @@ other containers.
 Being a security researcher, we cannot just only exploit the software, but also give patches to
 the maintainer. Make the container technique more secure.
 
-\subsection{FHIR system}
+\subsection{FHIR System}
 \subsubsection{Front-End}
 This project would be designed a user-friendly interface. Make it easy to get data for the
 patient and the patient's family. And make the exchange of patient's data between different
@@ -463,13 +463,13 @@ This project would use the container technique at the back-end. It would isolate
 services in a different container. We would also design an access controller for variadic
 requests, and design a high-performance kernel module to speed up the I/O and caching.
 
-\paragraph{Access controller}
+\paragraph{Access Controller}
 The access controller would be implemented as a kernel module. Because malicious user has less
 probability to break the Linux kernel if this module has no bugs.
 The access controller would use the whitelisting method to enforce the accessibility policy.
 It would reserve the essential system calls in the container and discard all unused system calls.
 
-\paragraph{High performance server}
+\paragraph{High-Performance Server}
 This project would implement a kernel module for the high performance server. Which could hook
 the I/O system calls from the web server. The module would replace the normal I/O calls with
 io\_uring, which could enhance the concurrency performance to provide low latency and enhance
@@ -502,7 +502,7 @@ Therefore, this project would purpose a secure and high-performance solution for
 organization. We hope this could help they facing the future cyber challenges.
 \paragraph{}
 This project has 2 parts: the FHIR system and container security.
-\paragraph{Container security}
+\paragraph{Container Security}
 We would implement a vulnerability PoC, patch, and demonstration for container escalation.
 Because the container technique is the trend of these microservices. The healthcare data
 exchanging center must use containers for quick deployment and management. Additionally, the
@@ -511,7 +511,7 @@ cracker breaks the healthcare data center and keep the patients' information is 
 today. We hope this research could make the container technique more secure, and provide
 the healthcare data exchange system more reliable.
 
-\paragraph{FHIR system}
+\paragraph{FHIR System}
 We would implement the healthcare data exchange system with the FHIR standard. The implementation
 would provide a high-performance service for anyone, anywhere, and anytime. The fifth-generation
 mobile telecommunications is happening, and the sixth-generation mobile telecommunications is
