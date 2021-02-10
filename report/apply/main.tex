@@ -209,7 +209,7 @@ to execute the file.
 Therefore, when we set the CAP\_NET\_RAW capability to the /bin/ping, we could execute
 the ping command as your user.
 
-\paragraph{SECCOMP}
+\paragraph{Seccomp}
 The seccomp feature is that only some specified process could call some specified
 system calls. We could set a policy of while some file be loaded, and we often use
 this system call to enforce the whitelisting or blacklisting policy.
@@ -226,7 +226,7 @@ And some libraries are also mapped into the virtual address space to share and h
 the function call. Therefore, the processes could take the same view of libraries in
 it's memory space.
 
-\paragraph{Copy on Write}
+\paragraph{copy on Write}
 This mechanism purposes of a resource being duplicated but not modified, it is not
 necessary to create a new entry. Therefore the kernel can make callers share
 the same memory resources. The mmap is a system call could inspire this mechanism
@@ -463,13 +463,13 @@ This project would use the container technique at the back-end. It would isolate
 services in a different container. We would also design an access controller for variadic
 requests, and design a high-performance kernel module to speed up the I/O and caching.
 
-\paragraph{Access Controller}
+\paragraph{Access controller}
 The access controller would be implemented as a kernel module. Because malicious user has less
 probability to break the Linux kernel if this module has no bugs.
 The access controller would use the whitelisting method to enforce the accessibility policy.
 It would reserve the essential system calls in the container and discard all unused system calls.
 
-\paragraph{High-Performance Server}
+\paragraph{High-performance server}
 This project would implement a kernel module for the high performance server. Which could hook
 the I/O system calls from the web server. The module would replace the normal I/O calls with
 io\_uring, which could enhance the concurrency performance to provide low latency and enhance
@@ -502,7 +502,7 @@ Therefore, this project would purpose a secure and high-performance solution for
 organization. We hope this could help they facing the future cyber challenges.
 \paragraph{}
 This project has 2 parts: the FHIR system and container security.
-\paragraph{Container Security}
+\paragraph{Container security}
 We would implement a vulnerability PoC, patch, and demonstration for container escalation.
 Because the container technique is the trend of these microservices. The healthcare data
 exchanging center must use containers for quick deployment and management. Additionally, the
@@ -511,7 +511,7 @@ cracker breaks the healthcare data center and keep the patients' information is 
 today. We hope this research could make the container technique more secure, and provide
 the healthcare data exchange system more reliable.
 
-\paragraph{FHIR System}
+\paragraph{FHIR system}
 We would implement the healthcare data exchange system with the FHIR standard. The implementation
 would provide a high-performance service for anyone, anywhere, and anytime. The fifth-generation
 mobile telecommunications is happening, and the sixth-generation mobile telecommunications is
