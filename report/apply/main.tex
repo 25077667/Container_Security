@@ -91,52 +91,51 @@ Advisor: Chun-I Fan
 Recently, many companies use containers to run their microservices, since containers could
 make their hardware resources be used efficiently. And the newest healthcare data exchange
 standard FHIR (Fast Healthcare Interoperability Resources) \cite{FHIR_home} has been implemented
-in a container by IBM, Microsoft, and firebase. That is deploying the FHIR in a container is the
-trend of the world. However, if the hacker gets privilege escalation of containers, then
+in a container by IBM, Microsoft, and firebase. The deployment of FHIR in a container is a
+trend in the digital world. However, if a hacker gets privilege escalation of containers, then
 such attacks would influence the host or the other containers. Therefore, this research would
 analyze, implement, and protect the container escalation in healthcare data exchange system.
 The container escalation would be inspired in a container and influence the host or the
 other containers. The healthcare data exchanging system will take the FHIR to simulate
-the real-world threat and purpose a secure solution to protect patient's privacy.
+the real-world threat and purpose soliciting a secure solution to protect patient's privacy.
 
 % ================ Motivation ================
 
-\section{Motivation}
+\section{Introduction and Motivation}
 The Container is a virtualization technique to package applications and dependencies to run in
 an isolated environment. Containers are faster to start-up, lighter in memory/storage usage
-at run time, and easier to deploy than virtual machines. Because the container shares the
-kernel with the host OS and other containers and deploys by a configure file.\\
-First, we often used to run a docker container to host our services. For example assignments,
-, servers and some services in the information security club at NSYSU(National Sun Yat-sen University).
-However there are some threats to the container technique, such as "Dirty CoW" \cite{Dirty_CoW}
+at run time, and easier to deploy than virtual machines. This is because that the container
+shares the kernel with the host OS and other containers and deploys by a configure file.\\
+First, we often used to run a docker container to host our services, for example: the assignments,
+servers and some services in the information security club at NSYSU(National Sun Yat-sen University).
+However, there are some threats to the container technique, such as "Dirty CoW" \cite{Dirty_CoW}
 and "escape vulnerabilities".\\
 
 Dirty CoW is a vulnerability in the Linux kernel. It is a local privilege escalation bug
 that exploits a race condition in the implementation of the copy-on-write mechanism in the
-kernel's memory-management subsystem \cite{Dirty_CoW_wiki}. It was founded by Phil Oester. We
-were 16, the first year we had touched the docker container. We tried to use the Dirty CoW
+kernel's memory-management subsystem \cite{Dirty_CoW_wiki}. It was found by Phil Oester. We
+were 16, the first year we touched the docker container. We tried to use the Dirty CoW
 vulnerability to take the root privilege of my Android phone.\\
 
 Escape vulnerability is a subcategory of sandbox security. At first, security researchers often
-need a sandbox to help them analyze malware, which prevents the malware influence researcher's
+need a sandbox to help them analyze malware, which prevents the malware influence researchers'
 host OS. Nowadays, the sandbox not only is used in analyzing, but also used to execute a
 normal application for an isolated environment. However, if the application could modify the
-outside resources without the kernel permission. That loses the purpose of isolation. That
-might cause the information to leak or the kernel is hacked.\\
+outside resources without the kernel permission, it will be unable to achieve the purpose of
+isolation. That might cause the information leakage or the kernel being hacked.\\
 
-Hence, there is a big problem about: "How to make sure my services are isolated and secure?" The
-author of this paper is the leader of the information security club. He should maintain all
+Hence, there is a big problem: "How to make sure my services are isolated and secure?"
+We are leading the information security club at NSYSU. We should maintain all
 the services working perfectly. Moreover, we are an information security club. Therefore,
 the security and performance issue is the top-priority requirement.\\
 
-Second, to present the container security, we would take the medical system for
-example.
-The medical system is the most famous part internationally. Including face the COVID-19
-in Taiwan, we do not have the local COVID-19 case in more than 250 days \cite{COVID19_CNN}.
-However, the medical profession needs to renew the exchanging EHR(Electronic Health Records)
-system these years. To protect the privacy of patients, and producing a high-performance
-system to exchange the EHR, we need an easy deployment, effective runtime, and a secure system.
-We have to do this research in this project.
+Second, to present the container security, we would take the medical system as an example.
+Our medical system is the most famous one internationally. When facing COVID-19
+in Taiwan, we have not had any local COVID-19 case in more than 250 days \cite{COVID19_CNN}.
+Medical workers usually needs to renew the EHR (Electronic Health Records)
+system frequently. To protect the privacy of patients, and producing a high-performance
+system to exchange the EHR, an easy-deployment, effective-execution, and secure system is
+required. It also is the major goal of this project.
 
 % ================ Related works ================
 
@@ -147,9 +146,9 @@ This section will focus on (\RN{1}) \hyperlink{preliminaries}{preliminaries} (\R
 \subsection{Preliminaries}
 \hypertarget{preliminaries}{}
 \subsubsection{FHIR}
-The FHIR is a standard for healthcare data exchange. The FHIR standard will be used in
-in Taiwan in the near future \cite{MOHW_FHIR}. The FHIR will be used to provide the PHR
-(Personal Healthcare Records) in Taiwan. Therefore we choose the most popular standard
+FHIR is a standard for healthcare data exchange. The FHIR standard will be used
+in Taiwan in the near future \cite{MOHW_FHIR}. FHIR will be used to provide PHR
+(Personal Healthcare Records) in Taiwan. Therefore, we choose the most popular standard
 "FHIR" for the target.
 
 \subsubsection{Linux Kernel Features}
@@ -195,48 +194,48 @@ resources, which could guarantee processes' resources using reasonability.
 
 \paragraph{Capabilities}
 This feature divides the privileges traditionally associated with superuser into
-distinct units. To performing permission checks, traditional UNIX
+distinct units. To perform permission checks, traditional UNIX
 implementations distinguish two categories of processes: privileged and unprivileged.
 Privileged processes would bypass all kernel permission checks, while unprivileged
-processes are subject to full permission checking based on the process's credentials
+processes are subject to full permission checking based on the processes' credentials
 \cite{capabilities}.
 
-Take the ping command for example. The ping needs to generate and receive ICMP packets,
-and usually that's done using the "raw sockets" – a feature limited to root only
+Take the ping command as an example. The ping needs to generate and receive ICMP packets,
+and usually is generated by "raw sockets" – a feature limited to root only
 (CAP\_NET\_RAW). Because it could also be abused to sniff and disrupt other traffic
-on the system. Moreover, we can set the capability to the file to get accessibility
+on the systems. Moreover, we can set the capability to the file to get accessibility
 to execute the file.
 Therefore, when we set the CAP\_NET\_RAW capability to the /bin/ping, we could execute
-the ping command as your user.
+the ping command as the users.
 
 \paragraph{Seccomp}
 The seccomp feature is that only some specified process could call some specified
-system calls. We could set a policy of while some file be loaded, and we often use
+system calls. We could set a policy while some file is loaded, and we often use
 this system call to enforce the whitelisting or blacklisting policy.
 
 Second, there are three terminologies of computer science related to container
-security in the Linux kernel. Which are (\RN{5}) mmap, (\RN{6}) Copy on write,
+security in the Linux kernel, which are (\RN{5}) mmap, (\RN{6}) Copy on write,
 and (\RN{7}) Race condition.
 
 \paragraph{`mmap`}
-This is a system call of mapping files or devices in to memory, which creates a
-new mapping in the virtual address space of the caller process. Such that
-the process could operate the instance of file in memory directly.
+This is a system call of mapping files or devices into memory, which creates a
+new mapping in the virtual address space of the caller process such that
+the process could operate the instance of a file in memory directly.
 And some libraries are also mapped into the virtual address space to share and handle
 the function call. Therefore, the processes could take the same view of libraries in
-it's memory space.
+its memory space.
 
-\paragraph{Copy on write}
-This mechanism purposes of a resource being duplicated but not modified, it is not
-necessary to create a new entry. Therefore the kernel can make callers share
-the same memory resources. The mmap is a system call could inspire this mechanism
-in above paragraph. When some processes request same memory resource, the kernel
-supplies the same memory page to callers.
+\paragraph{Copy on Write}
+This mechanism purposes that a resource is duplicated but not modified, and is not
+necessary to create a new entry. Therefore, the kernel can make callers share
+the same memory resources. The mmap is a system call that could inspire this
+mechanism in the above paragraph. When some processes request the same memory resource,
+the kernel supplies the same memory page to the callers.
 
 \paragraph{Race Condition}
-That is processes or threads are racing the same mutable resource. For example:
-There is an accessible and mutable shared memory which be initialized as 0. And
-2 threads or processes sharing that page. Consider one of the tasks is assigning
+This means that processes or threads are racing the same mutable resource. For example:
+There is an accessible and mutable shared memory which is initialized as 0. And
+two threads or processes are sharing that page. Consider that one of the tasks is assigning
 the page full of character 'A'. In the meanwhile, the schedular context switches to
 the other task, which assigns that page full of 'B'. Then the schedular context switches
 again to the first task. There is a problem now. What is the page for the first
@@ -247,51 +246,50 @@ Finally, there are two I/O Linux system calls that would be considered to enhanc
 the I/O performance, which are the (\RN{8}) epoll and (\RN{9}) io\_uring.
 
 \paragraph{`epoll`}
-The epoll system call is a scalable I/O event notification facility, which similar
-task to poll and select. Its function is to monitor multiple file descriptors to
-see whether I/O is possible on any of them, which uses RB-tree to search the monitored
-file descriptor.
+The `epoll` system call is a scalable I/O event notification facility. Its function
+is to monitor multiple file descriptors to see whether I/O is possibly on any of
+them, which uses RB-tree to search the monitored file descriptor.
 
 \paragraph{`io\_uring`}
-The io\_uring system call is a new feature in the Linux kernel 5.1. Which is also an
+The io\_uring system call is a new feature in the Linux kernel 5.1, which is also an
 asynchronous I/O API, supplying larger throughput and lower latency. This system call
-has 3 key elements: Submission Queue (SQ), Completion Queue (CQ), and Submission Queue
+has three key elements: Submission Queue (SQ), Completion Queue (CQ), and Submission Queue
 Entries (SQE).
 
 When we operate the io\_ring, we should use the mmap to share the memory page from
 the returned file descriptor by the io\_setup. After the page is mmaped, we could share
-the 3 key elements with the Linux kernel. The Linux kernel will pick up our submission
-from the SQE and polling in the kernel thread. That is, we have no use for a system call
+the three key elements with the Linux kernel. The Linux kernel will pick up our submission
+from the SQE and polling in the kernel thread. That is, it is useless for a system call
 to tell the kernel that we want to have an asynchronous I/O.
 
 After the kernel finishes the I/O operation, the kernel will put the index of the finished
 file descriptor to the completion queue. The user could traverse over the CQ to pick up
-the finished file descriptors, which also reduced a system call to tell the kernel we picked
-it up.
+the finished file descriptors, which also reduced a system call to tell the kernel that
+we picked it up.
 
-Therefore, we do not required any system call on submission and completion in optimal.
+Therefore, we do not required any system call on submission and completion in optimal cases.
 
 \subsection{Containter Security}
 \hypertarget{security}{}
-\subsubsection{Study of the Dirty Copy on Write}
-Delwar Alam, et al. \cite{Study_Dirty_Cow} show the race condition, and the mechanism of
+\subsubsection{The Dirty Copy on Write}
+Delwar Alam, et al. \cite{Study_Dirty_Cow} showed the race condition, and the mechanism of
 "Copy on Write". "Copy on Write" is a resource-management technique used in
 computer programming to efficiently implement a "duplicate" or "copy" operation
-on modifiable resources \cite{CoW_wiki}. It often inspires when fork() or mmap().
+on modifiable resources \cite{CoW_wiki}. It is often inspired when `fork` or `mmap`.
 
 \subsubsection{Dirty CoW Demo Code}
 Let's analyze the proof of concept (PoC) of the dirty CoW \cite{Dirty_CoW} vulnerability.
 The key of inspiring this vulnerability is the mmaped memory space, which is mapped with
-the PROT\_READ flag. The PROT\_READ flag declares the page is read-only.
+the PROT\_READ flag. The PROT\_READ flag declares that the page is read-only.
 \lstinputlisting[language=C, linerange={87-89, 101-101}, firstnumber=87]{src/dirtyc0w.c}
 
-It creates 2 threads, which would have a race condition of the mmaped memory space,
+It creates two threads, which would have a race condition of the mmaped memory space,
 \hyperlink{madvise}{madviseThread} and \hyperlink{procself}{procselfmemThread}.
 
 \hypertarget{threads_main}{threads in main}
 \lstinputlisting[language=C, linerange={106-107}, firstnumber=106]{src/dirtyc0w.c}
 
-In one thread, call a system call "madvise", would make the user thread gain the root
+In one thread, issuing a system call `madvise`, would make the user thread gain the root
 privilege to operate the protected page temporarily. And the flag MADV\_DONTNEED would
 tell the kernel: "Do not expect to access it in the near future \cite{Madvise}." Moreover,
 this flag might not lead to immediate freeing of pages in the range. The kernel is free
@@ -301,74 +299,74 @@ to delay free the pages until an appropriate moment \cite{Madvise}.
 \lstinputlisting[language=C, linerange={33-39,45-48}, firstnumber=33]{src/dirtyc0w.c}
 
 In another thread, open its memory resource file. This file is a special file, which allows
-the process reads its memory by itself.\\
+the process to read its memory by itself.\\
 
 Then, we move the printer of file descriptor of the memory resource file to the mmaped
-space. And try to write it. But the mmaped space is read-only space. We expected the
+space. And we try to write it. But the mmaped space is read-only. We expected that the
 kernel would create a copy of this space and write the copy \cite{root_exploit}.\\
 \hypertarget{procself}{procselfmemThread}
 \lstinputlisting[language=C, linerange={50-53,61-63,67-71}, firstnumber=50]{src/dirtyc0w.c}
 
 However, there is a problem! There is another thread that is racing this page with root
 privilege. If the schedular context switches the madviseThread to procselfmemThread, while
-the adviseThread is calling the "madvise" system call. It would cause the
+the adviseThread is calling the "madvise" system call, it would cause the
 procselfmemThread to gain the root privilege from madviseThread to control the mmaped file.
 
 \subsubsection{Container Security: Issues, Challenges, and Road Ahead}
-Sari Sultan et al. \cite{Road_Ahead} have derived 4 generalized container security issues:
+Sari Sultan et al. \cite{Road_Ahead} have derived four generalized container security issues:
 (\RN{1}) protecting a container from applications inside it, (\RN{2}) inter-container
 protection, (\RN{3}) protecting the host from containers, and (\RN{4}) protecting containers
 from a malicious or semi-honest host \cite{Road_Ahead}.
 
-The (\RN{1}), (\RN{3}), and (\RN{3}) issue could implement the protection by the software
+The (\RN{1}), (\RN{3}), and (\RN{3}) issues could implement the protection by the software
 based solutions.
 
-For the (\RN{1}) issue, this paper recommends that
+For the (\RN{1}) issue, Sari Sultan et al. \cite{Road_Ahead} recommends that
 we could use the different capabilities and the LSM (Linux secure module). Take
-CVE-2017-5123 \cite{CVE-2017-5123} for example. The vulnerability here is the third argument of
-waitpid() system call didn't ensure that the user-specified pointer points to userspace
-and not kernel space. Since unprivileged users shouldn’t be able to write arbitrarily
+CVE-2017-5123 \cite{CVE-2017-5123} as an example. The vulnerability here is the third argument of
+`waitpid` system call which didn't ensure that the user-specified pointer points to userspace
+and not kernel space since unprivileged users shouldn’t be able to write arbitrarily
 to kernel memory.
 
-The solution of CVE-2017-5123 without update the Linux kernel is to insert a
-LSM to the kernel, which monitors the runtime behaviors of system call. If any process
-use the waitpid() with a pointer point to the kernel as the third argument, the LSM should
+The solution of CVE-2017-5123 without updating the Linux kernel is to insert an
+LSM to the kernel, which monitors the runtime behaviors of system calls. If any process
+uses the waitpid() with a pointer point to the kernel as the third argument, the LSM should
 block the operation and raise a signal to the user.
 
-For the (\RN{2}) issue, this paper recommends that we could use the
+For the (\RN{2}) issue \cite{Road_Ahead} recommends that we could use the
 LSM, namespaces, and cgroups to limit the container. Take CVE-2016-8655 \cite{CVE-2016-8655}
-for example. This vulnerability is a bug in net/packet/af\_packet.c. We often use the
-CAP\_NET\_RAW namespace in the container to make unprivileged user could use some privileged
-net-util commands. The bug is there exist a race condition probability to race the unauthorized
-data inside packet\_set\_ring() and packet\_setsockopt() \cite{CVE-2016-8655-lwn}. Such that,
+as an example. This vulnerability is a bug in net/packet/af\_packet.c. We often use the
+CAP\_NET\_RAW namespace in the container to make unprivileged user be able to use some privileged
+net-util commands. The bug is that there exists a race condition probability to race the unauthorized
+data inside packet\_set\_ring() and packet\_setsockopt() \cite{CVE-2016-8655-lwn} such that
 there is a chance to modify the socket version to TPACKET\_$V_1$ before the packet\_set\_ring
-function. However, which would be kfree the timer in the TPACKET\_$V_1$. We can take the timer,
+function. However, it would be `kfree` the timer in the TPACKET\_$V_1$. We can take the timer,
 which is used after free, to control the SLAB adopter to write the st\_uid by itself
 \cite{AF_PACKET}.
 
-For the (\RN{3}) issue, take the Dirty CoW vulnerability for example, which is exploitation
-from the Linux kernel, the vulnerability could change the victim container to a privileged
+For the (\RN{3}) issue, we take the Dirty CoW vulnerability as an example, which is exploitation
+from the Linux kernel. The vulnerability could change the victim container to be a privileged
 container. Therefore, we should protect the host from the container, which belongs to type
-(\RN{3}) threat in this paper.
+(\RN{3}) threat.
 
 \subsection{High-Performance Server}
 \hypertarget{heigh_performance}{}
-This section will study some I/O performance and caching issues. Because the healthcare
+This section will study some I/O performance and caching issues because the healthcare
 data exchange system demands the stringent specification of the response time.
-The I/O is the most often causing the bottleneck in the low latency required system.
+The I/O is the most often one causing the bottleneck in the low latency required system.
 To support a high-performance system, we can design a module to control the throughput
 intelligently, and use the cache-friendly architecture to minimize the latency.
 
 \subsubsection{PINE: Optimizing Performance Isolation in Container Environments}
-Youhuizi Li et al. \cite{Optimizing} introduce a high throughput and low latency module to control
-the I/O streams. Which implement a module to accord calculated optimization parameters,
-and check if the process throughput is satisfied or the 99.9\% throughput is satisfied.
+Youhuizi Li et al. \cite{Optimizing} introduced a high throughput and low latency module to control
+the I/O streams. It implements a module to accord calculated optimization parameters,
+and checks if the process throughput is satisfied or the 99.9\% throughput is satisfied.
 
-That is if the throughput reached the bottleneck, then the model would extend the
+If the throughput reached the bottleneck, then the model would extend the
 bandwidth by the cgroup. The latency evaluation is more difficult than throughput
-evaluation. Youhuizi Li et al. \cite{Optimizing} used the statistical data to calculate
-the 99.9\% of latency is in the margin of error in 3 standard deviations, if not the
-module will raise the priority of the I/O queue.
+evaluation. Youhuizi Li et al. \cite{Optimizing} used the statistical data to evaluate
+the 99.9\% of latency is in the margin of error in three standard deviations of 
+acceptable latency. If not, the module will raise the priority of the I/O queue.
 
 \subsubsection{`epoll` vs. `io\_uring` Performance Comparison}
 \begin{wrapfigure}[8]{r}{.45\textwidth}
@@ -381,7 +379,7 @@ The healthcare data exchange system would request for "small data" frequently.
 Hence, the low latency has the priority over the high throughput in this project.
 We often use the system call: "epoll" for asynchronous I/O with many files
 descriptors, rather than sequential accessing those file descriptors in this scenario.
-The figure \ref*{Fig:iouring} \cite{epoll_vs_iouring} shows the io\_uring could do request in fewer time
+Figure \ref*{Fig:iouring} \cite{epoll_vs_iouring} shows that the io\_uring could do request in fewer time
 significantly.
 \begin{wrapfigure}[10]{R}{.45\textwidth}
   % \centering
@@ -405,34 +403,34 @@ significantly.
 This project would use the MapReduce model which is shown in Figure \ref*{Fig:model}.
 
 \subsection{Study}
-\subsubsection{Study CVEs and Related Mechanisms}
-The Linux kernel is a monolithic kernel, which is over 28 million lines of code now(2020). There
-are many mechanisms to solve real-world situations. Study those CVEs' related mechanism in the
-kernel, might have more chance to find new vulnerabilities.
+\subsubsection{CVEs and Related Mechanisms}
+The Linux kernel is a monolithic kernel, which is over 28 million lines of code now (2020). There
+are many mechanisms to solve real-world situations. Studying those CVEs' related mechanism in the
+kernel might have more chance to find new vulnerabilities.
 
-This project will study several container vulnerabilities for example: CVE-2016-8655
+This project will study several container vulnerabilities such as CVE-2016-8655
 \cite{CVE-2016-8655}, CVE-2016-9962 \cite{CVE-2016-9962}, and CVE-2020-14386 \cite{CVE-2020-14386}.
 
-And study some kernel exploit techniques \cite{Kernel_exploitation} because the container shares
-the kernel. If I could exploit the kernel in the suffering container, it might have more chance
+And we will study some kernel exploit techniques \cite{Kernel_exploitation} because the container shares
+the kernel. If we could exploit the kernel in the suffering container, it might have more chance
 to influence the other containers or host.
 
-\subsubsection{Study FHIR and Related Standards}
+\subsubsection{FHIR and Related Standards}
 This project will implement the FHIR \cite{FHIR_home} data exchange system to demonstrate the container
-security risk. Hence, we should study FHIR standard, JSON format (RFC7159), XML format (RFC4825), and
-RESTful APIs.
+security risk. Hence, we should study the FHIR standard, the JSON format (RFC7159), the XML format
+(RFC4825), and RESTful APIs.
 
 \subsubsection{Efficient I/O with `io\_uring`}
 This is a new asynchronous I/O API in Linux kernel 5.1 \cite{Efficient_IO_uring}. POSIX has
-aio\_read() and aio\_write() to satisfy asynchronous I/O, however, the implementation of those
+aio\_read() and aio\_write() to satisfy asynchronous I/O; however, the implementation of those
 is most often lackluster and performance is poor. We will study and implement the new asynchronous
 I/O API: io\_uring in this project to optimize the performance of the FHIR data exchange system.
 
 \subsection{Container Security}
-\subsubsection{Implement Simple Container}
-The Linux kernel supply some system calls to clone a process(also in thread) in their namespace
+\subsubsection{implementation of a Simple Container}
+The Linux kernel supplies some system calls to clone a process (also in thread) in their namespace
 and group. We could implement a simple container by ourselves so that we can make a list of
-vulnerabilities that may happen for which is shown in Figure \ref*{Fig:sc}.
+vulnerabilities that may happen, which is shown in Figure \ref*{Fig:sc}.
 
 \begin{wrapfigure}[15]{r}{.45\textwidth}
   % \centering
@@ -441,19 +439,19 @@ vulnerabilities that may happen for which is shown in Figure \ref*{Fig:sc}.
   \label{Fig:sc}
 \end{wrapfigure}
 
-\subsubsection{Aim Vulnerability and Implement PoC}
+\subsubsection{Aimming at Vulnerability and Implementing PoC}
 This project would find a vulnerability of privilege escalation in the container and affect
 other containers.
 
-\subsubsection{Implement Patch and Pull Request}
+\subsubsection{Implementing Patch and Pull Request}
 Being a security researcher, we cannot just only exploit the software, but also give patches to
-the maintainer. Make the container technique more secure.
+the maintainer. It will make the container technique more secure.
 
 \subsection{FHIR System}
 \subsubsection{Front-End}
-This project would be designed a user-friendly interface. Make it easy to get data for the
-patient and the patient's family. And make the exchange of patient's data between different
-medical center confidential, integral, and available.
+This project would design a user-friendly interface. We will make it easy to get data for the
+patient and the patient's family. And the exchange of patient's data between different
+medical center will be confidential, integral, and available.
 
 The interface would be designed as a website, which makes every user could access on different
 platforms.
@@ -463,14 +461,14 @@ This project would use the container technique at the back-end. It would isolate
 services in a different container. We would also design an access controller for variadic
 requests, and design a high-performance kernel module to speed up the I/O and caching.
 
-\paragraph{Access controller}
-The access controller would be implemented as a kernel module. Because malicious user has less
-probability to break the Linux kernel if this module has no bugs.
+\paragraph{Access Controller}
+The access controller would be implemented as a kernel module because a malicious user has
+less probability to break the Linux kernel if this module has no bugs.
 The access controller would use the whitelisting method to enforce the accessibility policy.
 It would reserve the essential system calls in the container and discard all unused system calls.
 
-\paragraph{High-performance server}
-This project would implement a kernel module for the high performance server. Which could hook
+\paragraph{High Performance Server}
+This project would implement a kernel module for the high performance server, which could hook
 the I/O system calls from the web server. The module would replace the normal I/O calls with
 io\_uring, which could enhance the concurrency performance to provide low latency and enhance
 the throughput.
@@ -480,7 +478,7 @@ application data to reduce the latency, while backend server requiring data.
 
 \subsection{System Combination}
 The last step is combining the FHIR system and container security. This project would demonstrate
-an escalation of normal containers (ie. Docker) to steal patients' information from the webserver.
+an escalation of normal containers (i.e., Docker) to steal patients' information from the webserver.
 However, our containers can detect and prevent a malicious user from escaping the container of the
 web server.
 
@@ -498,40 +496,40 @@ that make much medical organization easy to deploy. However, the medical organiz
 not have a professional security software engineer to maintain the performance issues and
 patients' privacy issues.
 
-Therefore, this project would purpose a secure and high-performance solution for the medical
-organization. We hope this could help they facing the future cyber challenges.
+Therefore, this project would aim at a secure and high-performance solution for the medical
+organization. We hope this could help them face the future cyber challenges.
 \paragraph{}
-This project has 2 parts: the FHIR system and container security.
+This project has two parts: the FHIR system and container security.
 \paragraph{Container security}
-We would implement a vulnerability PoC, patch, and demonstration for container escalation.
-Because the container technique is the trend of these microservices. The healthcare data
+We would implement a vulnerability PoC, patch, and demonstration for container escalation
+since the container technique is the trend of these microservices. The healthcare data
 exchanging center must use containers for quick deployment and management. Additionally, the
 information security issue becomes more and more important these days. To prevent the
-cracker breaks the healthcare data center and keep the patients' information is critical
-today. We hope this research could make the container technique more secure, and provide
+cracker from breaking the healthcare data center and keep the patients' information is critical
+today. We hope that this research could make the container technique more secure, and provide
 the healthcare data exchange system more reliable.
 
-\paragraph{FHIR system}
+\paragraph{FHIR System}
 We would implement the healthcare data exchange system with the FHIR standard. The implementation
 would provide a high-performance service for anyone, anywhere, and anytime. The fifth-generation
-mobile telecommunications is happening, and the sixth-generation mobile telecommunications is
+mobile telecommunications has been launched, and the sixth-generation mobile telecommunications is
 coming.  More IoT devices will collect our healthcare data for medical demands, needing a low
-latency server to digest the data. We hope this project could implement a high-performance FHIR
+latency server to digest the data. We hope that this project could implement a high-performance FHIR
 standard system, which makes data exchange effectively.
 \paragraph{}
 Finally, this project would combine these two parts into a container of a secure and
-high-performance FHIR system. We hope this project could be the model role of healthcare
-data exchange system of implementation in Taiwan.
+high-performance FHIR system. It is expected that this project could play the model role of the
+healthcare data exchange system in Taiwan.
 
 \printbibliography[heading=bibnumbered]
 
 \section{Academic Advisor}
 \begin{itemize}
-  \item Give advises of security issues.
-  \item Give advises of the front-end of user interface.
+  \item Give advices of security issues.
+  \item Give advices of the front-end of user interface.
   \item Introduce the vision of healthcare data exchanging system.
   \item Organize this research to a complete structure.
-  \item Extend to a formal paper, and publish.
+  \item Extend the result to a formal paper, and submit it to a conference or a journal.
 \end{itemize}
 
 \end{document}
