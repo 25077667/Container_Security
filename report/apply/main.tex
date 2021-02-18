@@ -88,7 +88,7 @@ Advisor: Chun-I Fan
 % \newpage
 % ================ Abstract ================
 \section{Abstract}
-Recently, many companies use containers to run their microservices, since containers could
+Recently, many companies use containers to run their microservices since containers could
 make their hardware resources be used efficiently. And the newest healthcare data exchange
 standard FHIR (Fast Healthcare Interoperability Resources) \cite{FHIR_home} has been implemented
 in a container by IBM, Microsoft, and firebase. The deployment of FHIR in a container is a
@@ -96,7 +96,7 @@ trend in the digital world. However, if a hacker gets privilege escalation of co
 such attacks would influence the host or the other containers. Therefore, this research would
 analyze, implement, and protect the container escalation in healthcare data exchange system.
 The container escalation would be inspired in a container and influence the host or the
-other containers. The healthcare data exchanging system will take the FHIR to simulate
+other containers. The healthcare data exchanging system will take FHIR to simulate
 the real-world threat and purpose soliciting a secure solution to protect patient's privacy.
 
 % ================ Motivation ================
@@ -124,7 +124,7 @@ normal application for an isolated environment. However, if the application coul
 outside resources without the kernel permission, it will be unable to achieve the purpose of
 isolation. That might cause the information leakage or the kernel being hacked.\\
 
-Hence, there is a big problem: "How to make sure my services are isolated and secure?"
+Hence, there is a big problem: "How to make sure my services isolated and secure?"
 We are leading the information security club at NSYSU. We should maintain all
 the services working perfectly. Moreover, we are an information security club. Therefore,
 the security and performance issue is the top-priority requirement.\\
@@ -133,7 +133,7 @@ Second, to present the container security, we would take the medical system as a
 Our medical system is the most famous one internationally. When facing COVID-19
 in Taiwan, we have not had any local COVID-19 case in more than 250 days \cite{COVID19_CNN}.
 Medical workers usually needs to renew the EHR (Electronic Health Records)
-system frequently. To protect the privacy of patients, and producing a high-performance
+system frequently. To protect the privacy of patients and producing a high-performance
 system to exchange the EHR, an easy-deployment, effective-execution, and secure system is
 required. It also is the major goal of this project.
 
@@ -267,12 +267,12 @@ file descriptor to the completion queue. The user could traverse over the CQ to 
 the finished file descriptors, which also reduced a system call to tell the kernel that
 we picked it up.
 
-Therefore, we do not required any system call on submission and completion in optimal cases.
+Therefore, we do not require any system call on submission and completion in optimal cases.
 
 \subsection{Containter Security}
 \hypertarget{security}{}
 \subsubsection{The Dirty Copy on Write}
-Delwar Alam, et al. \cite{Study_Dirty_Cow} showed the race condition, and the mechanism of
+Delwar Alam, et al. \cite{Study_Dirty_Cow} showed the race condition and the mechanism of
 "Copy on Write". "Copy on Write" is a resource-management technique used in
 computer programming to efficiently implement a "duplicate" or "copy" operation
 on modifiable resources \cite{CoW_wiki}. It is often inspired when `fork` or `mmap`.
@@ -308,7 +308,7 @@ kernel would create a copy of this space and write the copy \cite{root_exploit}.
 \lstinputlisting[language=C, linerange={50-53,61-63,67-71}, firstnumber=50]{src/dirtyc0w.c}
 
 However, there is a problem! There is another thread that is racing this page with root
-privilege. If the schedular context switches the madviseThread to procselfmemThread, while
+privilege. If the schedular context switches the madviseThread to procselfmemThread while
 the adviseThread is calling the "madvise" system call, it would cause the
 procselfmemThread to gain the root privilege from madviseThread to control the mmaped file.
 
@@ -372,7 +372,7 @@ acceptable latency. If not, the module will raise the priority of the I/O queue.
 \begin{wrapfigure}[8]{r}{.45\textwidth}
   % \centering
   \includegraphics[width=.45\textwidth]{io_uring.png}
-  \caption{The comparison of do\_request function.}
+  \caption{The comparison of do\_request function}
   \label{Fig:iouring}
 \end{wrapfigure}
 The healthcare data exchange system would request for "small data" frequently.
@@ -500,7 +500,7 @@ Therefore, this project would aim at a secure and high-performance solution for 
 organization. We hope this could help them face the future cyber challenges.
 \paragraph{}
 This project has two parts: the FHIR system and container security.
-\paragraph{Container security}
+\paragraph{Container Security}
 We would implement a vulnerability PoC, patch, and demonstration for container escalation
 since the container technique is the trend of these microservices. The healthcare data
 exchanging center must use containers for quick deployment and management. Additionally, the
