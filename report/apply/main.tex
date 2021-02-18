@@ -92,12 +92,13 @@ Recently, many companies use containers to run their microservices since contain
 make their hardware resources be used efficiently. And the newest healthcare data exchange
 standard FHIR (Fast Healthcare Interoperability Resources) \cite{FHIR_home} has been implemented
 in a container by IBM, Microsoft, and firebase. The deployment of FHIR in a container is a
-trend in the digital world. However, if a hacker gets privilege escalation of containers, then
-such attacks would influence the host or the other containers. Therefore, this research would
-analyze, implement, and protect the container escalation in healthcare data exchange system.
-The container escalation would be inspired in a container and influence the host or the
-other containers. The healthcare data exchanging system will take FHIR to simulate
-the real-world threat and purpose soliciting a secure solution to protect patient's privacy.
+trend in the digital world.\cite{Infrastructures} However, if a hacker gets privilege
+escalation of containers, then such attacks would influence the host or the other containers.
+Therefore, this research would analyze, implement, and protect the container escalation
+in healthcare data exchange system. The container escalation would be inspired in a container
+and influence the host or the other containers. The healthcare data exchanging system will
+take the FHIR to simulate the real-world threat and purpose soliciting a secure solution to
+protect patient's privacy.
 
 % ================ Motivation ================
 
@@ -105,7 +106,9 @@ the real-world threat and purpose soliciting a secure solution to protect patien
 The Container is a virtualization technique to package applications and dependencies to run in
 an isolated environment. Containers are faster to start-up, lighter in memory/storage usage
 at run time, and easier to deploy than virtual machines. This is because that the container
-shares the kernel with the host OS and other containers and deploys by a configure file.\\
+shares the kernel with the host OS and other containers and deploys by a configure file.
+\cite{Offloading} In this way, the information service based on a container platform increases
+the resource efficiency of the system. \cite{Comparison}
 First, we often used to run a docker container to host our services, for example: the assignments,
 servers and some services in the information security club at NSYSU(National Sun Yat-sen University).
 However, there are some threats to the container technique, such as "Dirty CoW" \cite{Dirty_CoW}
@@ -334,7 +337,7 @@ uses the waitpid() with a pointer point to the kernel as the third argument, the
 block the operation and raise a signal to the user.
 
 For the (\RN{2}) issue \cite{Road_Ahead} recommends that we could use the
-LSM, namespaces, and cgroups to limit the container. Take CVE-2016-8655 \cite{CVE-2016-8655}
+LSM, namespaces, and cgroups to limit the container. Take CVE-2016-8655 \cite{CVE-2016-8655,Measurement}
 as an example. This vulnerability is a bug in net/packet/af\_packet.c. We often use the
 CAP\_NET\_RAW namespace in the container to make unprivileged user be able to use some privileged
 net-util commands. The bug is that there exists a race condition probability to race the unauthorized
@@ -364,9 +367,9 @@ and checks if the process throughput is satisfied or the 99.9\% throughput is sa
 
 If the throughput reached the bottleneck, then the model would extend the
 bandwidth by the cgroup. The latency evaluation is more difficult than throughput
-evaluation. Youhuizi Li et al. \cite{Optimizing} used the statistical data to evaluate
-the 99.9\% of latency is in the margin of error in three standard deviations of 
-acceptable latency. If not, the module will raise the priority of the I/O queue.
+evaluation. Youhuizi Li et al. \cite{Optimizing} evaluated if the latencies of 99.9\% of the
+data are all within three standard deviations of the acceptable latency. If not,
+the module will raise the priority of the I/O queue.
 
 \subsubsection{`epoll` vs. `io\_uring` Performance Comparison}
 \begin{wrapfigure}[8]{r}{.45\textwidth}
@@ -427,7 +430,7 @@ is most often lackluster and performance is poor. We will study and implement th
 I/O API: io\_uring in this project to optimize the performance of the FHIR data exchange system.
 
 \subsection{Container Security}
-\subsubsection{implementation of a Simple Container}
+\subsubsection{Implementation of a Simple Container}
 The Linux kernel supplies some system calls to clone a process (also in thread) in their namespace
 and group. We could implement a simple container by ourselves so that we can make a list of
 vulnerabilities that may happen, which is shown in Figure \ref*{Fig:sc}.
@@ -441,7 +444,9 @@ vulnerabilities that may happen, which is shown in Figure \ref*{Fig:sc}.
 
 \subsubsection{Aimming at Vulnerability and Implementing PoC}
 This project would find a vulnerability of privilege escalation in the container and affect
-other containers.
+other containers. We would use the fuzzing technique, which is listed from the vulnerabilities
+that may happen, to ontinue researching the security of the Linux kernel in order to detect
+other known vulnerabilities of various types, as well as zero-day vulnerabilities. \cite{Fuzzing}
 
 \subsubsection{Implementing Patch and Pull Request}
 Being a security researcher, we cannot just only exploit the software, but also give patches to
@@ -465,6 +470,7 @@ requests, and design a high-performance kernel module to speed up the I/O and ca
 The access controller would be implemented as a kernel module because a malicious user has
 less probability to break the Linux kernel if this module has no bugs.
 The access controller would use the whitelisting method to enforce the accessibility policy.
+\cite{Access_Control_Architecture}
 It would reserve the essential system calls in the container and discard all unused system calls.
 
 \paragraph{High Performance Server}
