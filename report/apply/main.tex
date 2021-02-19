@@ -272,7 +272,7 @@ we picked it up.
 
 Therefore, we do not require any system call on submission and completion in optimal cases.
 
-\subsection{Containter Security}
+\subsection{Container Security}
 \hypertarget{security}{}
 \subsubsection{The Dirty Copy on Write}
 Delwar Alam, et al. \cite{Study_Dirty_Cow} showed the race condition and the mechanism of
@@ -327,7 +327,7 @@ based solutions.
 For the (\RN{1}) issue, Sari Sultan et al. \cite{Road_Ahead} recommends that
 we could use the different capabilities and the LSM (Linux secure module). Take
 CVE-2017-5123 \cite{CVE-2017-5123} as an example. The vulnerability here is the third argument of
-`waitpid` system call which didn't ensure that the user-specified pointer points to userspace
+`waitpid` system call which didn't ensure that the user-specified pointer points to user space
 and not kernel space since unprivileged users shouldn’t be able to write arbitrarily
 to kernel memory.
 
@@ -445,7 +445,7 @@ vulnerabilities that may happen, which is shown in Figure \ref*{Fig:sc}.
 \subsubsection{Aimming at Vulnerability and Implementing PoC}
 This project would find a vulnerability of privilege escalation in the container and affect
 other containers. We would use the fuzzing technique, which is listed from the vulnerabilities
-that may happen, to ontinue researching the security of the Linux kernel in order to detect
+that may happen, to continue researching the security of the Linux kernel in order to detect
 other known vulnerabilities of various types, as well as zero-day vulnerabilities. \cite{Fuzzing}
 
 \subsubsection{Implementing Patch and Pull Request}
@@ -484,7 +484,7 @@ application data to reduce the latency, while backend server requiring data.
 
 \subsection{System Combination}
 The last step is combining the FHIR system and container security. This project would demonstrate
-an escalation of normal containers (i.e., Docker) to steal patients' information from the webserver.
+an escalation of normal containers (i.e., Docker) to steal patients' information from the web server.
 However, our containers can detect and prevent a malicious user from escaping the container of the
 web server.
 
