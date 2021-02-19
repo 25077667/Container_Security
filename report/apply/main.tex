@@ -109,7 +109,7 @@ at run time, and easier to deploy than virtual machines. This is because that th
 shares the kernel with the host OS and other containers and deploys by a configure file
 \cite{Offloading}. In this way, the information service based on a container platform increases
 the resource efficiency of the system \cite{Comparison}.
-First, we often used to run a docker container to host our services, for example: the assignments,
+First, we often used to run a docker container to host our services, for example: the
 servers and some services in the information security club at NSYSU(National Sun Yat-sen University).
 However, there are some threats to the container technique, such as "Dirty CoW" \cite{Dirty_CoW}
 and "escape vulnerabilities".\\
@@ -229,7 +229,7 @@ the function call. Therefore, the processes could take the same view of librarie
 its memory space.
 
 \paragraph{Copy on Write}
-This mechanism purposes that a resource is duplicated but not modified, and is not
+This mechanism purposes that a resource is duplicated but not modified, and it is not
 necessary to create a new entry. Therefore, the kernel can make callers share
 the same memory resources. The mmap is a system call that could inspire this
 mechanism in the above paragraph. When some processes request the same memory resource,
