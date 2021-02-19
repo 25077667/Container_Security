@@ -251,7 +251,7 @@ the I/O performance, which are the (\RN{8}) epoll and (\RN{9}) io\_uring.
 \paragraph{`epoll`}
 The `epoll` system call is a scalable I/O event notification facility. Its function
 is to monitor multiple file descriptors to see whether I/O is possibly on any of
-them, which uses RB-tree to search the monitored file descriptor.
+them, which uses RB-tree to search the monitored file descriptors.
 
 \paragraph{`io\_uring`}
 The io\_uring system call is a new feature in the Linux kernel 5.1, which is also an
@@ -446,7 +446,7 @@ vulnerabilities that may happen, which is shown in Figure \ref*{Fig:sc}.
 This project would find a vulnerability of privilege escalation in the container and affect
 other containers. We would use the fuzzing technique, which is listed from the vulnerabilities
 that may happen, to continue researching the security of the Linux kernel in order to detect
-other known vulnerabilities of various types, as well as zero-day vulnerabilities. \cite{Fuzzing}
+other known vulnerabilities of various types, as well as zero-day vulnerabilities \cite{Fuzzing}.
 
 \subsubsection{Implementing Patch and Pull Request}
 Being a security researcher, we cannot just only exploit the software, but also give patches to
