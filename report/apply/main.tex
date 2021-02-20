@@ -237,7 +237,7 @@ the kernel supplies the same memory page to the callers.
 
 \paragraph{Race Condition}
 This means that processes or threads are racing the same mutable resource. For example:
-There is an accessible and mutable shared memory which is initialized as 0. And
+There is an accessible and mutable shared memory which is isnitialized as zero. And
 two threads or processes are sharing that page. Consider that one of the tasks is assigning
 the page full of character 'A'. In the meanwhile, the schedular context switches to
 the other task, which assigns that page full of 'B'. Then the schedular context switches
