@@ -1,0 +1,26 @@
+version: '3.1'
+services:
+    crawler:
+      depends_on: database
+      build: crawler/
+      restart: always
+
+    database:
+      build: database/
+      ports: "27017:1453"
+      volumes:
+        - db_data:/data/db
+      restart: always
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: 5h@nge_m3
+
+
+    notification:
+      depends_on: 
+        - crawler
+        - database
+      build: notification/
+      restart: always
+
+networks:
