@@ -5,6 +5,11 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{pdfpages}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{color}
 \graphicspath{ {./images/} }
 
 \addbibresource{main.bib}
@@ -44,8 +49,9 @@
   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
   frame=single,	                   % adds a frame around the code
   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-  keywordstyle=\color{red},       % keyword style
-  morekeywords={*,...},            % if you want to add more keywords to the set
+  keywordstyle=\color{red},        % keyword style
+  morekeywords={FROM, RUN, ENV, USER, WORKDIR, CMD, EXPOSE, ADD, COPY, sudo, curl, chmod, ln, git, cd},
+                                   % if you want to add more keywords to the set
   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
   numbersep=5pt,                   % how far the line-numbers are from the code
   numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
@@ -55,7 +61,8 @@
   showtabs=false,                  % show tabs within strings adding particular underscores
   stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
   stringstyle=\color{mymauve},     % string literal style
-  tabsize=4,	                     % sets default tabsize to ˋ spaces
+  tabsize=4,	                   % sets default tabsize to ˋ spaces
+  title=\lstname
 }
 
 
@@ -67,13 +74,15 @@
 
 \begin{frame}
     \frametitle{Outline}
-    \tableofcontents
+    \begin{multicols}{2}
+        \tableofcontents
+    \end{multicols}
 \end{frame}
 
 \begin{frame}
     \frametitle{Before the speech}
     \begin{itemize}
-        \item The `Learning Corner TA' of operating system course
+        \item The `Learning Corner TA' of operating system class
               \begin{itemize}
                   \item 18:00 $\to$ 21:00 (Thur.)
                   \item EC1013
@@ -81,9 +90,9 @@
               \end{itemize}
         \item The other time for OS problems
               \begin{itemize}
-                  \item 18:00 $\to$ 21:00 (Thur.)
+                  \item 18:00 $\to$ 21:00 (Fri.)
                   \item EC3034
-                  \item Sent Email before you come.
+                  \item Send an email before you come.
               \end{itemize}
         \item {\color{blue}\href{mailto::zxc25077667@protonmail.com}{zxc25077667@protonmail.com}}
         \item We learn more only if you ask.
@@ -113,8 +122,11 @@
     \frametitle{Compare with virtule machines}
     \begin{center}
         \includegraphics[width=.49\textwidth]{docker_what_is_container.png}
-        \includegraphics[width=.5\textwidth]{container-vm-whatcontainer_2.png}
+        \includegraphics[width=.49\textwidth]{container-vm-whatcontainer_2.png}
     \end{center}
+    \begin{flushright}
+        Wait, what is \hyperlink{HYPERVISOR}{Hypervisor}?
+    \end{flushright}
 \end{frame}
 
 \begin{frame}
@@ -135,11 +147,40 @@
     \end{center}
 \end{frame}
 
+\hypertarget{HYPERVISOR}{}
 \begin{frame}
     \frametitle{What is HYPERVISOR?}
     \begin{center}
-        Virtual machine monitor
+        \Huge{Virtual machine monitor}\\
+        \tiny{Monitor? Will introduce in the OS.}
     \end{center}
+\end{frame}
+
+\subsection{Status}
+\begin{frame}
+    \frametitle{Image and Container}
+    \centering
+    \includegraphics[width=.95\textwidth]{1_p8k1b2DZTQEW_yf0hYniXw.jpg}
+    \cite{Build_an_image}\\
+    Like a program in execution is called a process.\\
+    An image in execution is called a container.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Lifecycle}
+    \begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.6\textwidth}
+            \includegraphics[width=\textwidth]{docker-lifecycle.jpeg}
+            \caption{Container's Lifecycle}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.39\textwidth}
+            \includegraphics[width=\textwidth]{Process_states.png}
+            \caption{Process's Lifecycle}
+        \end{subfigure}
+    \end{figure}
+    \cite{docker-lifecycle,process-lifecycle}
 \end{frame}
 
 % ======================Dockerfile============================
@@ -154,9 +195,9 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Image and Container}
+    \frametitle{Image and Container again}
     \centering
-    \includegraphics[width=.95\textwidth]{1_p8k1b2DZTQEW_yf0hYniXw.png}
+    \includegraphics[width=.95\textwidth]{1_p8k1b2DZTQEW_yf0hYniXw.jpg}
     \cite{Build_an_image}\\
     Like a program in execution is called a process.\\
     An image in execution is called a container.
@@ -176,10 +217,50 @@
 \subsection{Write a Dockerfile}
 \begin{frame}
     \frametitle{Dockerfile 101}
+    \begin{multicols*}{2}
+        \begin{enumerate}
+            \item FROM
+            \item {\color{red}{RUN, CMD, ENTRYPOINT}}
+            \item EXPOSE
+            \item ENV
+            \item {\color{red}{ADD, COPY}}
+            \item {\color{red}{VOLUME}}
+            \item USER
+            \item WORKDIR
+            \item ONBUILD
+        \end{enumerate}
+    \end{multicols*}
+    \url{https://docs.docker.com/engine/reference/builder/}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Our Dockerfile}
+    \frametitle{Dockerfile's Lab}
+    \lstinputlisting{src/dockerfile101/Dockerfile}
+\end{frame}
+
+\subsection{Write a Docker-compose}
+\begin{frame}
+    \frametitle{Docker-compose 101}
+    \lstinputlisting[firstline=1,lastline=16]{src/docker-compose101/example.yml}
+    \small\url{https://docs.docker.com/compose/compose-file/compose-file-v3/}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Docker-compose's Lab}
+    \lstinputlisting{src/docker-compose101/auto_build.sh}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Docker-compose's Lab requirements}
+    % \begin{block}{docker compose}
+    \lstinputlisting{src/docker-compose101/install_docker_compose.sh}
+    % \end{block}
+
+    \begin{block}{Stop all containers:}
+        sudo docker stop \$(sudo docker ps -a -q)
+
+        sudo docker stack rm $<$name$>$
+    \end{block}
 \end{frame}
 
 % ======================Commands============================
@@ -187,7 +268,7 @@
 \subsection{Basic commands}
 \begin{frame}
     \frametitle{Basic}
-    \centering\includegraphics[height=0.9\textheight]{Docker commands cheat sheet by PhoenixNAP.jpeg}
+    \centering\includegraphics[height=0.9\textheight]{cheat_sheet.jpeg}
     \cite{small_chear_sheet}
 \end{frame}
 
@@ -222,7 +303,17 @@
 \end{frame}
 \subsection{Image deployment}
 \begin{frame}
-    \frametitle{Our Labs}
+    \frametitle{Our PWN Labs}
+    \url{https://github.com/giantbranch/pwn_deploy_chroot}\\
+    \begin{block}{Steps:}
+        \begin{enumerate}
+            \item git clone \url{https://github.com/giantbranch/pwn_deploy_chroot.git}
+            \item Put teh PWN binary in to the bin/
+            \item python initialize.py
+            \item sudo docker-compose up --build -d
+        \end{enumerate}
+    \end{block}
+
 \end{frame}
 
 \subsection{X Window forwarding}
@@ -232,10 +323,36 @@
 
 \subsection{Maybe: Cross platform}
 \begin{frame}
-    \frametitle{Raspbian on Docker}
+    \frametitle{Raspbian in Docker}
+    \centering We need a Qemu supervise it.
+    \lstinputlisting{src/raspbian/Dockerfile}
 \end{frame}
 
-\section{Security}
+\begin{frame}
+    \frametitle{Toys}
+    Docker-OSX: \url{https://github.com/sickcodes/Docker-OSX}
+    \newline
+    x11docker: \url{https://github.com/mviereck/x11docker}
+\end{frame}
+
+\section{Advanced issues}
+\begin{frame}
+    \frametitle{Some advanced issues}
+    \begin{itemize}
+        \item Security
+              \begin{itemize}
+                  \item Privileged
+                  \item Escape
+              \end{itemize}
+        \item Scalability
+              \begin{itemize}
+                  \item SDN (Software defined network)
+                  \item SDS (Software defined storage)
+                  \item Dynamic infrastructure / Load balance
+              \end{itemize}
+        \item CI/CD
+    \end{itemize}
+\end{frame}
 
 \section{References}
 \begin{frame}[t, allowframebreaks]
