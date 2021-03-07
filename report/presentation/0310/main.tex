@@ -220,11 +220,11 @@
     \begin{multicols*}{2}
         \begin{enumerate}
             \item FROM
-            \item {\color{red}{RUN, CMD, ENTRYPOINT}}
+            \item {\color{mymauve}{RUN, CMD, ENTRYPOINT}}
             \item EXPOSE
             \item ENV
-            \item {\color{red}{ADD, COPY}}
-            \item {\color{red}{VOLUME}}
+            \item {\color{mymauve}{ADD, COPY}}
+            \item {\color{mymauve}{VOLUME}}
             \item USER
             \item WORKDIR
             \item ONBUILD
@@ -307,8 +307,8 @@
     \url{https://github.com/giantbranch/pwn_deploy_chroot}\\
     \begin{block}{Steps:}
         \begin{enumerate}
-            \item git clone \url{https://github.com/giantbranch/pwn_deploy_chroot.git}
-            \item Put teh PWN binary in to the bin/
+            \item git clone https://github.com/giantbranch/pwn\_deploy\_chroot.git
+            \item Put the PWN binary in to the bin/
             \item python initialize.py
             \item sudo docker-compose up --build -d
         \end{enumerate}
@@ -354,9 +354,12 @@
     \end{itemize}
 \end{frame}
 
+
 \section{References}
 \begin{frame}[t, allowframebreaks]
     \frametitle{References}
+    \setbeamertemplate{bibliography item}{*}
+    \renewcommand*{\bibfont}{\scriptsize}
     \printbibliography
 \end{frame}
 
