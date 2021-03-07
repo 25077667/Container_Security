@@ -319,6 +319,15 @@
 \subsection{X Window forwarding}
 \begin{frame}
     \frametitle{Wine with X11}
+    \lstinputlisting{src/wine/Dockerfile}
+    \begin{block}{Build}
+        sudo docker build -t wine0 .
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Wine with X11}
+    \lstinputlisting{src/wine/run.sh}
 \end{frame}
 
 \subsection{Maybe: Cross platform}
