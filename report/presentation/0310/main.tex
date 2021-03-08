@@ -86,7 +86,7 @@
               \begin{itemize}
                   \item 18:00 $\to$ 21:00 (Thur.)
                   \item EC1013
-                  \item From 25nd March 2021
+                  \item From 25th March 2021
               \end{itemize}
         \item The other time for OS problems
               \begin{itemize}
@@ -119,7 +119,7 @@
 
 \subsection{Comparing Containers and Virtual Machines}
 \begin{frame}
-    \frametitle{Compare with virtule machines}
+    \frametitle{Compare with virtual machines}
     \begin{center}
         \includegraphics[width=.49\textwidth]{docker_what_is_container.png}
         \includegraphics[width=.49\textwidth]{container-vm-whatcontainer_2.png}
@@ -132,7 +132,7 @@
 \begin{frame}
     \frametitle{So, what is share kernel?}
     \begin{center}
-        Let's recall the OS 101 course\\
+        Let's recall the OS 101 class\\
         \includegraphics[width=.8\textwidth]{linux_memory_layout_64bit.png}
         \cite{64_mem_layout}
     \end{center}
@@ -149,7 +149,7 @@
 
 \hypertarget{HYPERVISOR}{}
 \begin{frame}
-    \frametitle{What is HYPERVISOR?}
+    \frametitle{What is Hypervisor?}
     \begin{center}
         \Huge{Virtual machine monitor}\\
         \tiny{Monitor? Will introduce in the OS.}
@@ -257,9 +257,9 @@
     % \end{block}
 
     \begin{block}{Stop all containers:}
-        sudo docker stop \$(sudo docker ps -a -q)
+        \$ sudo docker stop \$(sudo docker ps -a -q)
 
-        sudo docker stack rm $<$name$>$
+        \$ sudo docker stack rm $<$name$>$
     \end{block}
 \end{frame}
 
@@ -321,10 +321,10 @@
     \url{https://github.com/giantbranch/pwn_deploy_chroot}\\
     \begin{block}{Steps:}
         \begin{enumerate}
-            \item git clone https://github.com/giantbranch/pwn\_deploy\_chroot.git
+            \item \$ git clone https://github.com/giantbranch/pwn\_deploy\_chroot.git
             \item Put the PWN binary in to the bin/
-            \item python initialize.py
-            \item sudo docker-compose up --build -d
+            \item \$ python initialize.py
+            \item \$ sudo docker-compose up --build -d
         \end{enumerate}
     \end{block}
 
@@ -335,7 +335,7 @@
     \frametitle{Wine with X11}
     \lstinputlisting{src/wine/Dockerfile}
     \begin{block}{Build}
-        sudo docker build -t wine0 .
+        \$ sudo docker build -t wine0 .
     \end{block}
 \end{frame}
 
