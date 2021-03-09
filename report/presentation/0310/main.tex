@@ -1,5 +1,5 @@
 \documentclass{beamer}
-\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
 \usepackage{progressbar}
 \usepackage[final]{listings}
 \usepackage{graphicx}
@@ -19,7 +19,7 @@
 \subtitle{Information security club course \RN{2}}
 \author{Chih-Hsuan Yang(SCC)}
 \institute{National Sun Yat-sen University}
-\date{\today\\v1.1}
+\date{\today\\v1.2}
 
 \AtBeginSection[]{
     \begin{frame}
@@ -107,14 +107,15 @@
     \centering
     Containerize\\
     \includegraphics[width=0.6\textwidth]{docker_what_is_container.png}\\
-    \cite{What_is_container}
+    Source: What is a Container? \\
+    url: \url{https://www.docker.com/resources/what-container}
 \end{frame}
 
 \begin{frame}
     \frametitle{Big idea}
     \centering
-    \includegraphics[width=0.8\textwidth]{box.jpg}
-    \cite{box_graph}
+    \includegraphics[width=0.7\textwidth]{box.jpg}\\
+    Source: packhelp \url{https://packhelp.com/plain-shipping-box/}
 \end{frame}
 
 \subsection{Comparing Containers and Virtual Machines}
@@ -381,7 +382,7 @@
 \section{References}
 \begin{frame}[t, allowframebreaks]
     \frametitle{References}
-    \setbeamertemplate{bibliography item}{*}
+    \setbeamertemplate{bibliography item}{\insertbiblabel}
     \renewcommand*{\bibfont}{\scriptsize}
     \printbibliography
 \end{frame}
