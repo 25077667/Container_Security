@@ -5,6 +5,8 @@
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
 \usepackage{CJKutf8}
 \graphicspath{ {./images/} }
 
@@ -101,10 +103,40 @@
             \item The next generation of C/C++
             \item High Concurrency, Memory Safe, Traits
         \end{enumerate}
+        \begin{block}{Why?}
+            High performance and secure server.\\
+            The docker-engine is written by Golang.
+        \end{block}
     \end{frame}
 
     \begin{frame}
         \frametitle{ASLR/KASLR/Finer-grained KASLR}
+        \begin{columns}
+            \begin{column}{0.5\textwidth}
+                \includegraphics[height=.9\textheight]{Figure_1.png}
+            \end{column}
+            \begin{column}{.5\textwidth}
+                \includegraphics[width=\textwidth]{kaslr.png}
+            \end{column}
+        \end{columns}
+    \end{frame}
+
+    \begin{frame}
+        \includegraphics[width=\textwidth]{k32_1G.png}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Finer-grained KASLR}
+        \centering
+        Finer-grained kernel address-space layout randomization\cite{LWN_FGKASLR}\\
+        \Large Not merged on mainline yet.
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{New idea}
+        \centering Run container in UML?\\
+        \url{https://github.com/weber-software/diuid}
+        \includegraphics[width=\textwidth]{UML.png}
     \end{frame}
 
     \begin{frame}
@@ -122,12 +154,38 @@
     \end{frame}
 
     \begin{frame}
-        \frametitle{Userland to kernelland}
-        擋掉 kernel exploit 可以從無法執行 或 可執行但不會成功 或 可執行但會被限制 等想法
+        \frametitle{Tim Hsu}
+        \begin{enumerate}
+            \item 「你研究了\ capabilities 了嗎？」
+                  \begin{itemize}
+                      \item 有試過，不能算研究。
+                  \end{itemize}
+            \item 「如果有\ kernel exploit 能打穿\ container 那你有那些\ anti-exploit  的方式？」
+                  \begin{itemize}
+                      \item Not to kernel: KASLR, SECCOMP, capabilities
+                      \item Landed kernel: Encrypt container database, alert
+                      \item UML? Hypervisor.
+                  \end{itemize}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Tim Hsu}
+        \begin{enumerate}
+            \item 「先從只用現有機制\ user land 的方式 再往\ kernel land 的方向」
+            \item 「擋掉\ kernel exploit 『可以從無法執行』或『可執行但不會成功』或『可執行但會被限制』等想法」
+                  \begin{itemize}
+                      \item Capabilities, SECCOMP, AppArmor(Docker only)
+                      \item No idea
+                      \item Network Configuration, LSM
+                  \end{itemize}
+        \end{enumerate}
     \end{frame}
 
     \begin{frame}
         \frametitle{Interact with FHIR in docker}
+        \centering
+        \includegraphics[width=\textwidth]{Screenshot_2021-03-25_19-22-39.png}
     \end{frame}
 
     % ======================Current progress============================
@@ -157,6 +215,8 @@
     \section{Reference}
     \begin{frame}[t, allowframebreaks]
         \frametitle{References}
+        \setbeamertemplate{bibliography item}{\insertbiblabel}
+        \renewcommand*{\bibfont}{\scriptsize}
         \printbibliography
     \end{frame}
 
