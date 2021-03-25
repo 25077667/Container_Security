@@ -1,0 +1,164 @@
+\documentclass{beamer}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\usepackage{progressbar}
+\usepackage[final]{listings}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usepackage{CJKutf8}
+\graphicspath{ {./images/} }
+
+\usepackage{caption}
+\captionsetup{justification   = raggedright,
+              singlelinecheck = false}
+
+\addbibresource{main.bib}
+\usetheme{AnnArbor}
+
+\title{The Container Security in Healthcare Data Exchange System}
+\subtitle{Bachelor's degree graduation project}
+\author{Chih-Hsuan Yang}
+\institute{National Sun Yat-sen University}
+\date{\today\\v1.0}
+
+\AtBeginSection[]{
+    \begin{frame}
+        \vfill
+        \centering
+        \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+          \usebeamerfont{title}\insertsectionhead\par
+        \end{beamercolorbox}
+        \vfill
+        \end{frame}
+}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+% Code conf.
+\lstset{ 
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\ttfamily\footnotesize,% the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{red},       % keyword style
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=4,	                     % sets default tabsize to ˋ spaces
+}
+
+
+\begin{document}
+\begin{CJK*}{UTF8}{bsmi}
+
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Outline}
+        \tableofcontents
+    \end{frame}
+
+    % ======================Outcome============================
+    \section{Outcome}
+    \begin{frame}
+        \frametitle{Outcome}
+        \centering \Large {No outcome.}
+    \end{frame}
+
+
+    % ======================Related works============================
+
+    \section{Related works}
+    \begin{frame}
+        \frametitle{Two papers}
+        \begin{itemize}
+            \item A Measurement Study on Linux Container Security: Attacks and Countermeasures\cite{Measurement}
+            \item Container-Based Cloud Platform for Mobile Computation Offloading\cite{Offloading}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Some Golang/Rust}
+        \begin{enumerate}
+            \item The next generation of C/C++
+            \item High Concurrency, Memory Safe, Traits
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{ASLR/KASLR/Finer-grained KASLR}
+    \end{frame}
+
+    \begin{frame}
+        \begin{columns}
+            \begin{column}{0.5\textwidth}
+                \centering
+                \Large{Capabilities}
+            \end{column}
+            \begin{column}{0.5\textwidth}
+                \begin{center}
+                    \includegraphics[height=.95\textheight]{Screenshot_2021-03-24_17-04-35.png}
+                \end{center}
+            \end{column}
+        \end{columns}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Userland to kernelland}
+        擋掉 kernel exploit 可以從無法執行 或 可執行但不會成功 或 可執行但會被限制 等想法
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Interact with FHIR in docker}
+    \end{frame}
+
+    % ======================Current progress============================
+
+    \section{Current progress}
+    \begin{frame}
+        \frametitle{Map-reduce}
+        \includegraphics[width=\textwidth]{methFlow.pdf}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Map-reduce}
+        \begin{itemize}
+            \item \makebox[3cm]{Study: \hfill} \progressbar[width=4cm,heightr=1,filledcolor=red,
+                      emptycolor=blue!30]{0} $\frac{10}{\infty}$
+            \item \makebox[3cm]{Container Security: \hfill} \progressbar[width=4cm,heightr=1,filledcolor=red,
+                      emptycolor=blue!30]{0} read some
+            \item \makebox[3cm]{FHIR system: \hfill} \progressbar[width=4cm,heightr=1,filledcolor=red,
+                      emptycolor=blue!30]{0} Configured, can run.
+            \item \makebox[3cm]{Combination: \hfill} \progressbar[width=4cm,heightr=1,filledcolor=red,
+                      emptycolor=blue!30]{0} Of course: 0
+            \item \makebox[3cm]{專題競賽暨成果展: \hfill} \progressbar[width=4cm,heightr=1,filledcolor=red,
+                      emptycolor=blue!30]{0.181132} $\frac{48}{265} \sim 0.181$
+        \end{itemize}
+    \end{frame}
+
+    \section{Reference}
+    \begin{frame}[t, allowframebreaks]
+        \frametitle{References}
+        \printbibliography
+    \end{frame}
+
+\end{CJK*}
+\end{document}
