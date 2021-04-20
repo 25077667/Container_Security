@@ -1,0 +1,198 @@
+\documentclass{beamer}
+\usepackage{hyperref}
+\usepackage{CJK}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning}
+
+\graphicspath{ {./images/} }
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{tiffanyblue}{rgb}{0.04, 0.73, 0.71}
+
+\lstset{ 
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\ttfamily\footnotesize,% the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{red},       % keyword style
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=4,	                     % sets default tabsize to ˋ spaces
+}
+
+\setbeamercolor{block title}{use=structure,fg=white,bg=purple!75!black}
+\setbeamercolor{block body}{use=structure,fg=black,bg=white!20!white}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+
+\begin{document}
+\begin{CJK*}{UTF8}{bsmi}
+
+    \title{Intro. to Secure Programming}
+    \subtitle{Study Groups at NCYU}
+    \author{Chih-Hsuan Yang(SCC)}
+    \institute{\href{mailto:zxc25077667@pm.me}{zxc25077667@pm.me}}
+
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    \begin{frame}{About me}
+        \begin{itemize}
+            \item 楊志璿
+            \item NSYSU Information security club founder
+            \item \href{https://github.com/25077667/Resume/blob/main/resume/resume.pdf}{Resume}
+            \item Linux, Modern C++
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Outline}
+        \tableofcontents
+    \end{frame}
+
+    \section{Background}
+    \begin{frame}{Maslow’s pyramid of code review}
+        \centering\includegraphics[height=.9\textheight]{Maslow.png}
+    \end{frame}
+
+    \begin{frame}{Maslow’s pyramid of code review}
+        \begin{itemize}
+            \item  Correct  : 做到預期的行為了嗎？能夠處理各式邊際狀況嗎？即便其他人修改程式碼後，主體的行為仍符合預期嗎？
+            \item  \underline{Secure : 面對各式輸入條件或攻擊，程式仍可正確運作嗎？}
+            \item  Readable : 程式碼易於理解和維護嗎？
+            \item  Elegant  : 程式碼夠「美」嗎？可以簡潔又清晰地解決問題嗎？
+            \item  Altruist : 除了滿足現有的狀況，軟體在日後能夠重用嗎？甚至能夠抽離一部分元件，給其他專案使用嗎？
+        \end{itemize}
+    \end{frame}
+
+    \section{Programmer's qualities}
+    \begin{frame}{Binary search}
+        \lstinputlisting[xleftmargin=1em, language=C, linerange={1-15}, firstnumber=1]{src/bs.c}
+    \end{frame}
+
+    \begin{frame}{Binary search}
+        \lstinputlisting[xleftmargin=1em, language=C, linerange={17-31}, firstnumber=1]{src/bs.c}
+    \end{frame}
+
+    \begin{frame}{Binary search}
+        \begin{itemize}
+            \item 1946 idea
+            \item 1960 mathematical analysis
+            \item 1988 find bugs.
+        \end{itemize}
+        \begin{block}{Donald Knuth}
+            \setbeamercolor{block title}{bg=red!30,fg=black}
+            Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky.
+        \end{block}
+    \end{frame}
+
+    \begin{frame}{ReDoS}
+        \centering
+        \begin{columns}
+            \begin{column}{0.5\textwidth}
+                \includegraphics[width=1.1\textwidth]{redos1.jpg}
+                % \includegraphics[width=\textwidth]{redos2.jpg}
+            \end{column}
+            \begin{column}{0.5\textwidth}
+                % \includegraphics[width=\textwidth]{redos1.jpg}
+                \includegraphics[width=1.1\textwidth]{redos2.jpg}
+            \end{column}
+        \end{columns}
+    \end{frame}
+
+    \begin{frame}{Regex}
+        \begin{itemize}
+            \item Regular expression
+            \item Finite state machine
+        \end{itemize}
+        \centering
+        \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
+            \node[state,initial] (q_0)   {$q_0$};
+            \node[state] (q_1) [above right=of q_0] {$q_1$};
+            \node[state] (q_2) [below right=of q_0] {$q_2$};
+            \node[state,accepting](q_3) [below right=of q_1] {$q_3$};
+            \path[->]
+            (q_0) edge  node {0} (q_1)
+            edge  node [swap] {1} (q_2)
+            (q_1) edge  node  {1} (q_3)
+            edge [loop above] node {0} ()
+            (q_2) edge  node [swap] {0} (q_3)
+            edge [loop below] node {1} ();
+        \end{tikzpicture}
+    \end{frame}
+
+    \begin{frame}{Halting problem}
+        \^\ ((ab)*)+\$
+        \newline
+        \centering
+        \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
+            \node[state, initial] (q_0)   {a};
+            \node[state, accepting] (q_1) [right=of q_0] {b};
+            \path[->]
+            (q_0) edge  node {b} (q_1)
+            (q_1) edge  node {a} (q_0);
+        \end{tikzpicture}
+        \begin{block}{Input}
+            ababababababababababababa
+        \end{block}
+    \end{frame}
+
+    \begin{frame}{Halting problem}
+        The engine will first try (abababababababababababab) but that
+        fails because of that extra a. This causes catastrophic bracktracking,
+        because our pattern (ab)*, in a show of good faith, will release
+        one of it's captures (it will "backtrack") and let the outer
+        pattern try again.
+        \begin{itemize}
+            \item (abababababababababababab) - Nope
+            \item (ababababababababababab)(ab) - Nope
+            \item (abababababababababab)(abab) - Nope
+            \item (abababababababababab)(ab)(ab) - Nope
+            \item (ababababababababab)(ababab) - Nope
+            \item (ababababababababab)(abab)(ab) - Nope
+            \item (ababababababababab)(ab)(abab) - Nope
+            \item (ababababababababab)(ab)(ab)(ab) - Nope
+            \item \dots
+            \item (ab)(ab)(ab)(ab)(ab)(ab)(ab)(ab)(ab)(ab)(ab)(ab) - Nope
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Halting problem}
+        \begin{center}
+            \LARGE {NP-Hard}
+            $$\sum^{N}_{i=0}{dp[i] + dp[N-i]} \sim \sum^{N}_{i=0}{C^{N}_{i}} = 2^N -1 $$
+        \end{center}
+    \end{frame}
+
+\end{CJK*}
+\end{document}
