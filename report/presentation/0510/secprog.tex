@@ -190,7 +190,9 @@
     \begin{frame}{Halting problem}
         \begin{center}
             \LARGE {NP-Hard}
-            $$\sum^{N}_{i=0}{dp[i] + dp[N-i]} \sim \sum^{N}_{i=0}{C^{N}_{i}} = 2^N -1 $$
+            $$dp[0] = 1$$
+            $$dp[N]=\sum^{N}_{i=0}{dp[i] + dp[N-i]} $$
+            $$\sim \sum^{N}_{i=0}{C^{N}_{i}} = 2^N -1 $$
         \end{center}
     \end{frame}
 
