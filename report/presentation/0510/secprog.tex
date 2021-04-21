@@ -54,6 +54,12 @@
   \end{frame}
 }
 
+\hypersetup{
+    colorlinks = true,
+    linkbordercolor = {white},
+    linkcolor=blue
+}
+
 
 \begin{document}
 \begin{CJK*}{UTF8}{bsmi}
@@ -96,6 +102,7 @@
     \end{frame}
 
     \section{Programmer's qualities}
+    \subsection{Binary search}
     \begin{frame}{Binary search}
         \lstinputlisting[xleftmargin=1em, language=C, linerange={1-15}, firstnumber=1]{src/bs.c}
     \end{frame}
@@ -116,15 +123,22 @@
         \end{block}
     \end{frame}
 
+    \begin{frame}{Appendix here - Donald Knuth}
+        \begin{itemize}
+            \item \TeX
+            \item The Art of Computer Programming (TAOCP)
+        \end{itemize}
+        \includegraphics[height=.5\textheight]{Knuth.jpg}
+    \end{frame}
+
+    \subsection{ReDoS}
     \begin{frame}{ReDoS}
         \centering
         \begin{columns}
             \begin{column}{0.5\textwidth}
                 \includegraphics[width=1.1\textwidth]{redos1.jpg}
-                % \includegraphics[width=\textwidth]{redos2.jpg}
             \end{column}
             \begin{column}{0.5\textwidth}
-                % \includegraphics[width=\textwidth]{redos1.jpg}
                 \includegraphics[width=1.1\textwidth]{redos2.jpg}
             \end{column}
         \end{columns}
@@ -149,6 +163,10 @@
             (q_2) edge  node [swap] {0} (q_3)
             edge [loop below] node {1} ();
         \end{tikzpicture}
+    \end{frame}
+
+    \begin{frame}{Regex basic}
+
     \end{frame}
 
     \begin{frame}{Halting problem}
@@ -192,9 +210,71 @@
             \LARGE {NP-Hard}
             $$dp[0] = 1$$
             $$dp[N]=\sum^{N}_{i=0}{dp[i] + dp[N-i]} $$
-            $$\sim \sum^{N}_{i=0}{C^{N}_{i}} = 2^N -1 $$
+            $$\sim O(3^N) $$
         \end{center}
     \end{frame}
+
+    \begin{frame}{ReDoS}
+        So, please check what you did.\\
+        User provides regex should have a timeout threshold.\\
+        Don't believe the user inputs.
+    \end{frame}
+
+    \begin{frame}{Appendix here}
+        \begin{enumerate}
+            \item Halting problem
+            \item Dynamic programming
+            \item Finite state machine
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}{Halting problem}
+
+    \end{frame}
+
+    \begin{frame}{Dynamic programming}
+
+    \end{frame}
+
+    \begin{frame}{Finite state machine}
+
+    \end{frame}
+
+    \subsection{Integer overflow}
+    \begin{frame}{Integer overflow}
+        \centering
+        \begin{tabular}{ |p{2cm}||p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|  }
+            \hline
+            \multicolumn{6}{|c|}{Data Model}                \\
+            \hline
+            Type      & LP32 & ILP32 & LP64 & ILP64 & LLP64 \\
+            \hline
+            char      & 8    & 8     & 8    & 8     & 8     \\
+            short     & 16   & 16    & 16   & 16    & 16    \\
+            int       & 16   & 32    & 32   & 64    & 32    \\
+            long      & 32   & 32    & 64   & 64    & 32    \\
+            long long & 64   & 64    & 64   & 64    & 64    \\
+            pointer   & 32   & 32    & 64   & 64    & 64    \\
+            \hline
+        \end{tabular}
+    \end{frame}
+
+    \section{Memory safe}
+    \begin{frame}{Buffer overflow}
+
+    \end{frame}
+
+    \begin{frame}{Memory leakage}
+
+    \end{frame}
+
+
+
+    \section{Real cyber attacks}
+
+
+    \section{Labs}
+
 
 \end{CJK*}
 \end{document}
