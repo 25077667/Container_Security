@@ -4,6 +4,7 @@
 \usepackage{listings}
 \usepackage{multicol}
 \usepackage{tikz}
+\usepackage{pdfpages}   
 \usetikzlibrary{automata, positioning}
 
 \graphicspath{ {./images/} }
@@ -25,8 +26,8 @@
   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
   frame=single,	                   % adds a frame around the code
   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-  keywordstyle=\color{red},       % keyword style
-  morekeywords={*,...},            % if you want to add more keywords to the set
+  keywordstyle=\color{red},        % keyword style
+  morekeywords={\*, ...},          % if you want to add more keywords to the set
   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
   numbersep=5pt,                   % how far the line-numbers are from the code
   numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
@@ -59,7 +60,6 @@
     linkbordercolor = {white},
     linkcolor=blue
 }
-
 
 \begin{document}
 \begin{CJK*}{UTF8}{bsmi}
@@ -240,8 +240,8 @@
 
     \end{frame}
 
-    \subsection{Integer overflow}
-    \begin{frame}{Integer overflow}
+    \subsection{Arithmetic overflow}
+    \begin{frame}{Arithmetic overflow}
         \centering
         \begin{tabular}{ |p{2cm}||p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|  }
             \hline
@@ -259,6 +259,48 @@
         \end{tabular}
     \end{frame}
 
+    \begin{frame}{Bits field}
+        \centering
+        \includegraphics[width=\textwidth]{src/mem_layout/mem.pdf}
+    \end{frame}
+
+    \begin{frame}{2's complement}
+        Eg:
+        \begin{itemize}
+            \item 0x1234ABCD
+            \item 0x00BADBAD
+            \item 0xFFFFFFFF
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Integer overflow}
+        2002 FreeBSD
+        \lstinputlisting[language=C]{src/bsd.c}
+        What if maxlen $<$ 0?
+    \end{frame}
+
+    \begin{frame}{Integer overflow}
+        2002 External data representation (XDR)
+        \lstinputlisting[language=C]{src/malloc0.c}
+        What if ele\_cnt = $10^{22}$, ele\_size = $10^{10}$ ?
+    \end{frame}
+
+    \begin{frame}{Appendix here}
+        \begin{itemize}
+            \item Operating system
+            \item kernel
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Operating system}
+        \href{https://youtu.be/vWwvh3036Fw?t=149}{What is operating system?}
+        \centering\includegraphics[width=\textwidth]{Torvalds2012.jpg}
+    \end{frame}
+
+    \begin{frame}{Kernel}
+        \includegraphics[width=\textwidth]{Kernel_Layout.svg.png}
+    \end{frame}
+
     \section{Memory safe}
     \begin{frame}{Buffer overflow}
 
@@ -271,7 +313,9 @@
 
 
     \section{Real cyber attacks}
+    \begin{frame}{}
 
+    \end{frame}
 
     \section{Labs}
 

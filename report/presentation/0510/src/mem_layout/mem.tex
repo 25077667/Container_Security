@@ -1,0 +1,111 @@
+\documentclass{article}
+\usepackage[paperheight=1in,paperwidth=4in]{geometry}
+\usepackage{amstext}
+\usepackage{xcolor}
+
+\makeatletter
+\begingroup
+\lccode`\A=`\-
+\lccode`\N=`\N
+\lccode`\V=`\V
+\lowercase{\endgroup\def\memory@noval{ANoValue-}}
+\long\def\memory@fiBgb\fi#1#2{\fi}
+\long\def\memory@fiTBb\fi#1#2#3{\fi#2}
+\newcommand\memory@ifnovalF[1]%>>=
+  {%
+    \ifx\memory@noval#1%
+      \memory@fiBgb
+    \fi
+    \@firstofone
+  }%=<<
+\newcommand\memory@ifnovalTF[1]%>>=
+  {%
+    \ifx\memory@noval#1%
+      \memory@fiTBb
+    \fi
+    \@secondoftwo
+  }%=<<
+\newcommand\memory@Oarg[2]%>>=
+  {%
+    \@ifnextchar[{\memory@Oarg@{#2}}{#2{#1}}%
+  }%=<<
+\long\def\memory@Oarg@#1[#2]%>>=
+  {%
+    #1{#2}%
+  }%=<<
+\newcommand*\memory@oarg%>>=
+  {%
+    \memory@Oarg\memory@noval
+  }%=<<
+\newcommand*\memory@ifcoloropt%>>=
+  {%
+    \@ifnextchar[\memory@ifcoloropt@true\memory@ifcoloropt@false
+  }%=<<
+\long\def\memory@ifcoloropt@true#1\memory@noval#2#3%>>=
+  {%
+    #2%
+  }%=<<
+\long\def\memory@ifcoloropt@false#1\memory@noval#2#3%>>=
+  {%
+    #3%
+  }%=<<
+\newlength\memory@width
+\newlength\memory@height
+\setlength\memory@width{7pt}
+\setlength\memory@height{10pt}
+\newcount\memory@num
+\newcommand*\memory@blocks[2]%>>=
+  {%
+    \memory@num#1\relax
+    \fboxsep-\fboxrule
+    \memory@ifcoloropt#2\memory@noval
+      {\def\memory@color{\textcolor#2}}
+      {\def\memory@color{\textcolor{#2}}}%
+    \loop
+    \ifnum\memory@num>0
+      \fbox{\memory@color{\rule{\memory@width}{\memory@height}}}%
+      \kern-\fboxrule
+      \advance\memory@num\m@ne
+    \repeat
+  }%=<<
+% memory:
+%  [#1]: width
+%   #2 : count
+%  [#3]: height
+%   #4 : colour
+%  [#5]: label
+\newcommand*\memory%>>=
+  {%
+    \begingroup
+    \memory@oarg\memory@a
+  }%=<<
+\newcommand*\memory@a[2]%>>=
+  {%
+    % #1 width
+    % #2 count
+    \memory@ifnovalF{#1}{\memory@width#1\relax}%
+    \memory@Oarg\memory@height{\memory@b{#2}}%
+  }%=<<
+\newcommand*\memory@b[3]%>>=
+  {%
+    % #1 count
+    % #2 height
+    % #3 colour
+    \memory@ifnovalF{#2}{\memory@height#2\relax}%
+    \memory@oarg{\memory@c{#1}{#3}}%
+  }%=<<
+\newcommand*\memory@c[3]%>>=
+  {%
+    % #1 count
+    % #2 colour
+    % #3 label
+    \memory@ifnovalTF{#3}
+      {\ensuremath{\memory@blocks{#1}{#2}}}
+      {\ensuremath{\underbrace{\memory@blocks{#1}{#2}}_{\text{#3}}}}%
+    \endgroup
+  }%=<<
+\makeatother
+
+\begin{document}
+\centering\memory{32}{green}[{\makebox[0pt]{[int]}}]%
+\end{document}
