@@ -82,6 +82,11 @@
         \end{itemize}
     \end{frame}
 
+    \begin{frame}{A book}
+        \href{https://dwheeler.com/secure-programs/}{Secure Programming}\\
+        Not hard, no much pages.
+    \end{frame}
+
     \begin{frame}{Outline}
         \tableofcontents
     \end{frame}
@@ -102,7 +107,54 @@
     \end{frame}
 
     \section{Programmer's qualities}
-    \subsection{Binary search}
+
+    \subsection{Arithmetic overflow}
+    \begin{frame}{Arithmetic overflow}
+        \centering
+        \begin{tabular}{ |p{2cm}||p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|  }
+            \hline
+            \multicolumn{6}{|c|}{Data Model}                \\
+            \hline
+            Type      & LP32 & ILP32 & LP64 & ILP64 & LLP64 \\
+            \hline
+            char      & 8    & 8     & 8    & 8     & 8     \\
+            short     & 16   & 16    & 16   & 16    & 16    \\
+            int       & 16   & 32    & 32   & 64    & 32    \\
+            long      & 32   & 32    & 64   & 64    & 32    \\
+            long long & 64   & 64    & 64   & 64    & 64    \\
+            pointer   & 32   & 32    & 64   & 64    & 64    \\
+            \hline
+        \end{tabular}
+    \end{frame}
+
+    \begin{frame}{Bits field}
+        \centering
+        \includegraphics[width=\textwidth]{src/mem_layout/mem.pdf}
+    \end{frame}
+
+    \begin{frame}{2's complement}
+        Eg:
+        \begin{itemize}
+            \item 0x1234ABCD
+            \item 0x00BADBAD
+            \item 0xFFFFFFFF
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Integer overflow}
+        2002 FreeBSD
+        \lstinputlisting[language=C]{src/bsd.c}
+        What if maxlen $<$ 0?\\
+        Take maxlen as -1, try it!
+    \end{frame}
+
+    \begin{frame}{Integer overflow}
+        2002 External data representation (XDR)
+        \lstinputlisting[language=C]{src/malloc0.c}
+        What if ele\_cnt = $10^{22}$, ele\_size = $10^{10}$ ?\\
+        Try it!
+    \end{frame}
+
     \begin{frame}{Binary search}
         \lstinputlisting[xleftmargin=1em, language=C, linerange={1-15}, firstnumber=1]{src/bs.c}
     \end{frame}
@@ -159,14 +211,19 @@
             (q_0) edge  node {0} (q_1)
             edge  node [swap] {1} (q_2)
             (q_1) edge  node  {1} (q_3)
-            edge [loop above] node {0} ()
-            (q_2) edge  node [swap] {0} (q_3)
-            edge [loop below] node {1} ();
+            (q_2) edge  node [swap] {0} (q_3);
         \end{tikzpicture}
     \end{frame}
 
     \begin{frame}{Regex basic}
-
+        \href{https://regex101.com/}{Regex 101}\\
+        Let's try:\\
+        \begin{itemize}
+            \item A brown fox jumps over the lazy dog.
+            \item Student ID.
+            \item Binary search code.
+            \item Email.
+        \end{itemize}
     \end{frame}
 
     \begin{frame}{Halting problem}
@@ -207,7 +264,7 @@
 
     \begin{frame}{Halting problem}
         \begin{center}
-            \LARGE {NP-Hard}
+            \LARGE
             $$dp[0] = 1$$
             $$dp[N]=\sum^{N}_{i=0}{dp[i] + dp[N-i]} $$
             $$\sim O(3^N) $$
@@ -220,105 +277,82 @@
         Don't believe the user inputs.
     \end{frame}
 
-    \begin{frame}{Appendix here}
-        \begin{enumerate}
-            \item Halting problem
-            \item Dynamic programming
-            \item Finite state machine
-        \end{enumerate}
-    \end{frame}
-
-    \begin{frame}{Halting problem}
-
-    \end{frame}
-
-    \begin{frame}{Dynamic programming}
-
-    \end{frame}
-
-    \begin{frame}{Finite state machine}
-
-    \end{frame}
-
-    \subsection{Arithmetic overflow}
-    \begin{frame}{Arithmetic overflow}
-        \centering
-        \begin{tabular}{ |p{2cm}||p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|  }
-            \hline
-            \multicolumn{6}{|c|}{Data Model}                \\
-            \hline
-            Type      & LP32 & ILP32 & LP64 & ILP64 & LLP64 \\
-            \hline
-            char      & 8    & 8     & 8    & 8     & 8     \\
-            short     & 16   & 16    & 16   & 16    & 16    \\
-            int       & 16   & 32    & 32   & 64    & 32    \\
-            long      & 32   & 32    & 64   & 64    & 32    \\
-            long long & 64   & 64    & 64   & 64    & 64    \\
-            pointer   & 32   & 32    & 64   & 64    & 64    \\
-            \hline
-        \end{tabular}
-    \end{frame}
-
-    \begin{frame}{Bits field}
-        \centering
-        \includegraphics[width=\textwidth]{src/mem_layout/mem.pdf}
-    \end{frame}
-
-    \begin{frame}{2's complement}
-        Eg:
+    \begin{frame}{RAII}
         \begin{itemize}
-            \item 0x1234ABCD
-            \item 0x00BADBAD
-            \item 0xFFFFFFFF
+            \item Resource Acquisition Is Initialization
+            \item Bjarne Stroustrup
+            \item Constructor, destructor
+            \item Don't memorize.
         \end{itemize}
+        \includegraphics[height=.5\textheight]{Bjarne.jpg}
     \end{frame}
 
-    \begin{frame}{Integer overflow}
-        2002 FreeBSD
-        \lstinputlisting[language=C]{src/bsd.c}
-        What if maxlen $<$ 0?
+    \begin{frame}{RAII}
+        lifetime
     \end{frame}
 
-    \begin{frame}{Integer overflow}
-        2002 External data representation (XDR)
-        \lstinputlisting[language=C]{src/malloc0.c}
-        What if ele\_cnt = $10^{22}$, ele\_size = $10^{10}$ ?
+    \begin{frame}{RAII}
+        objects, files, sockets, locks
     \end{frame}
 
-    \begin{frame}{Appendix here}
-        \begin{itemize}
-            \item Operating system
-            \item kernel
-        \end{itemize}
-    \end{frame}
-
-    \begin{frame}{Operating system}
-        \href{https://youtu.be/vWwvh3036Fw?t=149}{What is operating system?}
-        \centering\includegraphics[width=\textwidth]{Torvalds2012.jpg}
-    \end{frame}
-
-    \begin{frame}{Kernel}
-        \includegraphics[width=\textwidth]{Kernel_Layout.svg.png}
+    \begin{frame}{RAII}
+        exceptions
     \end{frame}
 
     \section{Memory safe}
     \begin{frame}{Buffer overflow}
+        sample code.
+    \end{frame}
 
+    \begin{frame}{Buffer overflow}
+        Try some code.\\
+        strcpy, strncpy
+    \end{frame}
+
+    \begin{frame}{Buffer overflow}
+        bof on stack
+    \end{frame}
+
+    \begin{frame}{Buffer overflow}
+        canary
     \end{frame}
 
     \begin{frame}{Memory leakage}
-
+        sample code
     \end{frame}
 
-
-
-    \section{Real cyber attacks}
-    \begin{frame}{}
-
+    \begin{frame}{Memory leakage}
+        Try some codes.
+        new, delete.
     \end{frame}
 
-    \section{Labs}
+    \begin{frame}{Memory leakage}
+        Garbage Collection
+    \end{frame}
 
+    \begin{frame}{Memory leakage}
+        RAII
+    \end{frame}
+
+    \section{Call out to other routines}
+    \begin{frame}{SQL injection}
+        not checking, string concatenation
+    \end{frame}
+
+    \begin{frame}{Command line injection}
+        not checking, don't call commands directly.
+    \end{frame}
+
+    \section{Others}
+    \begin{frame}{Language features}
+        Strong Type, week type, inheritance
+    \end{frame}
+
+    \begin{frame}{Passwords}
+        hash
+    \end{frame}
+
+    % \section{Labs}
 
 \end{CJK*}
 \end{document}
