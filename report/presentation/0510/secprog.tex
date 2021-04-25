@@ -43,6 +43,8 @@
 \setbeamercolor{block title}{use=structure,fg=white,bg=purple!75!black}
 \setbeamercolor{block body}{use=structure,fg=black,bg=white!20!white}
 \setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}[subsections numbered]
 
 \AtBeginSection[]{
   \begin{frame}
@@ -88,7 +90,9 @@
     \end{frame}
 
     \begin{frame}{Outline}
-        \tableofcontents
+        \begin{multicols}{2}
+            \tableofcontents
+        \end{multicols}
     \end{frame}
 
     \section{Background}
@@ -143,24 +147,24 @@
 
     \begin{frame}{Integer overflow}
         2002 FreeBSD
-        \lstinputlisting[language=C]{src/bsd.c}
+        \lstinputlisting[language=C]{src/overflow/bsd.c}
         What if maxlen $<$ 0?\\
         Take maxlen as -1, try it!
     \end{frame}
 
     \begin{frame}{Integer overflow}
         2002 External data representation (XDR)
-        \lstinputlisting[language=C]{src/malloc0.c}
+        \lstinputlisting[language=C]{src/overflow/malloc0.c}
         What if ele\_cnt = $10^{22}$, ele\_size = $10^{10}$ ?\\
         Try it!
     \end{frame}
 
     \begin{frame}{Binary search}
-        \lstinputlisting[xleftmargin=1em, language=C, linerange={1-15}, firstnumber=1]{src/bs.c}
+        \lstinputlisting[xleftmargin=1em, language=C, linerange={1-15}, firstnumber=1]{src/overflow/bs.c}
     \end{frame}
 
     \begin{frame}{Binary search}
-        \lstinputlisting[xleftmargin=1em, language=C, linerange={17-31}, firstnumber=1]{src/bs.c}
+        \lstinputlisting[xleftmargin=1em, language=C, linerange={17-31}, firstnumber=1]{src/overflow/bs.c}
     \end{frame}
 
     \begin{frame}{Binary search}
@@ -279,25 +283,29 @@
 
     \subsection{RAII}
     \begin{frame}{RAII}
-        \begin{itemize}
-            \item Resource Acquisition Is Initialization
-            \item Bjarne Stroustrup
-            \item Constructor, destructor
-            \item Don't memorize.
-        \end{itemize}
-        \includegraphics[height=.5\textheight]{Bjarne.jpg}
+        \begin{multicols*}{2}
+            \begin{itemize}
+                \item Resource Acquisition Is Initialization
+                \item Bjarne Stroustrup
+                \item Constructor, destructor
+                \item Don't memorize.
+            \end{itemize}
+            \includegraphics[height=.6\textheight]{Bjarne.jpg}
+        \end{multicols*}
     \end{frame}
 
-    \begin{frame}{RAII}
-        lifetime
+    \begin{frame}{RAII - Obj}
+        The Obj.hpp
+        \lstinputlisting[language=C++]{src/RAII/Obj.hpp}
     \end{frame}
 
-    \begin{frame}{RAII}
-        objects, files, sockets, locks
+    \begin{frame}{RAII - lifetime}
+        Recall: Objects.\\
+        \lstinputlisting[language=C++, basicstyle=\ttfamily\scriptsize]{src/RAII/lifetime.cpp}
     \end{frame}
 
-    \begin{frame}{RAII}
-        exceptions
+    \begin{frame}{RAII - exceptions}
+        \lstinputlisting[language=C++]{src/RAII/excepttion.cpp}
     \end{frame}
 
     \section{Memory safe}
@@ -345,6 +353,16 @@
 
     \begin{frame}{Command line injection}
         not checking, don't call commands directly.
+    \end{frame}
+
+    \subsection{Parsing}
+    \begin{frame}{Exploiting URL Parser in Trending Programming Languages}
+        \href{https://hitcon.org/2017/CMT/slide-files/d2_r0_keynote.pdf}{Orange - SSRF HITCON 2017}
+        \begin{itemize}
+            \item NodeJS Unicode Failure
+            \item GLibc NSS Features
+            \item Abusing IDNA Standard
+        \end{itemize}
     \end{frame}
 
     \section{Others}
