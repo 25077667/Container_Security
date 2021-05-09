@@ -6,5 +6,9 @@
         "microservices",
         "mmap",
         "nsysu"
-    ]
+    ],
+    "files.associations": {
+        "functional": "cpp",
+        "ostream": "cpp"
+    }
 }

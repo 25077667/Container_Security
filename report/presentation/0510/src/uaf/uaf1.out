@@ -1,0 +1,13 @@
+Checking uaf1.cpp ...
+uaf1.cpp:7:20: error: Returning object that points to local variable 'loc_str' that will be invalid when returning. [returnDanglingLifetime]
+    return std::ref(loc_str);
+                   ^
+uaf1.cpp:7:21: note: Passed to 'ref'.
+    return std::ref(loc_str);
+                    ^
+uaf1.cpp:6:17: note: Variable created here.
+    std::string loc_str("loc_str");
+                ^
+uaf1.cpp:7:20: note: Returning object that points to local variable 'loc_str' that will be invalid when returning.
+    return std::ref(loc_str);
+                   ^

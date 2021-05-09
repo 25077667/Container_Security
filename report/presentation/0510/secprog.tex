@@ -6,6 +6,13 @@
 \usepackage{tikz}
 \usepackage{pdfpages}   
 \usetikzlibrary{automata, positioning}
+\usepackage{xcolor}
+\usepackage{verbatim}
+\usepackage{etoolbox}
+
+\makeatletter
+\patchcmd{\verbatim@input}{\@verbatim}{\scriptsize\@verbatim}{}{}
+\makeatother
 
 \graphicspath{ {./images/} }
 
@@ -37,7 +44,7 @@
   showtabs=false,                  % show tabs within strings adding particular underscores
   stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
   stringstyle=\color{mymauve},     % string literal style
-  tabsize=4,	                     % sets default tabsize to ˋ spaces
+  tabsize=4,	                   % sets default tabsize to ˋ spaces
 }
 
 \setbeamercolor{block title}{use=structure,fg=white,bg=purple!75!black}
@@ -60,13 +67,20 @@
 \hypersetup{
     colorlinks = true,
     linkbordercolor = {white},
-    linkcolor=blue
+    linkcolor=mymauve
+}
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
 }
 
 \begin{document}
 \begin{CJK*}{UTF8}{bsmi}
 
-    \title{Intro. to Secure Programming}
+    \title{Introduction of Secure Programming}
     \subtitle{Study Groups at NCYU}
     \author{Chih-Hsuan Yang(SCC)}
     \institute{\href{mailto:zxc25077667@pm.me}{zxc25077667@pm.me}}
@@ -84,9 +98,20 @@
         \end{itemize}
     \end{frame}
 
-    \begin{frame}{A book}
-        \href{https://dwheeler.com/secure-programs/}{Secure Programming}\\
-        Not hard, no much pages.
+    \begin{frame}{Before talk}
+        \begin{multicols*}{2}
+            \begin{beamerboxesrounded}[width=.43\textwidth]{A book}
+                \href{https://dwheeler.com/secure-programs/}{Secure Programming}\\
+                Not hard, no much pages.
+            \end{beamerboxesrounded}
+            \begin{beamerboxesrounded}[width=.47\textwidth]{Stories}
+                TA experience.\\
+                List some cases.
+            \end{beamerboxesrounded}
+        \end{multicols*}
+        It is impossible of talking about secure programming without programming.\\
+        Focus on fundamental qualities, security rather than attacks.\\
+        Great oaks from little acorns grow.\\
     \end{frame}
 
     \begin{frame}{Outline}
@@ -155,7 +180,7 @@
     \begin{frame}{Integer overflow}
         2002 External data representation (XDR)
         \lstinputlisting[language=C]{src/overflow/malloc0.c}
-        What if ele\_cnt = $10^{22}$, ele\_size = $10^{10}$ ?\\
+        What if ele\_cnt = $2^{22}$, ele\_size = $2^{10}$ ?\\
         Try it!
     \end{frame}
 
@@ -235,9 +260,11 @@
         \newline
         \centering
         \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
-            \node[state, initial] (q_0)   {a};
+            \node[state, initial, accepting] (q)   {};
+            \node[state] (q_0) [right=of q]  {a};
             \node[state, accepting] (q_1) [right=of q_0] {b};
             \path[->]
+            (q) edge node {start} (q_0)
             (q_0) edge  node {b} (q_1)
             (q_1) edge  node {a} (q_0);
         \end{tikzpicture}
@@ -276,7 +303,7 @@
     \end{frame}
 
     \begin{frame}{ReDoS}
-        So, please check what you did.\\
+        So, please \textcolor{red}{check} what you did.\\
         User provides regex should have a timeout threshold.\\
         Don't believe the user inputs.
     \end{frame}
@@ -292,6 +319,8 @@
             \end{itemize}
             \includegraphics[height=.6\textheight]{Bjarne.jpg}
         \end{multicols*}
+        \href{https://pretalx.com/coscup-2021/talk/review/WAJ7MELUXRJEG9US3AZNNMKRZTLWEL73}
+        {變禿了，也變強了。Modern C++的逆襲}
     \end{frame}
 
     \begin{frame}{RAII - Obj}
@@ -309,50 +338,119 @@
     \end{frame}
 
     \section{Memory safe}
+    \begin{frame}
+        \centering
+        \Large
+        Common mistakes of junior programmers.
+    \end{frame}
+
+    % Out of bound accessing
     \subsection{Buffer overflow}
     \begin{frame}{Buffer overflow}
-        sample code.
+        \lstinputlisting[language=C++]{src/bof/bof1.c}
     \end{frame}
 
     \begin{frame}{Buffer overflow}
-        Try some code.\\
         strcpy, strncpy
+        \lstinputlisting[language=C++]{src/bof/bof2.c}
+        \lstinputlisting[language=C++]{src/bof/bof3.c}
+    \end{frame}
+
+    \begin{frame}{Buffer overflow}
+        \centering\includegraphics[width=.8\textwidth]{32bit_mem_layout.png}\\
+        Test for stack pointer.
     \end{frame}
 
     \begin{frame}{Buffer overflow}
         bof on stack
+        \lstinputlisting[language=C++]{src/bof/bof1.c}
     \end{frame}
 
     \begin{frame}{Buffer overflow}
-        canary
+        \includegraphics[width=.9\textwidth]{canary.png}
+    \end{frame}
+
+    \begin{frame}{Buffer overflow}
+        canary, so why the strcpy will crash?
+        \lstinputlisting[language=C++]{src/bof/bof2.c}
+    \end{frame}
+
+    \begin{frame}
+        \centering
+        \Huge Out of bound!
+    \end{frame}
+
+    \subsection{Use after free}
+    \begin{frame}{Use after free}
+        Why?\\
+        Performance issue.
+        \begin{itemize}
+            \item History
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Use after free}
+        \lstinputlisting[language=C++]{src/uaf/uaf1.cpp}
+    \end{frame}
+
+    \begin{frame}{Use after free}
+        \$ cppcheck src/uaf/uaf1.cpp
+        \lstset{emph={
+                    error,
+                },emphstyle={\color{red}\bfseries}
+        }
+        \lstinputlisting[numbers=none]{src/uaf/uaf1.out}
+    \end{frame}
+
+    \begin{frame}{Don't underestimate this}
+        \href{https://www.zerodayinitiative.com/blog/2021/5/3/cve-2021-26900-privilege-escalation-via-a-use-after-free-vulnerability-in-win32k}
+        {Privilege Escalation Via a Use After Free Vulnerability In win32k}
+        \href{https://www.cvedetails.com/cve-details.php?cve_id=CVE-2021-21214}
+        {Use after free in Network API in Google Chrome}\\
+        \href{https://www.mozilla.org/en-US/security/advisories/mfsa2021-16/\#CVE-2021-23995}
+        {Firefox, Use-after-free in Responsive Design Mode}\\
+        \dots
     \end{frame}
 
     \subsection{Memory leakage}
-    \begin{frame}{Memory leakage}
-        sample code
+    \begin{frame}{Why memory leakage is cirtical?}
+        ATM, cashier counters (Windows 95, XP)\\
+        Ubuntu desktop 18.04 (Gnome extension)\\
+        Reboot, restart
     \end{frame}
 
     \begin{frame}{Memory leakage}
-        Try some codes.\\
-        new, delete.
+        \lstinputlisting[language=C++]{src/mem_leak/mem_leak1.cpp}
     \end{frame}
 
     \begin{frame}{Memory leakage}
-        Garbage Collection
+        \lstinputlisting[language=C++, linerange={43-51, 53-55, 58-58, 60-61, 67}]{src/mem_leak/mem_leak2.cpp}
     \end{frame}
 
-    \begin{frame}{Memory leakage}
-        RAII
+    \begin{frame}{Memory leakage - Garbage Collection \& RAII}
+        \begin{multicols*}{2}
+            \begin{beamerboxesrounded}[width=.45\textwidth]{GC}
+                Reference counter.\\
+                Tracing garbage collection.
+            \end{beamerboxesrounded}
+            \begin{beamerboxesrounded}[width=.45\textwidth]{RAII}
+                Resource Acquisition Is Initialization\\
+                Smart pointer
+            \end{beamerboxesrounded}
+        \end{multicols*}
     \end{frame}
 
     \section{Call out to other routines}
     \subsection{Injections}
     \begin{frame}{SQL injection}
-        not checking, string concatenation
+        not checked, string concatenation\\
+        \href{http://demo.orange.tw/sqli/}{Test for SQLi}
+        \lstinputlisting[language=php]{src/call_out/sqli.php}
     \end{frame}
 
     \begin{frame}{Command line injection}
-        not checking, don't call commands directly.
+        Think about the online judge.\\
+        \lstinputlisting[language=C]{src/call_out/cmdi.cpp}
     \end{frame}
 
     \subsection{Parsing}
@@ -368,17 +466,44 @@
     \section{Others}
     \subsection{Language features}
     \begin{frame}{Strong types, week types}
-        Duck typing\\
-        Philosophy
+        \begin{multicols*}{2}
+            \includegraphics[width=.5\textwidth]{js_meme1.jpg}
+            \includegraphics[width=.5\textwidth]{js_meme2.png}
+        \end{multicols*}
     \end{frame}
 
-    \begin{frame}{Inheritance}
-        Python
+    \begin{frame}{Strong types, week types}
+        Philosophy: essentialism
+
+        \begin{beamerboxesrounded}[]{Duck typing}
+            If it walks like a duck and it quacks like a duck, then it must be a duck.
+        \end{beamerboxesrounded}
     \end{frame}
 
     \subsection{Authentication}
     \begin{frame}{Passwords}
-        hash
+        Hash!! Let's try some.
+        \includegraphics[width=\textwidth]{hash.png}
+    \end{frame}
+
+    \begin{frame}{Oh, no PHP}
+        \lstinputlisting[language=php]{src/others/weak_hash.php}
+        pass: aabg7XSs：Success!\\
+        pass: QNKCDZO：Success! \textcolor{orange}{?????}
+    \end{frame}
+
+    \begin{frame}{Oh, no PHP}
+        \lstinputlisting[language=php]{src/others/weak_hash.php}
+        pass: aabg7XSs $\to$ 0e087386482136013740957780965295\\
+        pass: QNKCDZO $\to$ 0e830400451993494058024219903391
+    \end{frame}
+
+    \begin{frame}{Oh, no PHP}
+        \lstinputlisting[language=php]{src/others/weak_hash.php}
+        "0e087386482136013740957780965295" \\
+        $\to$ cast to number \\
+        $\to$ scientific notation \\
+        $\to$ 0eXXXX = 0
     \end{frame}
 
     % \section{Labs}
