@@ -6,7 +6,7 @@ RUN mkdir /var/run/sshd && chmod 755 -R /var/run/sshd && touch /var/log/auth.log
 RUN for i in $(seq 40); do \
     useradd -ms /bin/bash "u$i"; \
     echo -n "u$i:" >> pw.txt; \
-    head -c "$i"3 /dev/random | openssl SHA256 | awk '{print $2}' >> pw.txt; \
+    head -c "$i"3 /dev/random | openssl SHA256 | awk '{print $2}' | head -c 8 >> pw.txt; \
     cat pw.txt | chpasswd; \
     cat pw.txt && rm pw.txt; \
     ln -sf /res /home/u"$i"/res;\
