@@ -8,7 +8,7 @@ RUN for i in $(seq 40); do \
     echo -n "u$i:" >> pw.txt; \
     head -c "$i"3 /dev/random | openssl SHA256 | awk '{print $2}' | head -c 8 >> pw.txt; \
     cat pw.txt | chpasswd; \
-    cat pw.txt && rm pw.txt; \
+    cat pw.txt && echo && rm pw.txt; \
     ln -sf /res /home/u"$i"/res;\
     done
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
