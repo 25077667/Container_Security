@@ -1,0 +1,130 @@
+\documentclass{beamer}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\usepackage{progressbar}
+\usepackage[final]{listings}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{CJKutf8}
+\usepackage{multicol}
+\graphicspath{ {./images/} }
+\usetheme{AnnArbor}
+
+
+\title{The Container Security in Healthcare Data Exchange System}
+\subtitle{Bachelor's degree graduation project}
+\author{Chih-Hsuan Yang}
+\institute{National Sun Yat-sen University\\
+Advisor: Chun-I Fan
+}
+\date{\today}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+\begin{document}
+\begin{CJK*}{UTF8}{bsmi}
+
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    \begin{frame}{Outline}
+        \begin{multicols}{2}
+            \tableofcontents
+        \end{multicols}
+    \end{frame}
+
+    \section{Background}
+    \begin{frame}{Backgriund}
+        \centering \Huge
+        Researching takes time.
+    \end{frame}
+
+    \begin{frame}
+        \includegraphics[width=\textwidth]{IMG_6551.jpg}
+    \end{frame}
+
+    \begin{frame}
+        \includegraphics[width=\textwidth]{IMG_6549.jpg}
+    \end{frame}
+
+    \section{Research}
+    \begin{frame}{2017衛生福利部電子病歷資訊安全檢查表}
+        Change password?
+        \includegraphics[width=\textwidth]{Screenshot_2021-05-11_15-25-16.png}\\
+        Parallel permission
+        \includegraphics[width=\textwidth]{Screenshot_2021-05-11_15-25-16.png}\\
+        Without encryption?
+        \includegraphics[width=\textwidth]{Screenshot_2021-05-11_15-23-18.png}
+    \end{frame}
+    \begin{frame}{2017衛生福利部電子病歷資訊安全檢查表}
+        FTP? SFTP?
+        \includegraphics[width=\textwidth]{Screenshot_2021-05-11_15-28-25.png}
+        Without certificate?
+        \includegraphics[width=\textwidth]{Screenshot_2021-05-11_15-24-16.png}
+    \end{frame}
+
+    \begin{frame}
+        \centering
+        \Large
+        嚴重懷疑沒有經過資安專家審核
+    \end{frame}
+
+    \section{Linux source code}
+    \begin{frame}
+        static \_\_latent\_entropy struct task\_struct *copy\_process
+        \begin{itemize}
+            \item \href{https://github.com/torvalds/linux/blob/master/kernel/fork.c\#L1851-L2399}{fork.c L1851-2399}
+            \item 549
+        \end{itemize}
+
+        task\_struct
+        \begin{itemize}
+            \item \href{https://github.com/torvalds/linux/blob/master/include/linux/sched.h\#L649-L1401}{sched.h L649-1401}
+            \item 753
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Key part - *copy\_process}
+
+    \end{frame}
+
+    \begin{frame}{Key part - task\_struct}
+
+    \end{frame}
+
+
+    \section{Formal verification}
+    \begin{frame}
+        \begin{itemize}
+            \item Abstract Interpretation
+            \item Formal Model Checking
+            \item Theory Prover
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{$\lambda$-calculus}
+
+    \end{frame}
+
+    \section{Privacy}
+    \begin{frame}{Privacy is not only federated learning}
+        \includegraphics[width=\textwidth]{fl.png}
+    \end{frame}
+
+    \begin{frame}{}
+
+    \end{frame}
+\end{CJK*}
+\end{document}
