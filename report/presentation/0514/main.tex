@@ -8,9 +8,13 @@
 \usepackage{tcolorbox}
 \usepackage{hyperref}
 \usepackage{CJKutf8}
+\usepackage{amssymb}
 \usepackage{multicol}
+
 \graphicspath{ {./images/} }
 \usetheme{AnnArbor}
+\addbibresource{main.bib}
+\usetikzlibrary{positioning,calc,shapes.multipart}
 
 
 \title{The Container Security in Healthcare Data Exchange System}
@@ -59,7 +63,7 @@ Advisor: Chun-I Fan
         \includegraphics[width=\textwidth]{IMG_6549.jpg}
     \end{frame}
 
-    \section{Research}
+    \section{EEC \& EMR}
     \begin{frame}{2017衛生福利部電子病歷資訊安全檢查表}
         Change password?
         \includegraphics[width=\textwidth]{Screenshot_2021-05-11_15-25-16.png}\\
@@ -96,26 +100,51 @@ Advisor: Chun-I Fan
         \end{itemize}
     \end{frame}
 
-    \begin{frame}{Key part - *copy\_process}
-
-    \end{frame}
-
-    \begin{frame}{Key part - task\_struct}
-
-    \end{frame}
-
-
     \section{Formal verification}
-    \begin{frame}
-        \begin{itemize}
-            \item Abstract Interpretation
-            \item Formal Model Checking
-            \item Theory Prover
-        \end{itemize}
+    \begin{frame}{{Formal verification}}
+        \begin{multicols}{2}
+            \begin{itemize}
+                \setlength\itemsep{1em}
+                \item Abstract Interpretation
+                \item Formal Model Checking
+                \item Theory Prover
+            \end{itemize}
+            \cite{Software_Engineering_and_Formal_Methods}
+            \includegraphics[height=.8\textheight]{Software_Engineering_and_Formal_Methods.png}
+        \end{multicols}
+
+    \end{frame}
+
+    \begin{frame}{Formal verification}
+        System architecture for the sample kernel \cite{10.5555/3026877.3026928}
+        \includegraphics[width=\textwidth]{Screenshot_2021-05-13_15-48-01.png}
+    \end{frame}
+
+    \begin{frame}{Formal verification}
+        The contextual refinement property about the $s$ kernel can be stated as:
+        $$\forall P, [[K \& P]]_{x86mc} \subseteq [[P]]_{s}$$
+
+    \end{frame}
+
+    \begin{frame}{Formal verification}
+        $L$: each layer interface \\
+        $A$: an active thread set \\
+        $EC(L,A)$: set of valid environment contexts\\
+        $\prod_{L(A)}(P,\epsilon)$: thread-modular machine\\
+        The semantics for a concurrent layer machine L is then:
+        $$[[P]]_{L(A)} = \{\prod_{L(A)}(P,\epsilon) \vert \epsilon \in  EC(L,A)\}$$
     \end{frame}
 
     \begin{frame}{$\lambda$-calculus}
+        Formal Small-step Verification of a Call-by-value Lambda Calculus Machine \cite{Kunze_2018}
+        \begin{beamerboxesrounded}[shadow=true,width=\textwidth]{Stack}
+            $$(T, V ) \gg \sigma := closed(T, V) \wedge (\delta_0@T, \delta_1@V ) = \sigma$$
+        \end{beamerboxesrounded}
 
+        \begin{beamerboxesrounded}[shadow=true,width=\textwidth]{Heap}
+            $$(T, V, H) \gg (\dot{T}, \dot{V}) \:= T \gg_H \dot{T} \wedge V \gg_H \dot{V}$$
+
+        \end{beamerboxesrounded}
     \end{frame}
 
     \section{Privacy}
@@ -123,8 +152,31 @@ Advisor: Chun-I Fan
         \includegraphics[width=\textwidth]{fl.png}
     \end{frame}
 
-    \begin{frame}{}
-
+    \begin{frame}{Attribute Based Homomorphic Encryption}
+        \def\customHeight{\vrule height 3cm width 0pt}
+        \begin{tikzpicture}
+            \node (hospital)[rectangle, draw, minimum height=6cm]{hos.};
+            \node (guard)[rectangle split, rectangle split parts=2, draw,
+                right of=hospital, xshift=2cm]{\customHeight guard \nodepart{two}\customHeight service};
+            \node (I)[rectangle, draw, minimum height=6cm,right of=guard,xshift=2cm]{I};
+            \node (user)[rectangle, draw, minimum height=6cm,right of=I,xshift=3cm]{user};
+            \draw[<-] ($(I.north east)!0.25!(I.south east)$) -- node[below] {ABE(model)} ($(user.north west)!0.25!(user.south west)$);
+            \draw[<-] ($(guard.north east)!0.25!(guard.south east)$) -- node[below] {ABE(model)} ($(I.north west)!0.25!(I.south west)$);
+            \draw[<->] ($(hospital.north east)!0.25!(hospital.south east)$) -- node[below] {model} ($(guard.north west)!0.25!(guard.south west)$);
+            \draw[<-] ($(I.north east)!0.5!(I.south east)$) -- node[below] {req} ($(user.north west)!0.5!(user.south west)$);
+            \draw[<->] ($(guard.north east)!0.65!(guard.south east)$) -- node[below] {req} ($(I.north west)!0.5!(I.south west)$);
+            \draw[<-] ($(I.north east)!0.75!(I.south east)$) -- node[below] {req} ($(user.north west)!0.75!(user.south west)$);
+            \draw[<->] ($(guard.north east)!0.75!(guard.south east)$) -- node[below] {req} ($(I.north west)!0.75!(I.south west)$);
+        \end{tikzpicture}
     \end{frame}
+
+    \section{References}
+    \begin{frame}[t, allowframebreaks]
+        \frametitle{References}
+        \setbeamertemplate{bibliography item}{\insertbiblabel}
+        \renewcommand*{\bibfont}{\scriptsize}
+        \printbibliography
+    \end{frame}
+
 \end{CJK*}
 \end{document}
