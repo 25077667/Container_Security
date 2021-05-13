@@ -155,10 +155,10 @@ Advisor: Chun-I Fan
     \begin{frame}{Attribute Based Homomorphic Encryption}
         \def\customHeight{\vrule height 3cm width 0pt}
         \begin{tikzpicture}
-            \node (hospital)[rectangle, draw, minimum height=6cm]{hos.};
+            \node (hospital)[rectangle, draw, minimum height=6cm]{hospital};
             \node (guard)[rectangle split, rectangle split parts=2, draw,
                 right of=hospital, xshift=2cm]{\customHeight guard \nodepart{two}\customHeight service};
-            \node (I)[rectangle, draw, minimum height=6cm,right of=guard,xshift=2cm]{I};
+            \node (I)[rectangle, draw, minimum height=6cm,right of=guard,xshift=3cm]{I};
             \node (user)[rectangle, draw, minimum height=6cm,right of=I,xshift=3cm]{user};
             \draw[<-] ($(I.north east)!0.25!(I.south east)$) -- node[below] {ABE(model)} ($(user.north west)!0.25!(user.south west)$);
             \draw[<-] ($(guard.north east)!0.25!(guard.south east)$) -- node[below] {ABE(model)} ($(I.north west)!0.25!(I.south west)$);
