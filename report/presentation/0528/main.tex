@@ -1,0 +1,108 @@
+\documentclass{beamer}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\usepackage{progressbar}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{CJKutf8}
+\usepackage{multicol}
+\usepackage{pdfpages}
+\usepackage{graphicx}
+
+\graphicspath{ {./images/} }
+\usetheme{AnnArbor}
+\addbibresource{main.bib}
+\usetikzlibrary{positioning,calc,shapes.multipart}
+
+
+\title{The Container Security in Healthcare Data Exchange System}
+\subtitle{Bachelor's degree graduation project}
+\author{Chih-Hsuan Yang}
+\institute{National Sun Yat-sen University\\
+Advisor: Chun-I Fan
+}
+\date{\today}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+\begin{document}
+\begin{CJK*}{UTF8}{bsmi}
+
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    \begin{frame}{Outline}
+        \begin{multicols}{2}
+            \tableofcontents
+        \end{multicols}
+    \end{frame}
+
+
+    \section{Outcome}
+
+     {
+      \setbeamercolor{background canvas}{bg=}
+      \includepdf[width=.9\textwidth, pages={5, 16-18, 21}]{../0514/main.pdf}
+     }
+
+    \begin{frame}
+        \Huge \centering
+        Fix the previous test
+    \end{frame}
+
+    {
+    \setbeamercolor{background canvas}{bg=}
+    \includepdf[width=.9\textwidth, page=5]{../0416/main.pdf}
+    }
+
+    \begin{frame}{The User Mode Linux}
+        \begin{multicols*}{2}
+            \makebox[\linewidth]{\includegraphics[trim=0 0 0 5cm, height=1.1\textheight]{src/216.pdf}}
+            \includegraphics[trim=0 0 0 1cm, width=\linewidth]{the_user_mode_linux.jpg}
+        \end{multicols*}
+
+    \end{frame}
+
+
+    \section{Study}
+     {
+      \setbeamercolor{background canvas}{bg=}
+      \includepdf[width=.9\textwidth, pages={8-14}]{../0514/main.pdf}
+
+      {\fontsize{0cm}{0cm} \selectfont{
+              \cite{Software_Engineering_and_Formal_Methods, 10.5555/3026877.3026928, Kunze_2018}
+          }}
+     }
+
+    \section{Working flow}
+    \begin{frame}
+        \includegraphics[width=\textwidth]{../0416/methFlow.pdf}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Time bar}
+        \begin{itemize}
+            \item \makebox[3cm]{專題競賽暨成果展: \hfill} \progressbar[width=4cm,heightr=1,filledcolor=red,
+                      emptycolor=blue!30]{0.42641509434} $\frac{113}{265} \sim 0.4264$
+        \end{itemize}
+    \end{frame}
+
+    \section{References}
+    \begin{frame}[t, allowframebreaks]
+        \frametitle{References}
+        \setbeamertemplate{bibliography item}{\insertbiblabel}
+        \renewcommand*{\bibfont}{\scriptsize}
+        \printbibliography
+    \end{frame}
+
+\end{CJK*}
+\end{document}
