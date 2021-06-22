@@ -20,7 +20,7 @@
 \usetikzlibrary{positioning, fit}
 \graphicspath{{./images/}}
 \usepackage{geometry}
-\geometry{margin=5cm}
+\geometry{margin=4cm}
 \setlength{\parindent}{2em}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -101,6 +101,7 @@ take FHIR to simulate the real-world threat and purpose soliciting a secure solu
 protect patient's privacy.
 
 % ================ Motivation ================
+\newpage
 
 \section{Introduction and Motivation}
 The Container is a virtualization technique to package applications and dependencies to run in
@@ -141,6 +142,7 @@ system to exchange the EHR, an easy-deployment, effective-execution, and secure 
 required. It also is the major goal of this project.
 
 % ================ Related works ================
+\newpage
 
 \section{Related Works}
 This section will focus on (\RN{1}) \hyperlink{preliminaries}{preliminaries} (\RN{2}) \hyperlink{security}{containter security}, and (\RN{3})
@@ -167,7 +169,7 @@ User namespaces can be nested; that is, each user namespace—except the initial
 namespace—has a parent user namespace and can have zero or more child user namespaces
 \cite{user_namespaces}.
 
-\begin{wrapfigure}[13]{r}{6cm}
+\begin{figure}
   \centering
   \begin{tikzpicture}[
       roundnode/.style={circle, draw=green!60, fill=green!5, very thick, minimum size=7mm},
@@ -186,7 +188,7 @@ namespace—has a parent user namespace and can have zero or more child user nam
   \caption[]{The nested user namespaces}
   \label{Nested}
 
-\end{wrapfigure}
+\end{figure}
 The nested namespace is shown in Figure \ref*{Nested}.
 
 \paragraph{Cgroups}
@@ -372,35 +374,36 @@ data are all within three standard deviations of the acceptable latency. If not,
 the module will raise the priority of the I/O queue.
 
 \subsubsection{`epoll` vs. `io\_uring` Performance Comparison}
-\begin{wrapfigure}[8]{r}{.45\textwidth}
+\begin{figure}
   % \centering
-  \includegraphics[width=.45\textwidth]{io_uring.png}
+  \includegraphics[width=\textwidth]{io_uring.png}
   \caption{The comparison of do\_request function}
   \label{Fig:iouring}
-\end{wrapfigure}
+\end{figure}
 The healthcare data exchange system would request for "small data" frequently.
 Hence, the low latency has the priority over the high throughput in this project.
 We often use the system call: "epoll" for asynchronous I/O with many files
 descriptors, rather than sequential accessing those file descriptors in this scenario.
 Figure \ref*{Fig:iouring} \cite{epoll_vs_iouring} shows that the io\_uring could do
 request in fewer time significantly.
-\begin{wrapfigure}[10]{R}{.45\textwidth}
-  % \centering
-  \digraph[scale=.6]{methFlow}{
-  Study[margin="0"]
-  Combination[margin="0"]
-  "Container\noexpand\n Security"[margin="0"]
-  "FHIR\noexpand\nSystem"[margin="0"]
+\begin{figure}
+% \centering
+\digraph[scale=.6]{methFlow}{
+Study[margin="0"]
+Combination[margin="0"]
+"Container\noexpand\n Security"[margin="0"]
+"FHIR\noexpand\nSystem"[margin="0"]
 
-  Study -> "Container\noexpand\n Security"-> Combination
-  Study -> "FHIR\noexpand\nSystem" -> Combination
-  rankdir=LR
-  }
-  \caption[]{The mapReduce model in this project}
-  \label{Fig:model}
-\end{wrapfigure}
+Study -> "Container\noexpand\n Security"-> Combination
+Study -> "FHIR\noexpand\nSystem" -> Combination
+rankdir=LR
+}
+\caption[]{The mapReduce model in this project}
+\label{Fig:model}
+\end{figure}
 
 % ================ Methods ================
+\newpage
 \section{Methods}
 
 This project would use the MapReduce model which is shown in Figure \ref*{Fig:model}.
@@ -435,12 +438,12 @@ The Linux kernel supplies some system calls to clone a process (also in thread) 
 and group. We could implement a simple container by ourselves so that we can make a list of
 vulnerabilities that may happen, which is shown in Figure \ref*{Fig:sc}.
 
-\begin{wrapfigure}[15]{r}{.45\textwidth}
+\begin{figure}
   % \centering
-  \includegraphics[width=.5\textwidth]{Screenshot from 2021-02-09 19-45-29.png}
+  \includegraphics[width=\textwidth]{Screenshot from 2021-02-09 19-45-29.png}
   \caption{The implementation of a simple container}
   \label{Fig:sc}
-\end{wrapfigure}
+\end{figure}
 
 \subsubsection{Aimming at Vulnerability and Implementing PoC}
 This project would find a vulnerability of privilege escalation in the container and affect
@@ -494,6 +497,7 @@ I/O performance at the final stage of this project.
 
 % ================ Expected Outcome ================
 
+\newpage
 \section{Expected Outcome}
 This project will deploy a secure and high-performance FHIR healthcare data exchange system
 in containers. We will demonstrate a container escalation and purpose an efficient mechanism
@@ -527,7 +531,10 @@ Finally, this project would combine these two parts into a container of a secure
 high-performance FHIR system. It is expected that this project could play the model role of the
 healthcare data exchange system in Taiwan.
 
+\newpage
 \printbibliography[heading=bibnumbered]
+
+\newpage
 
 \section{Academic Advisor}
 \begin{itemize}
