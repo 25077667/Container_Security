@@ -91,7 +91,7 @@ Advisor: Chun-I Fan
 Recently, many companies use containers to run their microservices since containers could
 make their hardware resources be used efficiently. And the newest healthcare data exchange
 standard FHIR (Fast Healthcare Interoperability Resources) \cite{FHIR_home} has been implemented
-in a container by IBM, Microsoft, and firebase. The deployment of FHIR in a container is a
+in a container by IBM, Microsoft, and Firebase. The deployment of FHIR in a container is a
 trend in the digital world \cite{Infrastructures}. However, if a hacker gets privilege
 escalation of containers, then such attacks would influence the host or the other containers.
 Therefore, this research would analyze, implement, and protect the container escalation
@@ -104,16 +104,23 @@ protect patient's privacy.
 \newpage
 
 \section{Introduction and Motivation}
-The Container is a virtualization technique to package applications and dependencies to run in
+This section will introduce what is the container, dirty cow, and escape vulnerabilities.
+We will focus on the container security part in this research, and the container technique
+is a brand new technique implemented from kernel level, therefore, we will also
+introduce some vulnerabilities, which is from kernel, to demonstrate how much of an impact
+of a container security vulnerability in these days.\\
+
+The container is a virtualization technique to package applications and dependencies to run in
 an isolated environment. Containers are faster to start-up, lighter in memory/storage usage
 at run time, and easier to deploy than virtual machines. This is because that the container
 shares the kernel with the host OS and other containers and deploys by a configure file
 \cite{Offloading}. In this way, the information service based on a container platform increases
-the resource efficiency of the system \cite{Comparison}.
-First, we often used to run a docker container to host our services, for example: the
-servers and some services in the information security club at NSYSU(National Sun Yat-sen University).
-However, there are some threats to the container technique, such as "Dirty CoW" \cite{Dirty_CoW}
-and "escape vulnerabilities".\\
+the resource efficiency of the system \cite{Comparison}.\\
+
+So, when will we use the container?  Well, we often used to run a docker container to host
+our services, instance: the servers and some services in the information security club at
+NSYSU(National Sun Yat-sen University). However, there are some threats to the container
+technique, such as "Dirty CoW" \cite{Dirty_CoW} and "escape vulnerabilities".\\
 
 Dirty CoW is a vulnerability in the Linux kernel. It is a local privilege escalation bug
 that exploits a race condition in the implementation of the copy-on-write mechanism in the
@@ -133,20 +140,28 @@ We are leading the information security club at NSYSU. We should maintain all
 the services working perfectly. Moreover, we are an information security club. Therefore,
 the security and performance issue is the top-priority requirement.\\
 
-Second, to present the container security, we would take the medical system as an example.
+In order to present the container security, we would take the medical system as an example.
 Our medical system is the most famous one internationally. When facing COVID-19
 in Taiwan, we have not had any local COVID-19 case in more than 250 days \cite{COVID19_CNN}.
 Medical workers usually needs to renew the EHR (Electronic Health Records)
 system frequently. To protect the privacy of patients and producing a high-performance
 system to exchange the EHR, an easy-deployment, effective-execution, and secure system is
-required. It also is the major goal of this project.
+required. It also is the major goal of this project.\\
+
+In these up coming years, the container technique will be applied in many different of area
+of the world, especially the medical system or healthcare data exchange systems. Therefore,
+we pick the FHIR, the next generation of healthcare data exchange standard, for the case to
+study.
 
 % ================ Related works ================
 \newpage
 
 \section{Related Works}
-This section will focus on (\RN{1}) \hyperlink{preliminaries}{preliminaries} (\RN{2}) \hyperlink{security}{containter security}, and (\RN{3})
-\hyperlink{heigh_performance}{high-performance server}.
+This section will focus on (\RN{1}) \hyperlink{preliminaries}{preliminaries}, which will
+introduce some technical term in this research. (\RN{2}) Some issues are related to the
+\hyperlink{security}{containter security}, part. (\RN{3}) \hyperlink{heigh_performance}
+{high-performance server}, which will introduce about how is the high performance server
+will take care about.
 
 \subsection{Preliminaries}
 \hypertarget{preliminaries}{}
@@ -157,6 +172,8 @@ in Taiwan in the near future \cite{MOHW_FHIR}. FHIR will be used to provide PHR
 "FHIR" for the target.
 
 \subsubsection{Linux Kernel Features}
+We will list four features, 3 terminologies and 2 system calls about the container security
+issues.
 First, there are four basic features for the abstract containerization services in the
 Linux environment.
 The four basic features are: (\RN{1}) namespace, (\RN{2}) cgroups, (\RN{3}) capabilities,
@@ -216,7 +233,7 @@ the ping command as the users.
 \paragraph{Seccomp}
 The seccomp feature is that only some specified process could call some specified
 system calls. We could set a policy while some file is loaded, and we often use
-this system call to enforce the whitelisting or blacklisting policy.
+this system call to enforce the whitelisting or blacklisting policy.\\
 
 Second, there are three terminologies of computer science related to container
 security in the Linux kernel, which are (\RN{5}) mmap, (\RN{6}) Copy on write,
@@ -245,7 +262,7 @@ the page full of character 'A'. In the meanwhile, the schedular context switches
 the other task, which assigns that page full of 'B'. Then the schedular context switches
 again to the first task. There is a problem now. What is the page for the first
 task looked like? It does not meet the expectation for the first task.
-This is race condition.
+This is race condition.\\
 
 Finally, there are two I/O Linux system calls that would be considered to enhance
 the I/O performance, which are the (\RN{8}) epoll and (\RN{9}) io\_uring.
@@ -387,19 +404,19 @@ descriptors, rather than sequential accessing those file descriptors in this sce
 Figure \ref*{Fig:iouring} \cite{epoll_vs_iouring} shows that the io\_uring could do
 request in fewer time significantly.
 \begin{figure}
-% \centering
-\digraph[scale=.6]{methFlow}{
-Study[margin="0"]
-Combination[margin="0"]
-"Container\noexpand\n Security"[margin="0"]
-"FHIR\noexpand\nSystem"[margin="0"]
+  % \centering
+  \digraph[]{methFlow}{
+  Study[margin="0"]
+  Combination[margin="0"]
+  "Container\noexpand\n Security"[margin="0"]
+  "FHIR\noexpand\nSystem"[margin="0"]
 
-Study -> "Container\noexpand\n Security"-> Combination
-Study -> "FHIR\noexpand\nSystem" -> Combination
-rankdir=LR
-}
-\caption[]{The mapReduce model in this project}
-\label{Fig:model}
+  Study -> "Container\noexpand\n Security"-> Combination
+  Study -> "FHIR\noexpand\nSystem" -> Combination
+  rankdir=LR
+  }
+  \caption[]{The mapReduce model in this project}
+  \label{Fig:model}
 \end{figure}
 
 % ================ Methods ================
