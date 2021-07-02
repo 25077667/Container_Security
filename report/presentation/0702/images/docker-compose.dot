@@ -1,0 +1,47 @@
+digraph {
+  graph [bgcolor="#ffffff" pad=0.5 ratio="fill"]
+  "named: letsencrypt" [shape="folder"]
+  "net: backend" [shape="pentagon"]
+  "net: frontend" [shape="pentagon"]
+  "net: vpn" [shape="pentagon"]
+  "frontend" [shape="component"]
+  "backend" [shape="component"]
+  "./frontend/data/nginx/log" [shape="folder"]
+  "./frontend/nginx/nginx.conf" [shape="folder"]
+  "./frontend/html/" [shape="folder"]
+  "/etc/letsencrypt" [shape="folder"]
+  80 [shape="circle"]
+  443 [shape="circle"]
+  "vpn0" [shape="component"]
+  "vpn1" [shape="component"]
+  "vpn2" [shape="component"]
+  "./data/vpn1/config" [shape="folder"]
+  "${VPN0_IP}:51820" [shape="circle" style="dashed"]
+  "./data/vpn2/config" [shape="folder"]
+  "${VPN1_IP}:51820" [shape="circle" style="dashed"]
+  "./data/vpn3/config" [shape="folder"]
+  "${VPN2_IP}:51820" [shape="circle" style="dashed"]
+  "frontend" -> "backend" [style="dotted"]
+  "./frontend/data/nginx/log" -> "frontend" [style="dashed" label="/var/log/nginx" dir="both"]
+  "./frontend/nginx/nginx.conf" -> "frontend" [style="dashed" label="/etc/nginx/user.conf.d/nginx.conf"]
+  "./frontend/html/" -> "frontend" [style="dashed" label="/usr/share/nginx/html"]
+  "/etc/letsencrypt" -> "frontend" [style="dashed"]
+  80 -> "frontend" [style="solid"]
+  443 -> "frontend" [style="solid"]
+  "frontend" -> "net: backend"
+  "backend" -> "vpn0" [style="dotted"]
+  "backend" -> "vpn1" [style="dotted"]
+  "backend" -> "vpn2" [style="dotted"]
+  "backend" -> "net: backend"
+  "backend" -> "net: frontend"
+  "backend" -> "net: vpn"
+  "./data/vpn1/config" -> "vpn0" [style="dashed" label="/config" dir="both"]
+  "${VPN0_IP}:51820" -> "vpn0" [style="solid"]
+  "vpn0" -> "net: vpn"
+  "./data/vpn2/config" -> "vpn1" [style="dashed" label="/config" dir="both"]
+  "${VPN1_IP}:51820" -> "vpn1" [style="solid"]
+  "vpn1" -> "net: vpn"
+  "./data/vpn3/config" -> "vpn2" [style="dashed" label="/config" dir="both"]
+  "${VPN2_IP}:51820" -> "vpn2" [style="solid"]
+  "vpn2" -> "net: vpn"
+}

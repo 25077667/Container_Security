@@ -1,0 +1,108 @@
+\documentclass{beamer}
+\usepackage{progressbar, tcolorbox, hyperref, CJKutf8, multicol, pdfpages,graphicx, xcolor}
+\usepackage[absolute,overlay]{textpos}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+
+\graphicspath{ {./images/} }
+\usetheme{AnnArbor}
+\addbibresource{main.bib}
+\usetikzlibrary{positioning,calc,shapes.multipart}
+
+\definecolor{dockerColor}{RGB}{13, 183, 237}
+\definecolor{secureColor}{RGB}{10, 191, 83}
+
+\title{The Container Security in Healthcare Data Exchange System}
+\subtitle{Bachelor's degree graduation project}
+\author{Chih-Hsuan Yang}
+\institute{National Sun Yat-sen University\\
+Advisor: Chun-I Fan
+}
+\date{\today}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+\begin{document}
+\begin{CJK*}{UTF8}{bsmi}
+
+  \begin{frame}
+    \titlepage
+  \end{frame}
+
+  \begin{frame}{Outline}
+    \begin{multicols}{2}
+      \tableofcontents
+    \end{multicols}
+  \end{frame}
+
+
+  \section{Story}
+  \begin{frame}{Computer Network and Software Engineering}
+    \begin{enumerate}
+      \item Banned the SSH and RDP $\rightarrow$ VPN
+      \item In class
+            \begin{itemize}
+              \item Prof. Lai said: Want to purchase more VPN server
+              \item Prof. Lee said: You have to do a final project
+            \end{itemize}
+      \item Okay, let's make a "High Scalability VPN Service"
+      \item We use the {\color{dockerColor}docker} container
+      \item We did it, you can try \href{https://vpn.nsysuisc.tw}{\color{blue} Our VPN entry}.
+    \end{enumerate}
+  \end{frame}
+
+  \begin{frame}{By the way}
+    What is the benefit?
+    \begin{multicols*}{2}
+      \begin{itemize}
+        \item Cheap.
+        \item Easy to scale up.
+        \item Easy to manage.
+        \item Easy to use.
+        \item Fast to deploy.
+        \item Fast to route.
+        \item Load balance.
+        \item {\color{secureColor}\bf Secure}
+      \end{itemize}
+    \end{multicols*}
+  \end{frame}
+  \begin{frame}{By the way - syetem architecture}
+    \centering
+    \includegraphics[width=.8\textwidth]{1481224.jpg}
+  \end{frame}
+
+  \begin{frame}{Unfortunately}
+    \includegraphics[width=\textwidth]{Screenshot_2021-07-02_10-14-09.png}
+  \end{frame}
+
+  \section{Container Security}
+  \begin{frame}{Docker}
+    \begin{itemize}
+      \item Docker.sock
+      \item Privileged container
+      \item Side-channel / sniffing
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Syetem architecture}
+    \centering
+    \includegraphics[width=.8\textwidth]{1481224.jpg}
+  \end{frame}
+
+  \begin{frame}
+    \includegraphics[width=\textwidth]{docker-compose.png}
+    \includegraphics[width=\textwidth]{dashboard.png}
+  \end{frame}
+
+  \section{Demo}
+
+\end{CJK*}
+\end{document}

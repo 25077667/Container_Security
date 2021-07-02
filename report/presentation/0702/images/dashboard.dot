@@ -1,0 +1,52 @@
+digraph {
+  graph [bgcolor="#ffffff" pad=0.5 ratio="fill"]
+  "named: prometheus_data" [shape="folder"]
+  "named: grafana_data" [shape="folder"]
+  "net: monitor-net" [shape="pentagon"]
+  "prometheus" [shape="component"]
+  "./prometheus" [shape="folder"]
+  "alertmanager" [shape="component"]
+  "./alertmanager" [shape="folder"]
+  "nodeexporter" [shape="component"]
+  "/proc" [shape="folder"]
+  "/sys" [shape="folder"]
+  "/" [shape="folder"]
+  "cadvisor" [shape="component"]
+  "/var/run" [shape="folder"]
+  "/var/lib/docker" [shape="folder"]
+  "grafana" [shape="component"]
+  "./grafana/provisioning/dashboards" [shape="folder"]
+  "./grafana/provisioning/datasources" [shape="folder"]
+  "pushgateway" [shape="component"]
+  "caddy" [shape="component"]
+  "./caddy" [shape="folder"]
+  3000 [shape="circle"]
+  9090 [shape="circle"]
+  9093 [shape="circle"]
+  9091 [shape="circle"]
+  "./prometheus" -> "prometheus" [style="dashed" label="/etc/prometheus" dir="both"]
+  "named: prometheus_data" -> "prometheus" [style="dashed" label="/prometheus" dir="both"]
+  "prometheus" -> "net: monitor-net"
+  "./alertmanager" -> "alertmanager" [style="dashed" label="/etc/alertmanager" dir="both"]
+  "alertmanager" -> "net: monitor-net"
+  "/proc" -> "nodeexporter" [style="dashed" label="/host/proc"]
+  "/sys" -> "nodeexporter" [style="dashed" label="/host/sys"]
+  "/" -> "nodeexporter" [style="dashed" label="/rootfs"]
+  "nodeexporter" -> "net: monitor-net"
+  "/" -> "cadvisor" [style="dashed" label="/rootfs"]
+  "/var/run" -> "cadvisor" [style="dashed" dir="both"]
+  "/sys" -> "cadvisor" [style="dashed"]
+  "/var/lib/docker" -> "cadvisor" [style="dashed"]
+  "cadvisor" -> "net: monitor-net"
+  "named: grafana_data" -> "grafana" [style="dashed" label="/var/lib/grafana" dir="both"]
+  "./grafana/provisioning/dashboards" -> "grafana" [style="dashed" label="/etc/grafana/provisioning/dashboards" dir="both"]
+  "./grafana/provisioning/datasources" -> "grafana" [style="dashed" label="/etc/grafana/provisioning/datasources" dir="both"]
+  "grafana" -> "net: monitor-net"
+  "pushgateway" -> "net: monitor-net"
+  "./caddy" -> "caddy" [style="dashed" label="/etc/caddy" dir="both"]
+  3000 -> "caddy" [style="solid"]
+  9090 -> "caddy" [style="solid"]
+  9093 -> "caddy" [style="solid"]
+  9091 -> "caddy" [style="solid"]
+  "caddy" -> "net: monitor-net"
+}
