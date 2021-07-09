@@ -48,6 +48,15 @@ Advisor: Chun-I Fan
     \titlepage
   \end{frame}
 
+  \begin{frame}
+    \begin{enumerate}
+      \item List the possible risks
+      \item Take a clear - cut definition about security
+      \item Use the container to {\color{secureColor} enhance} the healthcare data exchange system
+      \item The container and the healthcare data exchange system are coupled
+    \end{enumerate}
+  \end{frame}
+
   \begin{frame}{Outline}
     \begin{multicols}{2}
       \tableofcontents
@@ -126,7 +135,7 @@ Advisor: Chun-I Fan
     \begin{enumerate}
       \item Can it be coupled, just like the blockchain and cryptography?
             \begin{itemize}
-              \item No. $P \rightarrow Q$
+              \item Well yes but actually no. $P \rightarrow Q$
             \end{itemize}
       \item How to make these two issues be coupled?
             \begin{itemize}
@@ -144,9 +153,11 @@ Advisor: Chun-I Fan
 
 
   \begin{frame}{The level of matrix}
-    Low ($0$) means those are orthogonal.\\
-    Mid ($1$) means those are related in some premise.\\
-    Hight ($2$) means strongly bidirectional relation.\\
+    \begin{enumerate}
+      \item[Low]    (0) means those are orthogonal.
+      \item[Mid]    (1) means those are related in some premise.
+      \item[Hight]  (2) means strongly bidirectional relation.
+    \end{enumerate}
   \end{frame}
 
   \begin{frame}{Matrix}
@@ -165,14 +176,14 @@ Advisor: Chun-I Fan
       \hline
       Backup         & 2               & 2              & 1     & 0             & 1            \\
       \hline
-      Integration      & 2               & 2              & 2     & 2             & 1            \\
+      Integration    & 2               & 2              & 2     & 2             & 1            \\
       \hline
       Encryption     & 2               & 1              & 0     & 0             & 0            \\
       \hline
     \end{tabular}
   \end{frame}
 
-  \begin{frame}{Graph}
+  \begin{frame}{Line chart}
     \centering
     \begin{tikzpicture}
       \begin{axis}[
@@ -236,7 +247,7 @@ Advisor: Chun-I Fan
             (20,1.1)
             (30,2.1)
             (40,0.3)
-            (50,0)
+            (50,-0.1)
           };
         \addlegendentry{Encryption}
       \end{axis}
@@ -255,7 +266,7 @@ Advisor: Chun-I Fan
   \end{frame}
 
   \begin{frame}{Why we need the container?}
-    The 2FA can solved the robot traffic.\\
+    The 2FA can solved the traffic of robots.\\
     Back to the key advantage of the container:\\
     \begin{itemize}
       \item Increased portability.
