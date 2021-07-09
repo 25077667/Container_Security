@@ -50,10 +50,10 @@ Advisor: Chun-I Fan
 
   \begin{frame}
     \begin{enumerate}
-      \item List the possible risks
-      \item Take a clear - cut definition about security
+      \item {\color{secureColor} List} the possible risks
+      \item Take a clear - cut {\color{secureColor}definition} about security
       \item Use the container to {\color{secureColor} enhance} the healthcare data exchange system
-      \item The container and the healthcare data exchange system are coupled
+      \item The container and the healthcare data exchange system are {\color{secureColor} coupled}
     \end{enumerate}
   \end{frame}
 
@@ -301,7 +301,7 @@ Advisor: Chun-I Fan
       \node [special, name=cli_app] {2FA+App};
       \node [block, below=.1cm of cli_app] (cli_lsm) {LSM};
       \node [block, below=.1cm of cli_lsm] (cli_vpn) {VPN Client};
-      \node [block, below right=1.7cm of cli_vpn] (ser_vpn) {VPN Server};
+      \node [block, right=1.7cm of cli_vpn] (ser_vpn) {VPN Server};
       \node [block, above=.1cm of ser_vpn] (ser_lsm) {LSM};
       \node [special, above=.1cm of ser_lsm] (ser_proxy) {Proxy};
       \node [special, above right=1.7cm of ser_proxy] (Auth) {Auth};
@@ -319,7 +319,7 @@ Advisor: Chun-I Fan
         \node [ser_container,fit=(ser_proxy) (ser_lsm) (ser_vpn)] (Interface) {Interface};
       \end{scope}
       \draw [<->] (cli_vpn) -- (ser_vpn);
-      \draw [<->] (o_cli) -- (ser_vpn);
+      \path (o_cli) edge [thick, out=-45, in=-135, <->] node[below] {tunnel} (ser_vpn);
       \draw [<->] (ser_proxy) -- (Auth);
       \draw [<->] (ser_proxy) -- (FHIR1);
       \draw [<->] (ser_proxy) -- (FHIR2);
