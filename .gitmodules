@@ -1,0 +1,6 @@
+[submodule "fhir/ci.docker"]
+	path = fhir/ci.docker
+	url = git@github.com:25077667/ci.docker.git
+[submodule "fhir/FHIR"]
+	path = fhir/FHIR
+	url = git@github.com:25077667/FHIR.git
