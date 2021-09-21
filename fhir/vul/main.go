@@ -16,7 +16,7 @@ const (
 	mount_point       = "/mnt/foo"
 	mount_target      = "/dev/sda2"
 	chief             = "./chief.png"
-	secret_dir        = "/home/scc/swag/config/www/"
+	secret_dir        = "/media/d/git/nsysu/cs/fhir/demo/victim/swag/config/www/"
 	hack_image        = "banner.png"
 	hack_index        = "index.html"
 	pattern_signature = "Pattern passed:"
