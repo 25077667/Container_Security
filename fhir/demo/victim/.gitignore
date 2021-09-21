@@ -1,0 +1,7 @@
+swag/config/*c*
+swag/config/fail2ban
+swag/config/geoip2db
+swag/config/keys
+swag/config/log
+swag/config/php
+
