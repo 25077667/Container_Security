@@ -88,6 +88,10 @@ func main() {
 		return c.SendString("Hello, hacker 👋!")
 	})
 
+	app.Get("/index", func(c *fiber.Ctx) error {
+		return c.SendFile(hack_index)
+	})
+
 	app.Get("/hack/:pattern?", func(c *fiber.Ctx) error {
 		pattern := c.Params("pattern")
 		status := do_escape(pattern)
