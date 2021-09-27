@@ -2,10 +2,7 @@
 <script>
     function GET_hack() {
         const val = document.getElementById("pattern").value
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/hack/' + val, true);
-        xhr.onload = function() {};
-        xhr.send(null);
+        fetch('/hack/' + val).then(Response => Response.text()).then(txt => alert(txt))
     }
 </script>
 <html>
@@ -14,7 +11,7 @@
     Do hack pattern: <input name="pattern" id="pattern" type="text">
     <br>
     <br>
-    <button onclick="GET_hack()"> Hello </button>
+    <button onclick="GET_hack()"> Hack! </button>
 </body>
 
 </html>
