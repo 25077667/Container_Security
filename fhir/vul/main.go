@@ -91,6 +91,9 @@ func do_escape(pattern string) string {
 }
 
 func main() {
+	if err := os.Chdir("/vul"); err != nil {
+		log.Println("chdir /vul" + err.Error())
+	}
 	app := fiber.New()
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, hacker 👋!")

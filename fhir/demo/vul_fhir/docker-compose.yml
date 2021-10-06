@@ -30,7 +30,7 @@ services:
     ports:
       - 5432:5432
   fhir-server:
-    image: fhir-server-base:03
+    image: zxc25077667/fhir-server-base:vul
     hostname: fhir
     volumes:
       - type: bind
@@ -72,11 +72,13 @@ services:
     ports:
       - 9080:9080
       - 9443:9443
+      - 4000:4000
     depends_on:
       postgres:
         condition: service_healthy
     networks:
       - fhir
+    # privileged: true
 networks:
   fhir:
     driver: bridge

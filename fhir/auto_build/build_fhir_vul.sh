@@ -25,6 +25,6 @@ sed -i '16isleep 3' $orig_bootstraps
 # Add vul to image
 sed -i '65iCOPY --from=zxc25077667/cesc:latest /target /vul' $new_fhir_server_file
 
-docker build -t fhir-server-base:vul $WORK_PWD -f "$WORK_PWD"/Dockerfile.vul
+docker build -t zxc25077667/fhir-server-base:vul $WORK_PWD -f "$WORK_PWD"/Dockerfile.vul
 
 cp "$orig_bootstraps".bak $orig_bootstraps

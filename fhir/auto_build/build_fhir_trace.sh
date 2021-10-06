@@ -24,6 +24,6 @@ cp $orig_bootstraps "$orig_bootstraps".bak
 sed -i '15i/tracee/tracee-ebpf -t c --output json 1>/mnt/out 2>/mnt/err &' $orig_bootstraps
 sed -i '16isleep 5' $orig_bootstraps
 
-docker build -t fhir-server-base:tracee $WORK_PWD -f "$WORK_PWD"/Dockerfile.tracee
+docker build -t zxc25077667/fhir-server-base:tracee $WORK_PWD -f "$WORK_PWD"/Dockerfile.tracee
 
 cp "$orig_bootstraps".bak $orig_bootstraps
