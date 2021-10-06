@@ -17,7 +17,7 @@ sed -i 's/| sha1sum -c --strict --check //' $alpine_docker_file
 sed -i 's/adduser -u 1001 -r -g root/adduser -u 1001 -S -G root/g' $alpine_docker_file
 
 # Add tracee into jdk
-sed -i '25iCOPY --from=aquasec/tracee:latest /tracee/ /tracee' $alpine_docker_file
+# sed -i '25iCOPY --from=aquasec/tracee:latest /tracee/ /tracee' $alpine_docker_file
 
 # Build alpine jdk
 docker build -t openliberty-alpine ${WORK_PWD} -f $alpine_docker_file

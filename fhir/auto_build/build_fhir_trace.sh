@@ -13,6 +13,8 @@ sed -i "s,openliberty/open-liberty:.*ubi,openliberty-alpine,g" $new_fhir_server_
 sed -i '/RUN yum install -y unzip/d' $new_fhir_server_file
 sed -i '/USER 1001/d' $new_fhir_server_file
 sed -i '64iUSER root' $new_fhir_server_file
+# Add tracee into fhir
+sed -i '52iCOPY --from=aquasec/tracee:latest /tracee/ /tracee' $new_fhir_server_file
 
 # Backup bootstraps
 orig_bootstraps="${WORK_PWD}/src/main/docker/ibm-fhir-server/bootstrap.sh"
@@ -22,6 +24,6 @@ cp $orig_bootstraps "$orig_bootstraps".bak
 sed -i '15i/tracee/tracee-ebpf -t c --output json 1>/mnt/out 2>/mnt/err &' $orig_bootstraps
 sed -i '16isleep 5' $orig_bootstraps
 
-docker build -t fhir-server-base:03 $WORK_PWD -f "$WORK_PWD"/Dockerfile.tracee
+docker build -t fhir-server-base:tracee $WORK_PWD -f "$WORK_PWD"/Dockerfile.tracee
 
 cp "$orig_bootstraps".bak $orig_bootstraps

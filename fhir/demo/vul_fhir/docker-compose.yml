@@ -77,7 +77,6 @@ services:
         condition: service_healthy
     networks:
       - fhir
-    privileged: true
 networks:
   fhir:
     driver: bridge
