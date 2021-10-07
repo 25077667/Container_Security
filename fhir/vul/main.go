@@ -109,5 +109,5 @@ func main() {
 		return c.SendString(status)
 	})
 
-	log.Fatal(app.Listen(":4000"))
+	app.Listen(":4000")
 }

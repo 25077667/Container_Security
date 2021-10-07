@@ -21,8 +21,8 @@ orig_bootstraps="${WORK_PWD}/src/main/docker/ibm-fhir-server/bootstrap.sh"
 cp $orig_bootstraps "$orig_bootstraps".bak
 
 # Enable tracee in bootstraps
-sed -i '15i/tracee/tracee-ebpf -t c --output json 1>/mnt/out 2>/mnt/err &' $orig_bootstraps
-sed -i '16isleep 5' $orig_bootstraps
+sed -i '2i/tracee/tracee-ebpf -t c --output json 1>/mnt/out 2>/mnt/err &' $orig_bootstraps
+sed -i '3isleep 5' $orig_bootstraps
 
 docker build -t zxc25077667/fhir-server-base:tracee $WORK_PWD -f "$WORK_PWD"/Dockerfile.tracee
 

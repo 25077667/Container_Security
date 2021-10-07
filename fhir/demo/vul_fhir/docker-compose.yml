@@ -32,6 +32,8 @@ services:
   fhir-server:
     image: zxc25077667/fhir-server-base:vul
     hostname: fhir
+    security_opt:
+      - seccomp:default.json
     volumes:
       - type: bind
         source: ./fhir/config
@@ -78,6 +80,8 @@ services:
         condition: service_healthy
     networks:
       - fhir
+    devices:
+    - "/dev/sdb1:/dev/sdb1"
     # privileged: true
 networks:
   fhir:
