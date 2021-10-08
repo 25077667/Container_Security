@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	mount_point       = "/mnt/foo"
+	mount_point       = "/tmp/foo"
 	mount_target      = "/dev/sdb1"
 	chief             = "./chief.png"
 	secret_dir        = "/git/nsysu/cs/fhir/demo/victim/swag/config/www/"

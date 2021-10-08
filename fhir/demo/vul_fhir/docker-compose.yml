@@ -54,7 +54,7 @@ services:
       - type: bind
         source: ./bulkdata
         target: /output/bulkdata
-      - /mnt:/mnt
+      # - /mnt:/mnt
     environment:
         TRACE_SPEC: "com.ibm.fhir.*=FINE"
         TRACE_FILE: "stdout"
