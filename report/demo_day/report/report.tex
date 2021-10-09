@@ -1,0 +1,43 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage{CJKutf8, color, Times}
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref} 
+
+\title{{健康資訊交換系統中之容器安全\\
+The Container Security in Healthcare Data Exchange System
+\newline
+\newline
+\newline
+\newline
+\large
+Department of Computer Science and Engineering\\
+National Sun-Yet-San University, Taiwan \\
+國立中山大學資訊工程學系\\
+Bencher degree's graduation project in 2021\\
+110 學年度大學部專題製作競賽 \\
+}}
+
+\author{
+Member: Chih-Hsuan Yang (B073070047)\\
+Advisor: Chun-I Fan
+}
+
+\begin{document}
+\begin{CJK*}{UTF8}{bkai}
+\maketitle
+
+\input{abs.tex}
+\tableofcontents
+\input{intro.tex}
+\input{related.tex}
+\input{preliminary.tex}
+\input{propose.tex}
+\input{analysis.tex}
+\input{benchmark.tex}
+\input{conclusion.tex}
+
+\bibliographystyle{ieeetr}
+\bibliography{report.bib}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\end{CJK*}
+\end{document}
