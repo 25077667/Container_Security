@@ -1,6 +1,9 @@
-\documentclass[a4paper,12pt]{report}
-\usepackage{CJKutf8, color, Times}
-\usepackage[colorlinks=true, linkcolor=blue]{hyperref} 
+\documentclass[a4paper]{report}
+\usepackage{CJKutf8, color, times}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref}
+\usepackage{bookmark}
+\bibliography{report.bib}
 
 \title{{健康資訊交換系統中之容器安全\\
 The Container Security in Healthcare Data Exchange System
@@ -9,11 +12,11 @@ The Container Security in Healthcare Data Exchange System
 \newline
 \newline
 \large
+國立中山大學資訊工程學系\\
 Department of Computer Science and Engineering\\
 National Sun-Yet-San University, Taiwan \\
-國立中山大學資訊工程學系\\
-Bencher degree's graduation project in 2021\\
 110 學年度大學部專題製作競賽 \\
+Bencher degree's graduation project in 2021\\
 }}
 
 \author{
@@ -35,8 +38,8 @@ Advisor: Chun-I Fan
 \input{benchmark.tex}
 \input{conclusion.tex}
 
-\bibliographystyle{ieeetr}
-\bibliography{report.bib}
+\nocite{*}
+\printbibliography
 \addcontentsline{toc}{chapter}{Bibliography}
 
 \end{CJK*}

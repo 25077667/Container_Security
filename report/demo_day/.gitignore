@@ -8,3 +8,7 @@ __*
 *.gz
 *latexmk
 *toc
+*.bcf
+*.xml
+*.dvi
+*.out.ps
