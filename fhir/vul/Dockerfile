@@ -8,7 +8,6 @@ COPY ["main.go", "go.mod", "go.sum", "/src/"]
 WORKDIR /src
 # Build vul go only
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main main.go
-RUN setcap "CAP_SYS_ADMIN=+ep" main
 
 FROM alpine
 LABEL MAINTAINER="zxc25077667@pm.me"
