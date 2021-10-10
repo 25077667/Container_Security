@@ -1,9 +1,11 @@
 \documentclass[a4paper]{report}
-\usepackage{CJKutf8, color, times}
+\usepackage{CJKutf8, color, times, titlesec, geometry,indentfirst}
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
 \usepackage[colorlinks=true, linkcolor=blue]{hyperref}
 \usepackage{bookmark}
 \bibliography{report.bib}
+\geometry{margin=2cm}
+\setlength{\parindent}{2em}
 
 \title{{健康資訊交換系統中之容器安全\\
 The Container Security in Healthcare Data Exchange System
@@ -20,27 +22,27 @@ Bachelor's degree graduation project in 2021\\
 }}
 
 \author{
-Member: Chih-Hsuan Yang (B073070047)\\
+Author: Chih-Hsuan Yang (B073040047)\\
 Advisor: Chun-I Fan
 }
 
+\linespread{1.5}
 \begin{document}
 \begin{CJK*}{UTF8}{bkai}
-\maketitle
+    \maketitle
 
-\input{abs.tex}
-\tableofcontents
-\input{intro.tex}
-\input{related.tex}
-\input{preliminary.tex}
-\input{propose.tex}
-\input{analysis.tex}
-\input{benchmark.tex}
-\input{conclusion.tex}
+    \input{abs.tex}
+    \tableofcontents
+    \input{intro.tex}
+    \input{related.tex}
+    \input{preliminary.tex}
+    \input{propose.tex}
+    \input{anb.tex}
+    \input{conclusion.tex}
 
-\nocite{*}
-\printbibliography
-\addcontentsline{toc}{chapter}{Bibliography}
+    \nocite{*}
+    \printbibliography[title=Reference]
+    \addcontentsline{toc}{chapter}{Reference}
 
 \end{CJK*}
 \end{document}

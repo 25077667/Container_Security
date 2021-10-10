@@ -2,8 +2,73 @@
 
 \section{Container and Linux Kernel}
 
+The container is a secondary product of the operating system in the past 20 years.
+The FreeBSD develops `Jails' in 1999, and the Solaris develops `Zones' in 2004.
+Linux also took this idea into the Linux kernel, which is named cgroups (2007),
+the capabilities (2003), and seccomp (2005). However, why the Linux breaks this
+technology into many parts? This is because they had discussed:
+"Why Should a System Administrator Upgrade?" in 2001 \cite{20667}.
+The Linux kernel almost entered the development path of "upgrade for demand" like
+Microsoft Windows, and deviated from the original path of "providing a mechanism
+but not a strategy" of the original Linux kernel. \\
+
+While Linux were spreading in various server or embedded system devices, the
+Linux community got more pull requests to solved the scalability and virtualization
+issues \cite{267148}. However, they avoided confusion caused by multiple meanings of
+the term "container" in the Linux kernel context. In kernel version 2.6.24 (2008)
+\cite{256389}, control groups functionality was merged into the mainline,
+which is designed for an administrator (or administrative daemon) to organize processes
+into hierarchies of containers; each hierarchy is managed by a subsystem. Moreover, the
+cgroups was rewrote into cgroups-v2 in Linux kernel 4.5 (2015) \cite{cgroup-v2}.\\
+
+The first and most complete implementation of the Linux container manager was LXC
+(Linux Containers). It was implemented in 2008 using cgroups and namespaces,
+and it runs on a single Linux kernel without requiring any patches. LXC provides
+a new view and imagination of virtualized services without any hypervisor. In 2016,
+Docker replaced LXC with "libcontainer", which was written in the Go programming language.
+Docker combined features in a new, more attractive way and made Linux containers popular.\\
+
+The secondary product of the operating system, containers, offering many advantages:
+they enable you to "build once, run anywhere." Docker does this by bundling
+applications with all their dependencies into one package and isolating applications
+from the rest of the machine on which they're running. Therefore, this research
+is based on docker container to propose a scheme of healthcare data exchange system's
+security.
+
 \section{FHIR}
+FHIR is a standard for healthcare data exchange. The FHIR standard will be used in
+Taiwan in the near future. FHIR will be used to provide PHR (Personal Healthcare Records)
+in Taiwan. Therefore, we choose the most popular standard "FHIR" for the target of
+the healthcare data exchange system.
+
 \subsection{RESTful API and Data Structure}
+REST (Representational State Transfer) is a stateless reliable web API, which is based
+on HTTP methods to access resources or data via URL parameters and the use of JSON or
+XML format to transmit queries. Because the RESTful is stateless, the client should
+keep their information (i.e. cookies) by themself.\\
+
+
+FHIR has features: RESTful and data structure, make our research and benchmarks more accurate
+and reliable.
+Statelessness is a developer-friendly feature, the developer and the tester would not
+to design a complex state machine on the server-side or generating test files. And the FHIR
+takes RESTful as standard. Moreover, FHIR standard declared the `StructureDefinition'
+\cite{fhir-StructureDefinition}.
+These structure definitions are used to describe both the content defined in the FHIR
+specification itself - Resources, data types, the underlying infrastructural types, and
+also are used to describe how these structures are used in implementations.
+
 \subsection{Why IBM FHIR server}
+There are many applications using IBM's FHIR server as the base component of the EHR
+(Electronic Health Records) system to communicate with the other various databases.
+Take it for example that the NextCloud's EHR service, Taipei Veterans General Hospital,
+and AWS Cloud are using the FHIR server in a container for subroutine service.\\
+
+NextCloud is an open-source and self-hosted productivity platform for users.
+Many people caring about their privacy issues distrust the FAANG (Facebook,
+Amazon, Apple, Netflix, Google), so they are using NextCloud to keep their privacy
+on their own. Therefore, they are eager to have a secure EHR system for their
+PHR (Personal Healthcare Records).
 
 \section{Data and Privacy}
+TBD.
