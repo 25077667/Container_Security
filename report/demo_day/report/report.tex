@@ -32,7 +32,10 @@ Advisor: Chun-I Fan
     \maketitle
 
     \input{abs.tex}
-    \tableofcontents
+    {
+        \linespread{1}\selectfont
+        \tableofcontents
+    }
     \input{intro.tex}
     \input{related.tex}
     \input{preliminary.tex}
@@ -41,6 +44,7 @@ Advisor: Chun-I Fan
     \input{conclusion.tex}
 
     \nocite{*}
+    \linespread{1}\selectfont
     \printbibliography[title=Reference]
     \addcontentsline{toc}{chapter}{Reference}
 

@@ -1,10 +1,105 @@
-\chapter{Related Works}
+\chapter{Related Work}
 
 \section{Collecting System Calls}
+There are several pieces of research to detect intrusions or unexpected behaviors
+by collecting the system calls methods in runtime \cite{inproceedings,9307722,7809699,7796855}.
+Amr S. Abed et al.\cite{inproceedings} proposed a real-time host-based intrusion
+detection system in a container, which is based on system call monitoring. They use
+the `strace' command to collect a behavior log to a system call parser. Then use the
+BoSC (Bag of System Calls) \cite{1495942} to classify is it a normal behavior in
+the database.
 
-\section{Find-granted Permission Control}
+The BoSC technique is a frequency-based detection tip. Kang et al.\cite{1495942} defined
+those distinct system calls in $\{c_1, c_2, \dots, c_n \}$, $\forall$ system call $s_i$
+had been called in $c_i$ times. And they use Na\"ive Bayes classification to deduce if
+it is unexpected behavior. Then the Amr S. Abed et al. give the false positive rate
+around 2\% in $O(S+n_k)$ epochs to the MySQL database \cite{inproceedings}.
+\begin{itemize}
+    \item Epoch Size ($S$): The total number of system calls in one epoch.
+    \item $n_k$: It is the size of the database after epoch $k$.
+\end{itemize}
+However, the BoSC is running in user space, even though it is a background service running
+on the same host kernel. It might have heavy constant time costs of copying data from
+user to kernel and kernel to user by the `copy\_to\_user()' and `copy\_from\_user()' calls.\\
+
+Mohamed Azab et al.\cite{7809699,7796855} takes a mathematical model to simulate the
+smart moving target defense for Linux container resiliency. Considering an `ESCAPE' model
+is the interaction between attackers and their target containers as a “predator searching
+for a prey” search game. This search game has 3 modules: behavior monitoring, the
+checkpoint/restore, and the live migration modules.
+This model is running on the same host and the same attacking surface because they considered
+the containers (prey) are running on the same machine with some migration probability.
+
+They show the survival rate in Amr S. Abed et al.\cite{inproceedings} model for some
+zero-day vulnerabilities in different types and numbers machines. Mohamed Azab et al.
+\cite{7809699,7796855} concluded that an IDS could detect and avoid mobile continually-growing
+attacks efficiently by the `ESCAPE' model with collecting system calls.\\
+
+\section{Fine-grained Permission Control}
+\subsection{Capabilities}
+
+There are 49 different capabilities in todays Linux kernel 5.13
+\footnote{\url{https://man7.org/linux/man-pages/man7/capabilities.7.html}}. A capability can be
+assign to a task (i.e thread or process) to determine if the task can use the fine-granted
+system calls. For example, we give a thread CAP\_SYS\_BOOT, then the thread can use the
+reboot \footnote{\url{https://man7.org/linux/man-pages/man2/reboot.2.html}} and the
+kexec\_load \footnote{\url{https://man7.org/linux/man-pages/man2/kexec\_load.2.html}} system call.\\
+
+Xin Lin et al.\cite{10.1145/3274694.3274720} collected 27 CVE vulnerabilities could cause
+the privilege escalation attacks. There are only 3 vulnerabilities could bypass the
+capabilities protection of Linux kernel. And the other 24 escalation vulnerabilities, could
+be filtered by the fine-grained permission control with capabilities. Those 3 (CVE-2016-8655,
+CVE-2017-5123, CVE-2017-7308) bypassed capabilities vulnerabilities are attacking kernel level
+race conditions.
+
+The CVE-2016-8655\footnote{\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-8655}}
+is a bug in net/packet/af\_packet.c. We often use the CAP\_NET\_RAW namespace in the container
+to make unprivileged user be able to use some privileged net-util commands. The bug is that
+there exists a race condition probability to race the unauthorized data inside packet\_set\_ring()
+and packet\_setsockopt()\footnote{Linux af\_packet.c race condition (local root) \url{https://lwn.net/Articles/708319/}}
+such that  there is a chance to modify the socket version to TPACKET\_$V_1$ before the
+packet\_set\_ring function. However, it would be ‘kfree‘ the timer in the TPACKET\_$V_1$.
+Then we can take the timer, which  is used after free, to control the SLAB adopter to write
+the st\_uid by itself \footnote{CVE-2016-8655 PoC: \url{https://www.exploit-db.com/exploits/40871}}.
+
+\subsection{Linux Secure Module}
+There were many researches designing great rules of the LSM (Linux secure module). LSM is a
+mandatory access control framework in kernel, which supported from Linux 2.6 (2004). The
+AppArmor\footnote{\url{https://apparmor.net/}} and SELinux\footnote{\url{https://github.com/SELinuxProject/selinux}}
+are common LSM in the kernel. All the
+Android devices are fully enforced the SELinux after Android 5.0.
+\footnote{\url{https://source.android.com/security/selinux\#supporting\_documentation}}
+
+The SIDs (Security IDs) and permissions, which are the identifiers for access control policies,
+make up the security policy of SELinux or AppArmor. Files and directories, which are the actual protected
+objects for the SID, are mapped to the SELinux or AppArmor of each system \cite{Smalley2003ImplementingSA,x11-SELinux,quteprints30563}.
+The SELinux is much more incredibly complex then AppArmor, but with this complexity you have more
+control over how tasks are isolated. However, the AppArmor is so straight forward that peoples can
+write the configuration profile by themself. \\
+
+SUNG-HWA HAN et al.\cite{9184912} had proposed an architecture to enforce the access
+control of image's layers. Because the docker engine does not guarantee the layers could
+not be modified by the host environment. Therefore, if we give a container privileged
+permission, it could modify the layers of images. The research \cite{9184912} is using
+the LSM's policy table to enforce the access control of file system in kernel.
+
+This paper \cite{9184912} shows that the performance is almost same as raw SELinux,
+and the branch costs of indexing the policy table could be a constant value in the
+CPU rate measurement. However, the research is only be measured in overlay2 file system.
+SUNG-HWA HAN et al. said if it have same performance in AUFS or the other file systems,
+the above results could be more reliable. \\
+
+Yuqiong Sun et al.\cite{217614} proposed separate the security namespace. Each container
+can route their operation to different security namespaces for their "comment". Each 
+involved the security namespace independently makes a security decision, and the
+operation is allowed only if all the secure namespaces allow. 
+
+
+% TODO: Security Namespace : Making Linux Security Frameworks Available to Containers
+The policy engine and the security namespace are implemented in \dots
+
 
 \section{Recently Exploited Vulnerabilities}
-\subsection{Five Stage of Malware}
+\subsection{Five Stages of Malware}
 
 \section{Virtual Environment Performance Benchmark}

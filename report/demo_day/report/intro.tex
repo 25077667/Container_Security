@@ -7,19 +7,23 @@ The FreeBSD develops `Jails' in 1999, and the Solaris develops `Zones' in 2004.
 Linux also took this idea into the Linux kernel, which is named cgroups (2007),
 the capabilities (2003), and seccomp (2005). However, why the Linux breaks this
 technology into many parts? This is because they had discussed:
-"Why Should a System Administrator Upgrade?" in 2001 \cite{20667}.
+"Why Should a System Administrator Upgrade?" in 2001
+\footnote{Version 2.4 of the LINUX KERNEL--Why Should a System Administrator Upgrade?
+    \url{https://www.informit.com/articles/article.aspx?p=20667}}.
 The Linux kernel almost entered the development path of "upgrade for demand" like
 Microsoft Windows, and deviated from the original path of "providing a mechanism
 but not a strategy" of the original Linux kernel. \\
 
-While Linux were spreading in various server or embedded system devices, the
+While Linux were spreading in various server or distributed system, the
 Linux community got more pull requests to solved the scalability and virtualization
 issues \cite{267148}. However, they avoided confusion caused by multiple meanings of
-the term "container" in the Linux kernel context. In kernel version 2.6.24 (2008)
-\cite{256389}, control groups functionality was merged into the mainline,
+the term "container" in the Linux kernel context. In kernel version 2.6.24 (2007)
+\footnote{Notes from a container: \url{https://lwn.net/Articles/256389/}},
+control groups functionality was merged into the mainline,
 which is designed for an administrator (or administrative daemon) to organize processes
 into hierarchies of containers; each hierarchy is managed by a subsystem. Moreover, the
-cgroups was rewrote into cgroups-v2 in Linux kernel 4.5 (2015) \cite{cgroup-v2}.\\
+cgroups was rewrote into cgroups-v2 in Linux kernel 4.5 (2015)
+\footnote{Control Group v2: \url{https://www.kernel.org/doc/Documentation/cgroup-v2.txt}}.\\
 
 The first and most complete implementation of the Linux container manager was LXC
 (Linux Containers). It was implemented in 2008 using cgroups and namespaces,
@@ -53,7 +57,7 @@ and reliable.
 Statelessness is a developer-friendly feature, the developer and the tester would not
 to design a complex state machine on the server-side or generating test files. And the FHIR
 takes RESTful as standard. Moreover, FHIR standard declared the `StructureDefinition'
-\cite{fhir-StructureDefinition}.
+\footnote{FHIR Resource Structure Definition: \url{http://www.hl7.org/fhir/structuredefinition.html}}.
 These structure definitions are used to describe both the content defined in the FHIR
 specification itself - Resources, data types, the underlying infrastructural types, and
 also are used to describe how these structures are used in implementations.
@@ -68,7 +72,8 @@ NextCloud is an open-source and self-hosted productivity platform for users.
 Many people caring about their privacy issues distrust the FAANG (Facebook,
 Amazon, Apple, Netflix, Google), so they are using NextCloud to keep their privacy
 on their own. Therefore, they are eager to have a secure EHR system for their
-PHR (Personal Healthcare Records).
+PHR
+\footnote{\href{https://www.youtube.com/watch?v=AAP4N3KyLmM}{Richard Stallman talks about IoT}}.
 
 \section{Data and Privacy}
 TBD.
