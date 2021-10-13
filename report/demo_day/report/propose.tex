@@ -1,6 +1,22 @@
 \chapter{Proposed Scheme}
 
 \section{Workflow}
+We proposed a CI/CD workflow to guarantee runtime enforcement of policies 
+in figure \ref{fig:workflow}.
+
+\begin{figure}
+    \centering
+    \smartdiagramset{
+        module minimum width=3cm,
+        text width=2.5cm,
+    }
+    \smartdiagram[circular diagram:clockwise]{
+        Scan base, Sign, Image checking, Start policy, Runtime enforcement
+    }
+    \label{fig:workflow}
+    \caption{Contiguous Integration and Contiguous Deployment}
+\end{figure}
+
 \subsection{Scan Base Image}
 \subsection{Building and Signing}
 \subsection{Check Image and Policy}

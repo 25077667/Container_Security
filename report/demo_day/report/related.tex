@@ -90,9 +90,9 @@ SUNG-HWA HAN et al. said if it have same performance in AUFS or the other file s
 the above results could be more reliable. \\
 
 Yuqiong Sun et al.\cite{217614} proposed separate the security namespace. Each container
-can route their operation to different security namespaces for their "comment". Each 
+can route their operation to different security namespaces for their "comment". Each
 involved the security namespace independently makes a security decision, and the
-operation is allowed only if all the secure namespaces allow. 
+operation is allowed only if all the secure namespaces allow.
 
 
 % TODO: Security Namespace : Making Linux Security Frameworks Available to Containers
@@ -100,6 +100,51 @@ The policy engine and the security namespace are implemented in \dots
 
 
 \section{Recently Exploited Vulnerabilities}
+In this section, we will mention and review some `High' or `Critical' vulnerabilities
+in CVSS (Common Vulnerability Scoring System).
+
+% TODO:
+TBD\dots
+
 \subsection{Five Stages of Malware}
+We had been inspired by the quark engine\footnote{\url{https://quark-engine.readthedocs.io/en/latest/}},
+which is an open-source malware scoring system for Android APK file. The quark
+engine had been developed from the Taiwan Criminal Law's five stages:
+(\Rn{1}) determination, (\Rn{2}) conspiracy, (\Rn{3}) preparation, (\Rn{4}) start, (\Rn{5}) practice.\\
+
+We also can use these five stages to give the malware limitation to exploit the vulnerabilities.
+
+% TODO:
+TBD\dots
+
+\subsection{Case studies}
+
+% TODO: 
+\subsubsection{The Dirty CoW}
+Delwar Alam, et al.\cite{8019988} showed the race condition and the mechanism of "Copy on
+Write". "Copy on Write" is a resource-management technique used in computer programming
+to efficiently implement a "duplicate" or "copy" operation on modifiable resources\cite{6394426}.
+It is often inspired when ‘fork‘ or ‘mmap‘.
+
+\paragraph{Mechanism}
+TBD\dots
+
+\subsubsection{CVE-2016-8655 series}
+TBD\dots
 
 \section{Virtual Environment Performance Benchmark}
+There is a trend of applications are developed or deployed into microservice in virtual
+environment since 2008. And the performance benchmark of applications in the virtual
+environment becomes more and more critical.
+
+Therefore, there are many researches show how to evaluate the performance when using containers or
+the other virtual infrastructures\cite{7371699,KOZHIRBAYEV2017175,7095802,234857}. They are
+comparing the throughput, latency, and QoS for memory IO, or cryptography algorithms
+calculating costs.\\
+
+Ethan G. Young, et al.\cite{234857} showed the gVisor costs: $2.2\times$ system call overhead,
+$2.5\times$ memory allocation latency, and $216\times$ \textbf{slower} then raw system on
+complex file opening.
+
+% TODO: 
+TBD\dots
