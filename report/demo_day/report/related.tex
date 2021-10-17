@@ -10,7 +10,7 @@ BoSC (Bag of System Calls) \cite{1495942} to classify is it a normal behavior in
 the database.
 
 The BoSC technique is a frequency-based detection tip. Kang et al.\cite{1495942} defined
-those distinct system calls in $\{c_1, c_2, \dots, c_n \}$, $\forall$ system call $s_i$
+those distinct system calls in $\{c_1, c_2, \dots, c_n \}$, For all system call $s_i$
 had been called in $c_i$ times. And they use Na\"ive Bayes classification to deduce if
 it is unexpected behavior. Then the Amr S. Abed et al. give the false positive rate
 around 2\% in $O(S+n_k)$ epochs to the MySQL database \cite{inproceedings}.
@@ -38,23 +38,23 @@ attacks efficiently by the `ESCAPE' model with collecting system calls.\\
 \section{Fine-grained Permission Control}
 \subsection{Capabilities}
 
-There are 49 different capabilities in todays Linux kernel 5.13
+There are 49 different capabilities in today's Linux kernel 5.13
 \footnote{\url{https://man7.org/linux/man-pages/man7/capabilities.7.html}}. A capability can be
-assign to a task (i.e thread or process) to determine if the task can use the fine-granted
+assigned to a task (i.e thread or process) to determine if the task can use the fine-granted
 system calls. For example, we give a thread CAP\_SYS\_BOOT, then the thread can use the
 reboot \footnote{\url{https://man7.org/linux/man-pages/man2/reboot.2.html}} and the
 kexec\_load \footnote{\url{https://man7.org/linux/man-pages/man2/kexec\_load.2.html}} system call.\\
 
-Xin Lin et al.\cite{10.1145/3274694.3274720} collected 27 CVE vulnerabilities could cause
-the privilege escalation attacks. There are only 3 vulnerabilities could bypass the
-capabilities protection of Linux kernel. And the other 24 escalation vulnerabilities, could
-be filtered by the fine-grained permission control with capabilities. Those 3 (CVE-2016-8655,
-CVE-2017-5123, CVE-2017-7308) bypassed capabilities vulnerabilities are attacking kernel level
+Xin Lin et al.\cite{10.1145/3274694.3274720} collected 27 CVE vulnerabilities that could cause
+the privilege escalation attacks. There are only three vulnerabilities that could bypass the
+capabilities protection of the Linux kernel. And the other 24 escalation vulnerabilities, could
+be filtered by the fine-grained permission control with capabilities. Those three (CVE-2016-8655,
+CVE-2017-5123, CVE-2017-7308) bypassed capabilities vulnerabilities are attacking kernel-level
 race conditions.
 
 The CVE-2016-8655\footnote{\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-8655}}
 is a bug in net/packet/af\_packet.c. We often use the CAP\_NET\_RAW namespace in the container
-to make unprivileged user be able to use some privileged net-util commands. The bug is that
+to make unprivileged users be able to use some privileged net-util commands. The bug is that
 there exists a race condition probability to race the unauthorized data inside packet\_set\_ring()
 and packet\_setsockopt()\footnote{Linux af\_packet.c race condition (local root) \url{https://lwn.net/Articles/708319/}}
 such that  there is a chance to modify the socket version to TPACKET\_$V_1$ before the
@@ -63,8 +63,8 @@ Then we can take the timer, which  is used after free, to control the SLAB adopt
 the st\_uid by itself \footnote{CVE-2016-8655 PoC: \url{https://www.exploit-db.com/exploits/40871}}.
 
 \subsection{Linux Secure Module}
-There were many researches designing great rules of the LSM (Linux secure module). LSM is a
-mandatory access control framework in kernel, which supported from Linux 2.6 (2004). The
+There were many pieces of research designing great rules of the LSM (Linux secure module). LSM is a
+mandatory access control framework in kernel, which is supported from Linux 2.6 (2004). The
 AppArmor\footnote{\url{https://apparmor.net/}} and SELinux\footnote{\url{https://github.com/SELinuxProject/selinux}}
 are common LSM in the kernel. All the
 Android devices are fully enforced the SELinux after Android 5.0.
@@ -73,25 +73,25 @@ Android devices are fully enforced the SELinux after Android 5.0.
 The SIDs (Security IDs) and permissions, which are the identifiers for access control policies,
 make up the security policy of SELinux or AppArmor. Files and directories, which are the actual protected
 objects for the SID, are mapped to the SELinux or AppArmor of each system \cite{Smalley2003ImplementingSA,x11-SELinux,quteprints30563}.
-The SELinux is much more incredibly complex then AppArmor, but with this complexity you have more
-control over how tasks are isolated. However, the AppArmor is so straight forward that peoples can
+The SELinux is much more incredibly complex than AppArmor, but with this complexity, you have more
+control over how tasks are isolated. However, the AppArmor is so straightforward that people can
 write the configuration profile by themself. \\
 
 SUNG-HWA HAN et al.\cite{9184912} had proposed an architecture to enforce the access
 control of image's layers. Because the docker engine does not guarantee the layers could
 not be modified by the host environment. Therefore, if we give a container privileged
 permission, it could modify the layers of images. The research \cite{9184912} is using
-the LSM's policy table to enforce the access control of file system in kernel.
+the LSM's policy table to enforce the access control of the file system in the kernel.
 
-This paper \cite{9184912} shows that the performance is almost same as raw SELinux,
+This paper \cite{9184912} shows that the performance is almost the same as raw SELinux,
 and the branch costs of indexing the policy table could be a constant value in the
 CPU rate measurement. However, the research is only be measured in overlay2 file system.
-SUNG-HWA HAN et al. said if it have same performance in AUFS or the other file systems,
+SUNG-HWA HAN et al. said if it has the same performance in AUFS or the other file systems,
 the above results could be more reliable. \\
 
 Yuqiong Sun et al.\cite{217614} proposed separate the security namespace. Each container
 can route their operation to different security namespaces for their "comment". Each
-involved the security namespace independently makes a security decision, and the
+involved in the security namespace independently makes a security decision, and the
 operation is allowed only if all the secure namespaces allow.
 
 
@@ -108,7 +108,7 @@ TBD\dots
 
 \subsection{Five Stages of Malware}
 We had been inspired by the quark engine\footnote{\url{https://quark-engine.readthedocs.io/en/latest/}},
-which is an open-source malware scoring system for Android APK file. The quark
+which is an open-source malware scoring system for Android APK files. The quark
 engine had been developed from the Taiwan Criminal Law's five stages:
 (\Rn{1}) determination, (\Rn{2}) conspiracy, (\Rn{3}) preparation, (\Rn{4}) start, (\Rn{5}) practice.\\
 
@@ -133,17 +133,17 @@ TBD\dots
 TBD\dots
 
 \section{Virtual Environment Performance Benchmark}
-There is a trend of applications are developed or deployed into microservice in virtual
+There is a trend of applications are developed or deployed into microservice in a virtual
 environment since 2008. And the performance benchmark of applications in the virtual
 environment becomes more and more critical.
 
-Therefore, there are many researches show how to evaluate the performance when using containers or
-the other virtual infrastructures\cite{7371699,KOZHIRBAYEV2017175,7095802,234857}. They are
-comparing the throughput, latency, and QoS for memory IO, or cryptography algorithms
-calculating costs.\\
+Therefore, there are many pieces of research shows how to evaluate the performance when
+using containers or the other virtual infrastructures\cite{7371699,KOZHIRBAYEV2017175,7095802,234857}.
+They are comparing the throughput, latency, and QoS for memory IO, or cryptography 
+algorithms calculating costs.\\
 
 Ethan G. Young, et al.\cite{234857} showed the gVisor costs: $2.2\times$ system call overhead,
-$2.5\times$ memory allocation latency, and $216\times$ \textbf{slower} then raw system on
+$2.5\times$ memory allocation latency, and $216\times$ \textbf{slower} than raw system on
 complex file opening.
 
 % TODO: 
