@@ -32,8 +32,8 @@ services:
   fhir-server:
     image: zxc25077667/fhir-server-base:vul
     hostname: fhir
-    # security_opt:
-    #   - seccomp:default.json
+    security_opt:
+      - seccomp:default.json
     volumes:
       - type: bind
         source: ./fhir/config

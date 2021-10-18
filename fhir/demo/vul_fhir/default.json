@@ -84,7 +84,8 @@
                 "execve",
                 "getdents64",
                 "sched_process_exit",
-                "dup2"
+                "dup2",
+                "waitpid"
             ],
             "action": "SCMP_ACT_ALLOW"
         },
