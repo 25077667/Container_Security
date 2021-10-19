@@ -122,7 +122,6 @@
         \begin{columns}
             \begin{column}{0.30\textwidth}
                 \centering
-                Normal
                 \begin{tikzpicture}
                     \tikzstyle{block} = [draw, rectangle, text width=\textwidth, text centered, minimum height=1.2cm, fill=gold]
                     \node [block, name = policy] {FHIR Policy};
@@ -132,10 +131,11 @@
                     \draw [thick, <->, blue] ($(container.south west)!0.5!(container.south east)$) -- ($(kernel.north west)!0.5!(kernel.north east)$);
                     \draw [thick, <->, blue] ($(container.south west)!0.75!(container.south east)$) -- ($(kernel.north west)!0.75!(kernel.north east)$);
                 \end{tikzpicture}
+                \newline
+                Normal
             \end{column}
             \begin{column}{0.30\textwidth}
                 \centering
-                Load time check failed
                 \begin{tikzpicture}
                     \tikzstyle{block} = [draw, rectangle, text width=\textwidth, text centered, minimum height=1.2cm, fill=gold]
                     \node [block, name = policy] {FHIR Policy};
@@ -145,10 +145,11 @@
                     \draw [thick, <->, red] ($(container.south west)!0.5!(container.south east)$) -- ($(policy.north west)!0.5!(policy.north east)$);
                     \draw [thick, <->, red] ($(container.south west)!0.75!(container.south east)$) -- ($(policy.north west)!0.75!(policy.north east)$);
                 \end{tikzpicture}
+                \newline
+                Load time check failed
             \end{column}
             \begin{column}{0.30\textwidth}
                 \centering
-                Run time injected
                 \begin{tikzpicture}
                     \tikzstyle{block} = [draw, rectangle, text width=\textwidth, text centered, minimum height=1.2cm, fill=gold]
                     \node [block, name = policy] {FHIR Policy};
@@ -159,6 +160,8 @@
                     \draw [thick, <-, red] ($(container.south west)!0.60!(container.south east)$) -- ($(policy.north west)!0.51!(policy.north east)$);
                     \draw [thick, <->, blue] ($(container.south west)!0.75!(container.south east)$) -- ($(kernel.north west)!0.75!(kernel.north east)$);
                 \end{tikzpicture}
+                \newline
+                Run time injected
             \end{column}
         \end{columns}
     \end{frame}
@@ -183,17 +186,23 @@
     \end{frame}
 
     \section{Why this}
-    \begin{frame}{為什麼這麼簡單的概念，前人沒有實做呢？}
+    \begin{frame}{Why this idea has not been proposed?}
         \begin{enumerate}
-            \item Docker 是有提供一個預設的通用口罩給容器，但是對於特化的系統，就{\color{blue} \textbf{沒有足夠的保護力}}。
-            \item Google 的作法是 Sandbox 裝起來，但是我們研究的目標 IBM/FHIR 疑似不支援管太多的 Sandbox，所以{\color{red} \textbf{無法執行}}。
-            \item 實做這研究，技術門檻偏高，多數時間在 Linux kernel 中間打交道，同時容器安全也是比較新的資安領域。
+            \item Docker provides a general mask to containers, however, it does {\color{blue} \textbf{not have enough efficacy}} to protect the special container.
+            \item Google used a sandbox to encapsulate, however, our researching target (IBM/FHIR) did {\color{red} \textbf{not support}} gVisor.
+            \item This is a new issue in security, moreover, it must have much Linux kernel knowledge to interact with.
         \end{enumerate}
     \end{frame}
 
-    \begin{frame}{取捨}
-        我們提出一個這樣的機制，超前預防惡意程式的攻擊。\\
-        對比Sandbox偵測惡意行為，Sandbox是可以有比較多種的花招，但效能代價相對較高。
+    \begin{frame}{Pros and Cons}
+        \begin{table}[]
+            \begin{tabular}{|l|l|l|}
+                \hline
+                            & Our proposal                          & Sandbox       \\ \hline
+                General     & {\color{red} \textbf{solid}}      & flexible      \\ \hline
+                Performance & {\color{mygreen} \textbf{efficiency}} & expensiveness \\ \hline
+            \end{tabular}
+        \end{table}
     \end{frame}
 
     \section{Statistic \& Performance}
@@ -206,11 +215,11 @@
         \includegraphics[width=\textwidth, height=\textheight]{concurrent.png}
     \end{frame}
 
-    \begin{frame}{Conclude}
-        \centering
+    \begin{frame}{Conclusion}
         \begin{itemize}
-            \item 資安「談起來重要、做起來次要、忙起來不要」
-            \item 考量{\color{mycolor}\textbf{台灣未來}}醫療資訊交換系統將會使用到FHIR標準，保護好民眾的健康資訊，這篇專題研究是{\color{mycolor}\textbf{重要參考}}意義的。
+            \item We propose a {\color{secureColor} \textbf{secure workflow}} for FHIR system.
+            \item We benchmark the {\color{secureColor} \textbf{concurrent performance}} of container and virtual machine in FHIR system server.
+            \item We provide a {\color{secureColor} \textbf{reliable statistic}} in FHIR system for Taiwan.
         \end{itemize}
     \end{frame}
 
