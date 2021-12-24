@@ -92,45 +92,162 @@ the above results could be more reliable. \\
 Yuqiong Sun et al.\cite{217614} proposed separate the security namespace. Each container
 can route their operation to different security namespaces for their "comment". Each
 involved in the security namespace independently makes a security decision, and the
-operation is allowed only if all the secure namespaces allow.
+operation is allowed only if the policy engine allow.
 
-
-% TODO: Security Namespace : Making Linux Security Frameworks Available to Containers
-The policy engine and the security namespace are implemented in \dots
-
+However, the policy engine has four types of policy conflicts: (\RN{1}) Parent-Child Conflict,
+(\RN{2}) Global-Local Conflict, (\RN{3}) Lack of Authority, and  (\RN{4}) Environment does not
+meet the expectation. The initial security namespace $\Phi$ is $\emptyset$. (\RN{1},
+\RN{2}) will route the policy to $\Phi = \Sigma (\Phi \cap P_i), i \in \mathbb{N}, i < n$.
+And the (\RN{3}, \RN{4}) is conflicted by the capabilities of that process. Yuqiong Sun et al.\cite{217614}
+give the capabilities higher hierarchy then policy in the policy engine. Therefore
+all of these conflicts will follow the capability first.
 
 \section{Recently Exploited Vulnerabilities}
 In this section, we will mention and review some `High' or `Critical' vulnerabilities
-in CVSS (Common Vulnerability Scoring System).
+about kernel and containers in CVSS (Common Vulnerability Scoring System).
+Because container is not a real virtual machine, it is an isolated process.
 
-% TODO:
-TBD\dots
+We ignore the CVE-2020-29389 series (CVE 306). Because those CVEs are not container or kernel's
+vulnerabilities, those CVEs are issue of image defaults password. Despite those CVEs got 10.0 score,
+those are small and unimportant vulnerabilities.
 
 \subsection{Five Stages of Malware}
 We had been inspired by the quark engine\footnote{\url{https://quark-engine.readthedocs.io/en/latest/}},
 which is an open-source malware scoring system for Android APK files. The quark
 engine had been developed from the Taiwan Criminal Law's five stages:
-(\Rn{1}) determination, (\Rn{2}) conspiracy, (\Rn{3}) preparation, (\Rn{4}) start, (\Rn{5}) practice.\\
+(\Rn{1}) Determination, (\Rn{2}) Conspiracy, (\Rn{3}) Preparation, (\Rn{4}) Start, (\Rn{5}) Practice.\\
 
-We also can use these five stages to give the malware limitation to exploit the vulnerabilities.
+We also can use these five steps and category to give the malware stage to exploit the vulnerabilities.
+(\Rn{1}) Base image landing, (\Rn{2}) Derived image landing, (\Rn{3}) User landing, (\Rn{4}) Kernel landing,
+(\Rn{5}) Escaping. The escaping category is the worst case of container security, because we want a
+container be a container, it must has zero leakage of capsulation.
 
-% TODO:
-TBD\dots
+\subsubsection{Base image landing}
+This is the most fundamentally basic assumption or guarantee of container security. Amr S. Abed et al.
+\cite{inproceedings} proposed the BoSC technique must be $S = \{\emptyset\}$ in this step. By definition, for all
+container $c$ is an image $I$ in execution, that is  $c = E(I)$. $E$ is a function to execute and
+give container $c$ a description $\delta$ and a lifetime status $\lambda$. If we are using the docker environment, we can use the command:
+\begin{codebash}
+    docker inspect [NAME|ID...]
+\end{codebash}
+to get the description $\delta$ of the container. And we can use
+\begin{codebash}
+    docker ps [OPTIONS]
+\end{codebash}
+to get the lifetime status $\lambda$ of the container.
+$$c=E(I)=\{\delta, \lambda\}$$
+$\lambda \in \{$created, running, paused, stopped$\}$ statuses.
+
+\TODO{Graph}
+
+It is called base image landed, if the BoSC technique $S \neq \{\emptyset\}$, which
+might be injected some malicious item in the image. It is showed bellow.
+
+\TODO{Graph}
+
+\subsubsection{Derived image landing}
+It is called derive image landing if some malicious items are inserted into the final layer,
+while developers are inserting the application(s) and some dependencies into image layers,
+It could be performed by malicious base, dependencies, libraries, or binaries are inserted
+into the filesystem. It is often in third-party unknown source image which is integrated
+and republish by some crackers.
+
+Those unknown source image could be replaced the normal or official image by some hacks or overlays.
+It looks fine when user didn't check the image until user create the instance of image, that is container.
+If the default application trigger malicious part, it would give crackers a chance to take control of
+the container. It would go to the next step user landing.
+
+\subsubsection{User landing}
+It is the cracker land into the container, no matter it is come from derived image or hacking from
+the normal micro-application. Crackers might get a shell or execute some malicious binaries by
+some injections or the other vulnerabilities.
+
+In this step, the cracker could control the normal service to do the unexpected behaviors as
+normal hacking scenarios. They can drop databases \cite{halfond2006classification} , practice
+the local file inclusion \cite{hassan2018saisan, whitman2011principles} etc.
+Take an online judge in container as example: People cloud write some program, compile, and execute on that
+machine. The cracker could wrote some malicious program or load some shell code in those program,
+and give the operating system to execute. This is the user landing step.
+
+If crackers could practice a remote code execution(RCE), they might get a sell and promote the privilege to
+the super-user account in the container. Them can do the same things like the host super-account except for
+the capabilities in \ref{Capabilities}.
+
+\subsubsection{Kernel landing}
+
+It is the hacker could hack the kernel
+\cite{gaspar2006root, dam2018automatic, jimenez2016vulnerability, 10.1007/978-1-4020-8739-4_86}.
+While the kernel copy data from user and execute the user-provided malicious pattern
+or user exploit the kernel vulnerabilities, and let that code executed in kernel mode, that is kernel landing.
+
+It is kernel landing that we will introduce in the following subsection \ref{k_case}.
+
+\subsubsection{Escaping}
+
+This is the most critical step of these five steps, because this is the final utility given by the
+container. Despite the kernel landing is almost control the whole machine, it is the last container
+insecure issue of breaking the containers. There are three types of escaping: (\Rn{1}) Cgroups,
+(\Rn{2}) Namespaces, (\Rn{3}) Capabilities.
+
+It is (\Rn{1}) the cgroup escaping that Xing Gao et al. \cite{10.1145/3319535.3354227} break the
+cgroups' limitation and affect the other container on the same host significantly, and gain
+some extra resource from the host. It is (\Rn{2}) the namespace escaping that shows in \ref{oopmachine}
+demonstration paragraph.
+The last one (\Rn{3}) capability escaping can be overridden the capability after the kernel landing
+and modify the `task struct' of the process in kernel.
 
 \subsection{Case studies}
+\label{k_case}
 
-% TODO: 
 \subsubsection{The Dirty CoW}
-Delwar Alam, et al.\cite{8019988} showed the race condition and the mechanism of "Copy on
+Delwar Alam, et al. \cite{8019988} showed the race condition and the mechanism of "Copy on
 Write". "Copy on Write" is a resource-management technique used in computer programming
-to efficiently implement a "duplicate" or "copy" operation on modifiable resources\cite{6394426}.
-It is often inspired when ‘fork‘ or ‘mmap‘.
+to efficiently implement a "duplicate" or "copy" operation on modifiable resources \cite{6394426}.
+It is often inspired when ‘fork' or ‘mmap'.
 
 \paragraph{Mechanism}
-TBD\dots
+Let's analyze the proof of concept (PoC) of the dirty CoW \cite{8019988} vulnerability
+\footnote{https://github.com/dirtycow/dirtycow.github.io/blob/master/dirtyc0w.c}.
+The key of inspiring this vulnerability is the mmaped memory space, which is mapped with
+the PROT\_READ flag. The PROT\_READ flag declares that the page is read-only.
+\lstinputlisting[language=C, linerange={87-89, 101-101}, firstnumber=87]{src/dirtyc0w.c}
+
+It creates two threads, which would have a race condition of the mmaped memory space,
+madviseThread and procselfmemThread.
+
+\lstinputlisting[language=C, linerange={106-107}, firstnumber=106]{src/dirtyc0w.c}
+
+In one thread, issuing a system call `madvise', would make the user thread gain the root
+privilege to operate the protected page temporarily. And the flag MADV\_DONTNEED would
+tell the kernel: "Do not expect to access it in the near future." Moreover,
+this flag might not lead to immediate freeing of pages in the range. The kernel is free
+to delay free the pages until an appropriate moment \footnote{https://man7.org/linux/man-pages/man2/madvise.2.html}.
+
+\lstinputlisting[language=C, linerange={33-39,45-48}, firstnumber=33]{src/dirtyc0w.c}
+
+In another thread, open its memory resource file. This file is a special file, which allows
+the process to read its memory by itself.\\
+
+Then, we move the printer of file descriptor of the memory resource file to the mmaped
+space. And we try to write it. But the mmaped space is read-only. We expected that the
+kernel would create a copy of this space and write the copy \cite{8001953}.\\
+\lstinputlisting[language=C, linerange={50-53,61-63,67-71}, firstnumber=50]{src/dirtyc0w.c}
+
+However, there is a problem! There is another thread that is racing this page with root
+privilege. If the schedular context switches the madviseThread to procselfmemThread while
+the adviseThread is calling the `madvise' system call, it would cause the
+procselfmemThread to gain the root privilege from madviseThread to control the mmaped file.
+
+\paragraph{Demo}
+\label{oopmachine}
+
+\TODO{Demo steps}
 
 \subsubsection{CVE-2016-8655 series}
 TBD\dots
+
+\subsubsection{CVE-2019-5736}
+% https://www.gushiciku.cn/pl/2djH/zh-tw
 
 \section{Virtual Environment Performance Benchmark}
 There is a trend of applications are developed or deployed into microservice in a virtual
@@ -139,7 +256,7 @@ environment becomes more and more critical.
 
 Therefore, there are many pieces of research shows how to evaluate the performance when
 using containers or the other virtual infrastructures\cite{7371699,KOZHIRBAYEV2017175,7095802,234857}.
-They are comparing the throughput, latency, and QoS for memory IO, or cryptography 
+They are comparing the throughput, latency, and QoS for memory IO, or cryptography
 algorithms calculating costs.\\
 
 Ethan G. Young, et al.\cite{234857} showed the gVisor costs: $2.2\times$ system call overhead,

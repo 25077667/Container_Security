@@ -1,0 +1,64 @@
+\documentclass{beamer}
+\usepackage{progressbar, tcolorbox, CJKutf8, hyperref, multicol, pdfpages, graphicx, xcolor, listings}
+\usepackage[absolute,overlay]{textpos}
+
+\usetheme{AnnArbor}
+
+\definecolor{dockerColor}{RGB}{13, 183, 237}
+\definecolor{secureColor}{RGB}{10, 191, 83}
+\definecolor{aquamarine}{rgb}{0.5, 1.0, 0.83}
+\definecolor{aquamarine2}{rgb}{0.2, 1.0, 0.53}
+
+\title{The Container Security in Healthcare Data Exchange System}
+\subtitle{Bachelor's degree graduation project}
+\author{Chih-Hsuan Yang}
+\institute{National Sun Yat-sen University\\
+Advisor: Chun-I Fan
+}
+\date{\today}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+
+
+\begin{document}
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\begin{frame}{}
+    \centering
+    Keep writing the final report.
+\end{frame}
+
+\begin{frame}{Lines change}
+    \centering
+    \Huge
+    {\color{secureColor} \textbf{$+387$}}
+\end{frame}
+
+\begin{frame}{So, how many pages now?}
+    \begin{itemize}
+        \item 26 pages
+        \item 31 cites
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \centering
+    It's still being a long way to go.\\
+    \progressbar[width=5cm,heightr=1,filledcolor=red,
+        emptycolor=blue!30]{0.26} 26\%
+\end{frame}
+
+\end{document}
