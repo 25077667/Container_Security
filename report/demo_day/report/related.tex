@@ -191,7 +191,7 @@ insecure issue of breaking the containers. There are three types of escaping: (\
 
 It is (\Rn{1}) the cgroup escaping that Xing Gao et al. \cite{10.1145/3319535.3354227} break the
 cgroups' limitation and affect the other container on the same host significantly, and gain
-some extra resource from the host. It is (\Rn{2}) the namespace escaping that shows in \ref{oopmachine}
+some extra resource from the host. It is (\Rn{2}) the namespace escaping that shows in \ref{qemumachine}
 demonstration paragraph.
 The last one (\Rn{3}) capability escaping can be overridden the capability after the kernel landing
 and modify the `task struct' of the process in kernel.
@@ -203,11 +203,11 @@ and modify the `task struct' of the process in kernel.
 Delwar Alam, et al. \cite{8019988} showed the race condition and the mechanism of "Copy on
 Write". "Copy on Write" is a resource-management technique used in computer programming
 to efficiently implement a "duplicate" or "copy" operation on modifiable resources \cite{6394426}.
-It is often inspired when ‘fork' or ‘mmap'.
+It is often inspired when `fork' or `mmap'.
 
 \paragraph{Mechanism}
 Let's analyze the proof of concept (PoC) of the dirty CoW \cite{8019988} vulnerability
-\footnote{https://github.com/dirtycow/dirtycow.github.io/blob/master/dirtyc0w.c}.
+\footnote{\url{https://github.com/dirtycow/dirtycow.github.io/blob/master/dirtyc0w.c}}.
 The key of inspiring this vulnerability is the mmaped memory space, which is mapped with
 the PROT\_READ flag. The PROT\_READ flag declares that the page is read-only.
 \lstinputlisting[language=C, linerange={87-89, 101-101}, firstnumber=87]{src/dirtyc0w.c}
@@ -221,7 +221,7 @@ In one thread, issuing a system call `madvise', would make the user thread gain 
 privilege to operate the protected page temporarily. And the flag MADV\_DONTNEED would
 tell the kernel: "Do not expect to access it in the near future." Moreover,
 this flag might not lead to immediate freeing of pages in the range. The kernel is free
-to delay free the pages until an appropriate moment \footnote{https://man7.org/linux/man-pages/man2/madvise.2.html}.
+to delay free the pages until an appropriate moment \footnote{\url{https://man7.org/linux/man-pages/man2/madvise.2.html}}.
 
 \lstinputlisting[language=C, linerange={33-39,45-48}, firstnumber=33]{src/dirtyc0w.c}
 
@@ -238,16 +238,63 @@ privilege. If the schedular context switches the madviseThread to procselfmemThr
 the adviseThread is calling the `madvise' system call, it would cause the
 procselfmemThread to gain the root privilege from madviseThread to control the mmaped file.
 
-\paragraph{Demo}
-\label{oopmachine}
-
-\TODO{Demo steps}
+\paragraph{Demo}\mbox{}\\
+\includegraphics[width=\textwidth]{src/Screenshot_2021-12-26_05-14-58.png}
 
 \subsubsection{CVE-2016-8655 series}
-TBD\dots
+We will introduce the series vulnerabilities related to CVE-2016-8655\footnote{
+    \url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-8655}}, which are
+CVE-2017-7308\footnote{\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7308}}
+and CVE-2020-14386\footnote{\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-14386}}.
+These vulnerabilities are related to the bugs in net/packet/af\_packet.c in the kernel.
+These series vulnerability is rely on the capability of CAP\_NET\_RAW\footnote{\url{https://linux.die.net/man/7/capabilities}},
+which is a capability that can "use RAW and PACKET sockets and bind to
+any address for transparent proxying" in Linux. And we will introduce Linux
+capabilities at \ref{Capabilities}.
 
-\subsubsection{CVE-2019-5736}
+\paragraph{CVE-2016-8655 and CVE-2017-7308} They are that there exists a race condition probability to
+race the unauthorized data inside packet\_set\_ring() and packet\_setsockopt().
+When we are using the PACKET\_RX\_RING option on the setsockopt(), and if the
+version of the packet socket is TPACKET\_V3. Then we can race the init\_prb\_bdqc()
+and swap(rb->pg\_vec, pg\_vec) in packet\_set\_ring() with the spin lock rb\_queue->lock.
+However, when the socket was closed and called kfree() of the struct packet\_sock.
+It causes a use-after-free on a kernel timer object that can be exploited
+by various attacks on the SLAB allocator in setsockopt()
+\footnote{\url{https://github.com/torvalds/linux/blob/f6fb8f100b807378fda19e83e5ac6828b638603a/net/packet/af\_packet.c\#L3690}}
+\footnote{\url{https://googleprojectzero.blogspot.com/2017/05/exploiting-linux-kernel-via-packet.html}}.
+
+They are critical vulnerabilities that can impact all Linux distributions' kernel being
+built from 2011 to 2016. We can use these vulnerabilities to land on the kernel in
+containers, such that the container would be controlled by crackers.
+
+\paragraph{CVE-2020-14386} It is a combination of CVE-2016-8655 and CVE-2017-7308 above.
+Despite people patch those vulnerabilities, there exist an arithmetic overflow, because
+the variable of netoff is an offset of ethernet header which is only stored in an unsigned
+short. Crackers can produce an arithmetic overflow when they have the CAP\_NET\_RAW capability,
+which value must be smaller than INT\_MAX, but receive a larger value than the size of a
+block and write beyond the bounds of a frame buffer\footnote{\url{https://www.openwall.com/lists/oss-security/2020/09/03/3}}.
+
+Or Cohen submitted the patch\footnote{\url{https://github.com/torvalds/linux/commit/acf69c946233259ab4d64f8869d4037a198c7f06}}
+to fix this CVE-2020-14386, and this patch is integrated in Linux 5.8. This vulnerability
+is also a kernel level bug that can gain root privileges from unprivileged processes.
+Therefore, cracker could use this vulnerability to get the privilege to escape from containers.
+
+People notice that it is impossible to do any protection if the kernel have vulnerabilities
+that container has the capability to ask kernel to execute malicious code directly. Despite
+they make the kernel up-to-date, there also have some probability that cracker could exploit
+the kernel and brake the container. Because, containers are just isolated processes, they
+are using the shared kernel as the host. When this bug is published, google's gVisor said
+"Hey, we are immunity to this vulnerability." \footnote{\url{https://cloud.google.com/blog/products/containers-kubernetes/how-gvisor-protects-google-cloud-services-from-cve-2020-14386}}
+Because the gVisor implement their own network stack in their gVisor sandbox by the go language.
+They do not ask for these supports from kernel.
+
+\subsubsection{runC exploits}
+\paragraph{CVE-2016-9962}
+
 % https://www.gushiciku.cn/pl/2djH/zh-tw
+
+\paragraph{CVE-2019-5736}
+
 
 \section{Virtual Environment Performance Benchmark}
 There is a trend of applications are developed or deployed into microservice in a virtual
