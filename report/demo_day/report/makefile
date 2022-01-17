@@ -19,4 +19,4 @@ clean:
 	@rm -f *.xdv
 
 clean_all: clean
-	rm -f main.pdf
+	@rm -f report.pdf
