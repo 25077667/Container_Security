@@ -1,0 +1,30 @@
+\chapter{Analysis and Benchmark}
+
+\section{Analysis}
+\subsection{Attacking Surface}
+\subsection{Time Consuming}
+\subsection{Statistics}
+Figure \ref{hist} is the FHIR server's all system calls in 
+BoSC\cite{1495942} and the number of called times.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{src/hist.png}
+    \label{hist}
+    \caption{All the system calls which the FHIR called times}
+\end{figure}
+
+
+
+\section{Benchmark}
+\subsection{Latency}
+Figure \ref{conc} is the concurrent processes transporting time
+difference in container and virtual machine.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{src/concurrent.png}
+    \label{conc}
+    \caption{Concurrent processes transporting time}
+\end{figure}
+
+\subsection{Throughput}
+TBD\dots

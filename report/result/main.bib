@@ -1,0 +1,354 @@
+@inproceedings{8473370,
+  author    = {Ahmed, Arif and Pierre, Guillaume},
+  booktitle = {2018 IEEE International Conference on Edge Computing (EDGE)},
+  doi       = {10.1109/EDGE.2018.00008},
+  number    = {},
+  pages     = {1-8},
+  title     = {Docker Container Deployment in Fog Computing Infrastructures},
+  volume    = {},
+  year      = {2018}
+}
+
+@inproceedings{10.5555/1267569.1267570,
+  abstract  = {Many popular programs, such as Netscape, use untrusted helper applications to process
+               data from the network. Unfortunately, the unauthenticated network data they interpret
+               could well have been created by an adversary, and the helper applications are usually
+               too complex to be bug-free. This raises significant security concerns. Therefore,
+               it is desirable to create a secure environment to contain untrusted helper applications.
+               We propose to reduce the risk of a security breach by restricting the program's access
+               to the operating system. In particular, we intercept and filter dangerous system calls
+               via the Solaris process tracing facility. This enabled us to build a simple, clean,
+               user-mode implementation of a secure environment for untrusted helper applications.
+               Our implementation has negligible performance impact, and can protect pre-existing
+               applications.},
+  address   = {USA},
+  author    = {Goldberg, Ian and Wagner, David and Thomas, Randi and Brewer, Eric A.},
+  booktitle = {Proceedings of the 6th Conference on USENIX Security Symposium, Focusing on Applications of Cryptography - Volume 6},
+  location  = {San Jose, California},
+  numpages  = {1},
+  pages     = {1},
+  publisher = {USENIX Association},
+  series    = {SSYM'96},
+  title     = {A Secure Environment for Untrusted Helper Applications Confining the Wily Hacker},
+  year      = {1996}
+}
+
+@inproceedings{267148,
+  address   = {Vancouver, BC},
+  author    = {Silas Boyd-Wickizer and Austin T. Clements and Yandong Mao and Aleksey Pesterev and M. Frans Kaashoek and Robert Morris and Nickolai Zeldovich},
+  booktitle = {9th {USENIX} Symposium on Operating Systems Design and Implementation ({OSDI} 10)},
+  month     = oct,
+  publisher = {{USENIX} Association},
+  title     = {An Analysis of Linux Scalability to Many Cores},
+  url       = {https://www.usenix.org/conference/osdi10/analysis-linux-scalability-many-cores},
+  year      = {2010}
+}
+
+@inproceedings{10.1007/978-3-319-24858-5_8,
+  abstract  = {Linux containers are gaining increasing traction in both individual and industrial use, and as these containers get integrated into mission-critical systems, real-time detection of malicious cyber attacks becomes a critical operational requirement. This paper introduces a real-time host-based intrusion detection system that can be used to passively detect malfeasance against applications within Linux containers running in a standalone or in a cloud multi-tenancy environment. The demonstrated intrusion detection system uses bags of system calls monitored from the host kernel for learning the behavior of an application running within a Linux container and determining anomalous container behavior. Performance of the approach using a database application was measured and results are discussed.},
+  address   = {Berlin, Heidelberg},
+  author    = {Abed, Amr S. and Clancy, Charles and Levy, David S.},
+  booktitle = {Proceedings of the 11th International Workshop on Security and Trust Management - Volume 9331},
+  doi       = {10.1007/978-3-319-24858-5_8},
+  isbn      = {9783319248578},
+  keywords  = {System call monitoring, Security in cloud computing, Anomaly detection, Intrusion detection, Container security},
+  location  = {Vienna, Austria},
+  numpages  = {13},
+  pages     = {123-135},
+  publisher = {Springer-Verlag},
+  series    = {STM 2015},
+  title     = {Intrusion Detection System for Applications Using Linux Containers},
+  url       = {https://doi.org/10.1007/978-3-319-24858-5_8},
+  year      = {2015}
+}
+
+@inproceedings{9307722,
+  author    = {Flora, José},
+  booktitle = {2020 IEEE International Symposium on Software Reliability Engineering Workshops (ISSREW)},
+  doi       = {10.1109/ISSREW51248.2020.00051},
+  number    = {},
+  pages     = {131-134},
+  title     = {Improving the Security of Microservice Systems by Detecting and Tolerating Intrusions},
+  volume    = {},
+  year      = {2020}
+}
+
+@inproceedings{7809699,
+  author    = {Azab, Mohamed and Mokhtar, Bassem M. and Abed, Amr S. and Eltoweissy, Mohamed},
+  booktitle = {2016 IEEE 2nd International Conference on Collaboration and Internet Computing (CIC)},
+  doi       = {10.1109/CIC.2016.028},
+  number    = {},
+  pages     = {122-130},
+  title     = {Smart Moving Target Defense for Linux Container Resiliency},
+  volume    = {},
+  year      = {2016}
+}
+
+@inproceedings{7796855,
+  author    = {Azab, Mohamed and Mokhtar, Bassem and Abed, Amr S. and Eltoweissy, Mohamed},
+  booktitle = {2016 IEEE 41st Conference on Local Computer Networks (LCN)},
+  doi       = {10.1109/LCN.2016.106},
+  number    = {},
+  pages     = {619-622},
+  title     = {Toward Smart Moving Target Defense for Linux Container Resiliency},
+  volume    = {},
+  year      = {2016}
+}
+
+@inproceedings{1495942,
+  author    = {Dae-Ki Kang and Fuller, D. and Honavar, V.},
+  booktitle = {Proceedings from the Sixth Annual IEEE SMC Information Assurance Workshop},
+  doi       = {10.1109/IAW.2005.1495942},
+  number    = {},
+  pages     = {118-125},
+  title     = {Learning classifiers for misuse and anomaly detection using a bag of system calls representation},
+  volume    = {},
+  year      = {2005}
+}
+
+@inproceedings{Grnbacher2003POSIXAC,
+  author    = {Andreas Gr{\"u}nbacher},
+  booktitle = {USENIX Annual Technical Conference, FREENIX Track},
+  title     = {POSIX Access Control Lists on Linux},
+  year      = {2003}
+}
+
+@inproceedings{10.5555/3026877.3026930,
+  abstract  = {In multi-tenant environments, Linux containers managed by Docker or Kubernetes have a lower resource footprint, faster startup times, and higher I/O performance compared to virtual machines (VMs) on hypervisors. Yet their weaker isolation guarantees, enforced through software kernel mechanisms, make it easier for attackers to compromise the confidentiality and integrity of application data within containers.We describe SCONE, a secure container mechanism for Docker that uses the SGX trusted execution support of Intel CPUs to protect container processes from outside attacks. The design of SCONE leads to (i) a small trusted computing base (TCB) and (ii) a low performance overhead: SCONE offers a secure C standard library interface that transparently encrypts/decrypts I/O data; to reduce the performance impact of thread synchronization and system calls within SGX enclaves, SCONE supports user-level threading and asynchronous system calls. Our evaluation shows that it protects unmodified applications with SGX, achieving 0.6\texttimes{}-1.2\texttimes{} of native throughput.},
+  address   = {USA},
+  author    = {Arnautov, Sergei and Trach, Bohdan and Gregor, Franz and Knauth, Thomas and Martin, Andre and Priebe, Christian and Lind, Joshua and Muthukumaran, Divya and O'Keeffe, Dan and Stillwell, Mark L. and Goltzsche, David and Eyers, David and Kapitza, R\"{u}diger and Pietzuch, Peter and Fetzer, Christof},
+  booktitle = {Proceedings of the 12th USENIX Conference on Operating Systems Design and Implementation},
+  isbn      = {9781931971331},
+  location  = {Savannah, GA, USA},
+  numpages  = {15},
+  pages     = {689-703},
+  publisher = {USENIX Association},
+  series    = {OSDI'16},
+  title     = {SCONE: Secure Linux Containers with Intel SGX},
+  year      = {2016}
+}
+
+@article{9184912,
+  author  = {Han, Sung-Hwa and Lee, Hoo-Ki and Lee, Sung-Taek and Kim, Sung-Jin and Jang, Won-Jung},
+  doi     = {10.1109/ACCESS.2020.3021044},
+  journal = {IEEE Access},
+  number  = {},
+  pages   = {162012-162021},
+  title   = {Container Image Access Control Architecture to Protect Applications},
+  volume  = {8},
+  year    = {2020}
+}
+
+@inproceedings{217614,
+  address   = {Baltimore, MD},
+  author    = {Yuqiong Sun and David Safford and Mimi Zohar and Dimitrios Pendarakis and Zhongshu Gu and Trent Jaeger},
+  booktitle = {27th {USENIX} Security Symposium ({USENIX} Security 18)},
+  isbn      = {978-1-939133-04-5},
+  month     = aug,
+  pages     = {1423--1439},
+  publisher = {{USENIX} Association},
+  title     = {Security Namespace: Making Linux Security Frameworks Available to Containers},
+  url       = {https://www.usenix.org/conference/usenixsecurity18/presentation/sun},
+  year      = {2018}
+}
+
+@inproceedings{Smalley2003ImplementingSA,
+  author = {Stephen Dale Smalley and Chris Vance and Wayne Salamon},
+  title  = {Implementing SELinux as a Linux Security Module},
+  year   = {2003}
+}
+
+@inproceedings{x11-SELinux,
+  author = {Doug Kilpatrick and Wayne Salamon and Chris Vance},
+  title  = {Securing The X Window System With SELinux},
+  year   = {2003}
+}
+
+@incollection{quteprints30563,
+  address   = {Australia},
+  author    = {Luis Franco and Tony Sahama and Peter Croll},
+  booktitle = {Health Data and Knowledge Management 2008},
+  editor    = {P Yu P and J R Warren and J D Patrick and J Yearwood},
+  keywords  = {HIS, SELinux, access control, health information, privacy},
+  pages     = {27--33},
+  publisher = {Australian Computer Society},
+  title     = {Security Enhanced Linux to enforce Mandatory Access Control in Health Information Systems},
+  url       = {https://eprints.qut.edu.au/30563/},
+  year      = {2008}
+}
+
+@inproceedings{6394426,
+  author    = {Lan, Hong and Wang, Xuan},
+  booktitle = {2012 International Conference on Computer Science and Service System},
+  doi       = {10.1109/CSSS.2012.188},
+  number    = {},
+  pages     = {734-737},
+  title     = {Research and Design of Concurrent Web Server on Linux System},
+  volume    = {},
+  year      = {2012}
+}
+
+@inproceedings{8019988,
+  author    = {Alam, Delwar and Zaman, Moniruz and Farah, Tanjila and Rahman, Rummana and Hosain, M. Shazzad},
+  booktitle = {2017 International Conference on Consumer Electronics and Devices (ICCED)},
+  doi       = {10.1109/ICCED.2017.8019988},
+  number    = {},
+  pages     = {40-45},
+  title     = {Study of the Dirty Copy on Write, a Linux Kernel memory allocation vulnerability},
+  volume    = {},
+  year      = {2017}
+}
+
+@inproceedings{7371699,
+  author    = {Amaral, Marcelo and Polo, Jordà and Carrera, David and Mohomed, Iqbal and Unuvar, Merve and Steinder, Malgorzata},
+  booktitle = {2015 IEEE 14th International Symposium on Network Computing and Applications},
+  doi       = {10.1109/NCA.2015.49},
+  number    = {},
+  pages     = {27-34},
+  title     = {Performance Evaluation of Microservices Architectures Using Containers},
+  volume    = {},
+  year      = {2015}
+}
+
+@article{KOZHIRBAYEV2017175,
+  abstract = {Cloud computing allows to utilize servers in efficient and scalable ways through exploitation of virtualization technology. In the Infrastructure-as-a-Server (IaaS) Cloud model, many virtualized servers (instances) can be created on a single physical machine. There are many such Cloud providers that are now in widespread use offering such capabilities. However, Cloud computing has overheads and can constrain the scalability and flexibility, especially when diverse users with different needs wish to use the Cloud resources. To accommodate such communities, an alternative to Cloud computing and virtualization of whole servers that is gaining widespread adoption is micro-hosting services and container-based solutions. Container-based technologies such as Docker allow hosting of micro-services on Cloud infrastructures. These enable bundling of applications and data in a manner that allows their easy deployment and subsequent utilization. Docker is just one of the many such solutions that have been put forward. The purpose of this paper is to compare and contrast a range of existing container-based technologies for the Cloud and evaluate their pros and cons and overall performances. The OpenStack-based Australia-wide National eResearch Collaboration Tools and Resources (NeCTAR) Research Cloud (www.nectar.org.au) was used for this purpose. We describe the design of the experiments and benchmarks that were chosen and relate these to literature review findings.},
+  author   = {Zhanibek Kozhirbayev and Richard O. Sinnott},
+  doi      = {https://doi.org/10.1016/j.future.2016.08.025},
+  issn     = {0167-739X},
+  journal  = {Future Generation Computer Systems},
+  keywords = {Container-based virtualization technologies, Cloud computing, Performance comparison},
+  pages    = {175-182},
+  title    = {A performance comparison of container-based technologies for the Cloud},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0167739X16303041},
+  volume   = {68},
+  year     = {2017}
+}
+
+@inproceedings{7095802,
+  author    = {Felter, Wes and Ferreira, Alexandre and Rajamony, Ram and Rubio, Juan},
+  booktitle = {2015 IEEE International Symposium on Performance Analysis of Systems and Software (ISPASS)},
+  doi       = {10.1109/ISPASS.2015.7095802},
+  number    = {},
+  pages     = {171-172},
+  title     = {An updated performance comparison of virtual machines and Linux containers},
+  volume    = {},
+  year      = {2015}
+}
+
+@inproceedings{234857,
+  address   = {Renton, WA},
+  author    = {Ethan G. Young and Pengfei Zhu and Tyler Caraza-Harter and Andrea C. Arpaci-Dusseau and Remzi H. Arpaci-Dusseau},
+  booktitle = {11th {USENIX} Workshop on Hot Topics in Cloud Computing (HotCloud 19)},
+  month     = jul,
+  publisher = {{USENIX} Association},
+  title     = {The True Cost of Containing: A gVisor Case Study},
+  url       = {https://www.usenix.org/conference/hotcloud19/presentation/young},
+  year      = {2019}
+}
+
+@book{9780596001087,
+  author    = {Eric Steven Raymond},
+  isbn      = {9780596001087},
+  publisher = {O'Reilly Media, Inc.},
+  subtitle  = {},
+  title     = {The Cathedral and the Bazaar},
+  year      = {2002}
+}
+
+@article{hassan2018saisan,
+  author  = {Hassan, Md Maruf and Bhuyian, Touhid and Sohel, M Khaled and Sharif, Md Hasan and Biswas, Saikat},
+  journal = {International Journal of Engineering \& Technology},
+  number  = {2-3},
+  pages   = {4},
+  title   = {SAISAN: An automated Local File Inclusion vulnerability detection model},
+  volume  = {7},
+  year    = {2018}
+}
+
+@book{whitman2011principles,
+  author    = {Whitman, Michael E and Mattord, Herbert J},
+  publisher = {Cengage learning},
+  title     = {Principles of information security},
+  year      = {2011}
+}
+
+@inproceedings{halfond2006classification,
+  author       = {Halfond, William G and Viegas, Jeremy and Orso, Alessandro and others},
+  booktitle    = {Proceedings of the IEEE international symposium on secure software engineering},
+  organization = {IEEE},
+  pages        = {13--15},
+  title        = {A classification of SQL-injection attacks and countermeasures},
+  volume       = {1},
+  year         = {2006}
+}
+
+@article{gaspar2006root,
+  author    = {Gaspar, Alessio and Godwin, Clark},
+  journal   = {Journal of Computing Sciences in Colleges},
+  number    = {2},
+  pages     = {244--250},
+  publisher = {Consortium for Computing Sciences in Colleges},
+  title     = {Root-kits \& loadable kernel modules: exploiting the Linux kernel for fun and (educational) profit},
+  volume    = {22},
+  year      = {2006}
+}
+
+@article{dam2018automatic,
+  author    = {Dam, Hoa Khanh and Tran, Truyen and Pham, Trang Thi Minh and Ng, Shien Wee and Grundy, John and Ghose, Aditya},
+  journal   = {IEEE Transactions on Software Engineering},
+  publisher = {IEEE},
+  title     = {Automatic feature learning for predicting vulnerable software components},
+  year      = {2018}
+}
+
+@inproceedings{jimenez2016vulnerability,
+  author       = {Jimenez, Matthieu and Papadakis, Mike and Le Traon, Yves},
+  booktitle    = {2016 IEEE 16th International Working Conference on Source Code Analysis and Manipulation (SCAM)},
+  organization = {IEEE},
+  pages        = {1--10},
+  title        = {Vulnerability prediction models: A case study on the linux kernel},
+  year         = {2016}
+}
+
+@inproceedings{10.1007/978-1-4020-8739-4_86,
+  abstract  = {This paper presents the results of a case study on software vulnerability solutions in the Linux kernel. Our major contribution is the introduction of a classification of methods used to solve vulnerabilities. Our research shows that error handling, redesign, and precondition validation are the most used methods in solving vulnerabilities in the Linux kernel. This contribution is accompanied with statistics on the occurrence of the different types of vulnerabilities and their solutions that we observed during our case study, combined with example source code patches. We also combine our findings with existing programming guidelines to create the first security-oriented coding guidelines for the Linux kernel.},
+  address   = {Dordrecht},
+  author    = {Mokhov, Serguei A.
+               and Laverdi{\`e}re, Marc-Andr{\'e}
+               and Benredjem, Djamel},
+  booktitle = {Innovative Techniques in Instruction Technology, E-learning, E-assessment, and Education},
+  editor    = {Iskander, Magued},
+  isbn      = {978-1-4020-8739-4},
+  pages     = {485--493},
+  publisher = {Springer Netherlands},
+  title     = {Taxonomy of Linux Kernel Vulnerability Solutions},
+  year      = {2008}
+}
+
+@inproceedings{10.1145/3319535.3354227,
+  address   = {New York, NY, USA},
+  author    = {Gao, Xing and Gu, Zhongshu and Li, Zhengfa and Jamjoom, Hani and Wang, Cong},
+  booktitle = {Proceedings of the 2019 ACM SIGSAC Conference on Computer and Communications Security},
+  doi       = {10.1145/3319535.3354227},
+  isbn      = {9781450367479},
+  keywords  = {docker, container, control groups},
+  location  = {London, United Kingdom},
+  numpages  = {14},
+  pages     = {1073-1086},
+  publisher = {Association for Computing Machinery},
+  series    = {CCS '19},
+  title     = {Houdini's Escape: Breaking the Resource Rein of Linux Control Groups},
+  url       = {https://doi.org/10.1145/3319535.3354227},
+  year      = {2019}
+}
+
+@inproceedings{8001953,
+  author    = {Saleel, A.P. and Nazeer, Mohamed and Beheshti, Babak D.},
+  booktitle = {2017 IEEE Long Island Systems, Applications and Technology Conference (LISAT)},
+  doi       = {10.1109/LISAT.2017.8001953},
+  number    = {},
+  pages     = {1-5},
+  title     = {Linux kernel OS local root exploit},
+  volume    = {},
+  year      = {2017}
+}
