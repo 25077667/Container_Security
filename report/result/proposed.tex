@@ -52,6 +52,8 @@ program's $n$ system calls, $S \subseteq \mathbb{S}$, the $\mathbb{S}$ is all th
 calls that the kernel supported.  We wrote a driver to parse the $S$ into
 a whitelist filter of seccomp's policy $P$.
 
+% To catch the system calls of the programs in the container, we use a 
+
 Through the workflow above, the $L_i$'s security is almost surely enough.
 Then we sign our certificate $C$ and the policy $R$ to the image $I_i$, which
 is constructed by those trusted layers $L_i$ into $\hat I_{i}$. That is
