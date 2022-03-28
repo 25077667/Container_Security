@@ -42,7 +42,7 @@ Even though we normally give the system administrator the highest privileges
 to perform arbitrary tasks, we can analyze the behavior of the container
 at build time and block unexpected behavior.
 
-\subsubsection{Zero-day or One-day vulnerability}
+\subsubsection{Zero-day or One-day Vulnerability}
 Assuming that the hacker does not have system administration privileges,
 but exploits the vulnerability of the health information exchange system
 (IBM/FHIR server) to conduct malicious attacks, we can also use the same
@@ -102,8 +102,8 @@ BoSC\cite{1495942} and the number of called times.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{src/hist.png}
-    \label{hist}
     \caption{All the system calls which the FHIR called times}
+    \label{hist}
 \end{figure}
 Among them, we can find that the most used is the `stat' system call.
 
@@ -136,6 +136,6 @@ machines seems to be different in complexity from that of a native container.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{src/concurrent.png}
-    \label{conc}
     \caption{Concurrent processes transporting time}
+    \label{conc}
 \end{figure}
