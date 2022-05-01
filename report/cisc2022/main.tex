@@ -1,11 +1,28 @@
+%!TEX program=xelatex
 \documentclass[a4paper, 10pt]{IEEEtran}
-\usepackage{geometry, xcolor, amssymb, listings, graphicx, times, smartdiagram}
+\usepackage{geometry, xcolor, amssymb, listings, graphicx, times, smartdiagram, fontspec, xeCJK, fancyhdr, authblk, titlesec, abstract}
 \usepackage[backend=biber,style=numeric,sorting=nyt]{biblatex}
 \addbibresource{main.bib}
 \usepackage[colorlinks=true, linkcolor=blue]{hyperref}
 \usepackage{bookmark}
-\geometry{margin=2cm}
+\geometry{margin=2.5cm}
 \setlength{\parindent}{2em}
+\setlength\columnsep{0.5cm}
+
+\setCJKmainfont[AutoFakeBold=2,AutoFakeSlant=.4]{[kaiu.ttf]}
+\setmainfont{Times New Roman}
+
+\titleformat{\section}
+  {\fontsize{12pt}{15}\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+ {\fontsize{11pt}{15}\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+ {\fontsize{11pt}{15}\bfseries}{\thesubsubsection}{1em}{}
+\titleformat{\subparagraph}
+ {\fontsize{11pt}{15}\bfseries}{\thesubsubsection}{1em}{}
+\renewcommand\thesection{\arabic{section}.}
+\renewcommand\thesubsection{\thesection\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
 
 \hypersetup{
     citecolor=blue,
@@ -15,6 +32,11 @@
     urlcolor=cyan,
     pdfpagemode=UseNone
 }
+
+\makeatletter
+\def\footnoterule{\kern-3\p@
+  \hrule \@width 2in \kern 2.6\p@} % the \hrule is .4pt high
+\makeatother
 
 \pagenumbering{gobble}
 \newcommand{\TODO}[1]{$<$\textbf{TODO: #1 will be inserted here.}$>$}
@@ -54,30 +76,45 @@
 \usepackage{verbatim, minted, xparse}
 \input{lib/codeblock}
 \newcommand{\blodcaption}[1]{\caption{\textbf{#1}}}
-\newcommand{\subparagraph}{}
 \renewcommand\IEEEkeywordsname{Keywords}
 \newcommand{\titlesize}{\fontsize{16pt}{20pt}\selectfont}
-\title{{\titlesize The Container Security in Healthcare Data Exchange System}}
-\author{Chih-Hsuan Yang\\
-National Sun Yet-Sen University, Taiwan \\
-Bachelor's degree graduation project \\
-Advisor: Chun-I Fan
-}
+
+\title{\titlesize \textbf{第三十二屆全國資訊安全會議}\\
+健康資訊交換系統中之容器安全\\
+\textbf{Cryptology and Information Security Conference 2022 (CISC2022)}\\
+The Container Security in Healthcare Data Exchange System}
+
+\renewcommand\Authand{, }
+\setlength{\affilsep}{1mm}
+\renewcommand{\Affilfont}{\fontsize{12pt}{1}\bfseries}
+\renewcommand{\Authfont}{\fontsize{12pt}{1}\bfseries}
+\author{Chih-Hsuan Yang}
+\affil[ ]{\texttt{zxc25077667@protonmail@com}\textsuperscript{1}}
+\author{Chun-I Fan}
+\affil[ ]{\texttt{cifan@mail.cse.nsysu.edu.tw}\textsuperscript{2}}
+
+\renewcommand{\abstractnamefont}{\fontsize{12pt}{15}\bfseries}
+\renewcommand{\abstracttextfont}{\fontsize{10pt}{15}}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
 
 \date{\today}
 
 \linespread{1}
 \begin{document}
-
 \IEEEtitleabstractindextext{
-\input{abs.tex}
+  \input{abs.tex}
 
-\begin{IEEEkeywords}
-  Container, Linux Kernel, Healthcare Data
-\end{IEEEkeywords}
+  \begin{IEEEkeywords}
+    Container, Linux Kernel, Healthcare Data
+  \end{IEEEkeywords}
 }
 
 \maketitle
+{
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\footnotetext[1]{本研究接受國科會編號：110-2813-C-110-046-E 研究計畫經費補助}
+}
 \IEEEdisplaynontitleabstractindextext
 
 \input{intro.tex}
