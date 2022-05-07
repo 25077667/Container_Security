@@ -7,8 +7,8 @@ The FreeBSD develops `Jails' in 1999, and the Solaris develops `Zones' in 2004.
 Linux also took this idea into the Linux kernel, which is named cgroups (2007),
 the capabilities (2003), and seccomp (2005). However, why the Linux breaks this
 technology into many parts? This is because they had discussed:
-"Why Should a System Administrator Upgrade?" in 2001
-\footnote{\url{https://www.informit.com/articles/article.aspx?p=20667}}.
+"Why Should a System Administrator Upgrade?" in 2001.
+%\footnote{\url{https://www.informit.com/articles/article.aspx?p=20667}}.
 The Linux kernel almost entered the development path of "upgrade for demand" like
 Microsoft Windows, and deviated from the original path of "providing a mechanism
 but not a strategy" of the original Linux kernel.
@@ -22,7 +22,7 @@ control groups functionality was merged into the mainline,
 which is designed for an administrator (or administrative daemon) to organize processes
 into hierarchies of containers; each hierarchy is managed by a subsystem. Moreover, the
 cgroups was rewrote into cgroups-v2 in Linux kernel 4.5 (2015)
-\footnote{\url{https://www.kernel.org/doc/Documentation/cgroup-v2.txt}}.
+%\footnote{\url{https://www.kernel.org/doc/Documentation/cgroup-v2.txt}}.
 
 The first and most complete implementation of the Linux container manager was LXC
 (Linux Containers). It was implemented in 2008 using cgroups and namespaces,
@@ -38,7 +38,7 @@ from the rest of the machine on which they're running. Therefore, this research
 is based on docker container to propose a scheme of healthcare data exchange system's
 security.
 
-\subsection{FHIR}
+\subsection{Fast Healthcare Interoperability Resources (FHIR)}
 FHIR is a standard for healthcare data exchange. The FHIR standard will be used in
 Taiwan in the near future. FHIR will be used to provide PHR (Personal Healthcare Records)
 in Taiwan. Therefore, we choose the most popular standard "FHIR" for the target of
@@ -54,8 +54,8 @@ FHIR has features: RESTful and data structure, make our research and benchmarks 
 and reliable.
 Statelessness is a developer-friendly feature, the developer and the tester would not
 to design a complex state machine on the server-side or generating test files. And the FHIR
-takes RESTful as standard. Moreover, FHIR standard declared the `StructureDefinition'
-\footnote{\url{http://www.hl7.org/fhir/structuredefinition.html}}.
+takes RESTful as standard. Moreover, FHIR standard declared the `StructureDefinition'.
+%\footnote{\url{http://www.hl7.org/fhir/structuredefinition.html}}.
 These structure definitions are used to describe both the content defined in the FHIR
 specification itself - Resources, data types, the underlying infrastructural types, and
 also are used to describe how these structures are used in implementations.

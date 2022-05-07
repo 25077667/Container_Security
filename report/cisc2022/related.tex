@@ -22,7 +22,7 @@ However, the BoSC is running in user space, even though it is a background servi
 on the same host kernel. It might have heavy constant time costs of copying data from
 user to kernel and kernel to user by the `copy\_to\_user()' and `copy\_from\_user()' calls.\\
 
-\textcite{7809699,7796855} takes a mathematical model to simulate the
+\textcite{7809699,7796855} take a mathematical model to simulate the
 smart moving target defense for Linux container resiliency. Considering an `ESCAPE' model
 is the interaction between attackers and their target containers as a “predator searching
 for a prey” search game. This search game has 3 modules: behavior monitoring, the
@@ -35,7 +35,7 @@ zero-day vulnerabilities in different types and numbers of machines.
 \textcite{7809699,7796855} concluded that an IDS could detect and avoid mobile continually-growing
 attacks efficiently by the `ESCAPE' model with collecting system calls.
 
-\subsection{Fine-grained Permission Control}
+\subsection{Fine-Grained Permission Control}
 
 The file system access control list (ACL) was defined in POSIX, which shares a naive and robust
 permission model \cite{Grnbacher2003POSIXAC, 10.5555/3026877.3026930}. But after 20 years of
@@ -66,8 +66,8 @@ all of these conflicts will follow the capability first.
 
 Android sandbox also uses ACL to control SELinux permissions for application registered users.
 This is called in Android system UID-based discretionary access control (DAC).
-And after Android 5.0, SELinux is provided to force the execution of DAC
-\footnote{\url{https://source.android.com/security/app-sandbox}}.
+And after Android 5.0, SELinux is provided to force the execution of DAC.
+%\footnote{\url{https://source.android.com/security/app-sandbox}}.
 
 \subsubsection{Capabilities}
 \label{Capabilities}
@@ -87,7 +87,7 @@ those are small and unimportant vulnerabilities.
 
 \subsubsection{Five Stages of Malware}
 \label{Five_stage_of_malware}
-We had been inspired by the quark engine\footnote{\url{https://quark-engine.readthedocs.io/en/latest/}},
+We had been inspired by the quark engine,% \footnote{\url{https://quark-engine.readthedocs.io/en/latest/}},
 which is an open-source malware scoring system for Android APK files. The quark
 engine had been developed from the Taiwan Criminal Law's five stages:
 (\Rn{1}) Determination, (\Rn{2}) Conspiracy, (\Rn{3}) Preparation, (\Rn{4}) Start, (\Rn{5}) Practice.\\
@@ -180,50 +180,53 @@ Write". "Copy on Write" is a resource-management technique used in computer prog
 to efficiently implement a "duplicate" or "copy" operation on modifiable resources \cite{6394426}.
 It is often inspired when `fork' or `mmap'.
 
-\subparagraph{Mechanism}
+\textbf{Mechanism}\\
 Let's analyze the proof of concept (PoC) of the dirty CoW \cite{8019988} vulnerability
 \footnote{\url{https://github.com/dirtycow/dirtycow.github.io/blob/master/dirtyc0w.c}}.
 The key of inspiring this vulnerability is the mmaped memory space, which is mapped with
 the PROT\_READ flag. The PROT\_READ flag declares that the page is read-only.
-\lstinputlisting[language=C, linerange={87-89, 101-101}, firstnumber=87]{src/dirtyc0w.c}
+% \lstinputlisting[language=C, linerange={87-89, 101-101}, firstnumber=87]{src/dirtyc0w.c}
 
 It creates two threads, which would have a race condition of the mmaped memory space,
 madviseThread and procselfmemThread.
 
-\lstinputlisting[language=C, linerange={106-107}, firstnumber=106]{src/dirtyc0w.c}
+% \lstinputlisting[language=C, linerange={106-107}, firstnumber=106]{src/dirtyc0w.c}
 
 In one thread, issuing a system call `madvise', would make the user thread gain the root
 privilege to operate the protected page temporarily. And the flag MADV\_DONTNEED would
 tell the kernel: "Do not expect to access it in the near future." Moreover,
 this flag might not lead to immediate freeing of pages in the range. The kernel is free
-to delay free the pages until an appropriate moment \footnote{\url{https://man7.org/linux/man-pages/man2/madvise.2.html}}.
+to delay free the pages until an appropriate moment. % \footnote{\url{https://man7.org/linux/man-pages/man2/madvise.2.html}}.
 
-\lstinputlisting[language=C, linerange={33-39,45-48}, firstnumber=33]{src/dirtyc0w.c}
+% \lstinputlisting[language=C, linerange={33-39,45-48}, firstnumber=33]{src/dirtyc0w.c}
 
 In another thread, open its memory resource file. This file is a special file, which allows
-the process to read its memory by itself.\\
+the process to read its memory by itself.
 
 Then, we move the printer of file descriptor of the memory resource file to the mmaped
 space. And we try to write it. But the mmaped space is read-only. We expected that the
-kernel would create a copy of this space and write the copy \cite{8001953}.\\
-\lstinputlisting[language=C, linerange={50-53,61-63,67-71}, firstnumber=50]{src/dirtyc0w.c}
+kernel would create a copy of this space and write the copy \cite{8001953}.
+% \lstinputlisting[language=C, linerange={50-53,61-63,67-71}, firstnumber=50]{src/dirtyc0w.c}
 
 However, there is a problem! There is another thread that is racing this page with root
 privilege. If the schedular context switches the madviseThread to procselfmemThread while
 the adviseThread is calling the `madvise' system call, it would cause the
 procselfmemThread to gain the root privilege from madviseThread to control the mmaped file.
 
-\subparagraph{Demo}\mbox{}\\
-\includegraphics[width=.5\textwidth]{src/Screenshot_2021-12-26_05-14-58.png}
+\begin{figure}
+\includegraphics[width=.45\textwidth]{src/Screenshot_2021-12-26_05-14-58.png}
+\blodcaption{Demo of Dirtycow}
 \label{qemumachine}
+\end{figure}
 
 \paragraph{CVE-2016-8655 series}
-We will introduce the series vulnerabilities related to CVE-2016-8655\footnote{
-    \url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-8655}}, which are
-CVE-2017-7308\footnote{\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7308}}
-and CVE-2020-14386\footnote{\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-14386}}.
+We will introduce the series vulnerabilities related to CVE-2016-8655,
+%\footnote{ \url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-8655}}
+which are
+CVE-2017-7308%\footnote{\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7308}}
+and CVE-2020-14386.%\footnote{\url{https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-14386}}.
 These vulnerabilities are related to the bugs in net/packet/af\_packet.c in the kernel.
-These series vulnerability is rely on the capability of CAP\_NET\_RAW\footnote{\url{https://linux.die.net/man/7/capabilities}},
+These series vulnerability is rely on the capability of CAP\_NET\_RAW,%\footnote{\url{https://linux.die.net/man/7/capabilities}},
 which is a capability that can "use RAW and PACKET sockets and bind to
 any address for transparent proxying" in Linux. And we had also introduced the Linux
 capabilities at \ref{Capabilities}.
@@ -248,7 +251,7 @@ Despite people patch those vulnerabilities, there exist an arithmetic overflow, 
 the variable of netoff is an offset of ethernet header which is only stored in an unsigned
 short. Crackers can produce an arithmetic overflow when they have the CAP\_NET\_RAW capability,
 which value must be smaller than INT\_MAX, but receive a larger value than the size of a
-block and write beyond the bounds of a frame buffer\footnote{\url{https://www.openwall.com/lists/oss-security/2020/09/03/3}}.
+block and write beyond the bounds of a frame buffer. %\footnote{\url{https://www.openwall.com/lists/oss-security/2020/09/03/3}}.
 
 Or Cohen submitted the patch\footnote{\url{https://github.com/torvalds/linux/commit/acf69c946233259ab4d64f8869d4037a198c7f06}}
 to fix this CVE-2020-14386, and this patch is integrated into Linux 5.8. This vulnerability
@@ -260,7 +263,7 @@ that the container has the capability to ask the kernel to execute malicious cod
 they make the kernel up-to-date, there also have some probability that crackers could exploit
 the kernel and brake the container. Because, containers are just isolated processes, they
 are using the shared kernel as the host. When this bug is published, google's gVisor said
-"Hey, we are immunity to this vulnerability." \footnote{\url{https://cloud.google.com/blog/products/containers-kubernetes/how-gvisor-protects-google-cloud-services-from-cve-2020-14386}}
+"Hey, we are immunity to this vulnerability." %\footnote{\url{https://cloud.google.com/blog/products/containers-kubernetes/how-gvisor-protects-google-cloud-services-from-cve-2020-14386}}
 Because the gVisor implements its own network stack in its gVisor sandbox by the go language.
 They do not ask for these supports from the kernel.
 
@@ -280,7 +283,7 @@ from the file system because each container's file system is referenced from the
 of the image file. Despite that an image is immutable, a container is mutable except for ACL controls.
 
 In order to solve the problem of such duplication, a memfd is used instead, and
-then runC is the driver of the container \footnote{\url{https://github.com/opencontainers/runc/commit/0a8e4117e7f715d5fbeef398405813ce8e88558b}}.
+then runC is the driver of the container. %\footnote{\url{https://github.com/opencontainers/runc/commit/0a8e4117e7f715d5fbeef398405813ce8e88558b}}.
 In this way, if a hacker rewrites the driver with any permission, at most it will only modify
 the volatile program in memory. It will not overwrite the original immutable layer.
 The user reentrants this container the next time, the hacker-modified runC will
@@ -291,30 +294,30 @@ not be triggered.
 % https://github.com/opencontainers/runc/security/advisories/GHSA-c3xm-pvg7-gh7r
 There is a race condition between checking the filesystem while the container is
 starting and actually mounting it into the container. The original researcher found
-this race condition problem on k8s \footnote{\url{https://blog.champtar.fr/runc-symlink-CVE-2021-30465/}}.
+this race condition problem on k8s. %\footnote{\url{https://blog.champtar.fr/runc-symlink-CVE-2021-30465/}}.
 However, there is a bug that we have full control permission over the file that
 is mounted in a container. Therefore the researcher creates 20 containers to race a shared
 directory that placed a symbolic link to the container's outside.
 
-\lstinputlisting[language=C, linerange={10-38}, firstnumber=10]{src/race.c}
+% \lstinputlisting[language=C, linerange={10-38}, firstnumber=10]{src/race.c}
 
-We can see the PoC code as above.
+% We can see the PoC code as above.
 
 \subsection{A Minimal Cross-platform Container in Linux}
 A kernel-level virtualization, which is so-called a container, is constructed by two
 features: hardware limitation, namespace limitation. We can use the `mount' with a tag of
 cgroup system call in Linux to create an association set of parameters for hierarchy
-subsystems \footnote{\url{https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/cgroups.html}}.
+subsystems. %\footnote{\url{https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/cgroups.html}}.
 We use the `clone' or `unshare' to manipulate the task\_struct in the kernel.
 
 We give the container all the hardware usage to our mini-container, and execute from a thread of
 function 'run'.
-\lstinputlisting[language=C, linerange={45-49}, firstnumber=45]{src/lc/cont.c}
-We use the clone \footnote{\url{https://man7.org/linux/man-pages/man2/clone.2.html}} with
-CLONE\_NEWNS flag to start in a new mount namespace, initialing with a copy of the
+% \lstinputlisting[language=C, linerange={45-49}, firstnumber=45]{src/lc/cont.c}
+We use the clone %\footnote{\url{https://man7.org/linux/man-pages/man2/clone.2.html}}
+with CLONE\_NEWNS flag to start in a new mount namespace, initialing with a copy of the
 namespace of the parent. Then, we use chroot to limit the child process's root directory
 to our "rootfs".
-\lstinputlisting[language=C, linerange={18-30}, firstnumber=18]{src/lc/cont.c}
+% \lstinputlisting[language=C, linerange={18-30}, firstnumber=18]{src/lc/cont.c}
 So we start the first program in the container, which would be executed in the
 our-designed container, which is shown in figure \ref{lc}.
     {
@@ -325,7 +328,7 @@ our-designed container, which is shown in figure \ref{lc}.
             \label{lc}
         \end{figure}
     }
-\lstinputlisting[language=C, linerange={32-43}, firstnumber=32]{src/lc/cont.c}
+% \lstinputlisting[language=C, linerange={32-43}, firstnumber=32]{src/lc/cont.c}
 
 But there is a problem here. That is the program could not be loaded normally while
 the kernel tries to load the dynamic libraries into memory, which depends on the
@@ -335,7 +338,7 @@ support the container image.
 Suppose we build the minimal container on a self machine, we can assume the CPU architecture
 is the same. Therefore we can copy the dependencies to "rootfs" directly.
 
-\lstinputlisting[language=sh, linerange={10-46}, firstnumber=10]{src/lc/build.sh}
+% \lstinputlisting[language=sh, linerange={10-46}, firstnumber=10]{src/lc/build.sh}
 
 \subsection{Virtual Environment Performance Benchmark}
 There is a trend of applications are developed or deployed into microservice in a virtual

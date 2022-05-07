@@ -1,25 +1,29 @@
 %!TEX program=xelatex
 \documentclass[a4paper, 10pt]{IEEEtran}
-\usepackage{geometry, xcolor, amssymb, listings, graphicx, times, smartdiagram, fontspec, xeCJK, fancyhdr, authblk, titlesec, abstract}
-\usepackage[backend=biber,style=numeric,sorting=nyt]{biblatex}
+\usepackage{geometry, xcolor, amssymb, listings, graphicx, times, smartdiagram, fontspec, xeCJK, fancyhdr, authblk, titlesec, abstract, fancyhdr}
+\usepackage[backend=biber,style=ieee,sorting=nyt]{biblatex}
 \addbibresource{main.bib}
 \usepackage[colorlinks=true, linkcolor=blue]{hyperref}
-\usepackage{bookmark}
-\geometry{margin=2.5cm}
+\usepackage{bookmark, caption}
+\geometry{margin=2.5cm,top=2cm,headsep=1pt}
 \setlength{\parindent}{2em}
 \setlength\columnsep{0.5cm}
 
-\setCJKmainfont[AutoFakeBold=2,AutoFakeSlant=.4]{[kaiu.ttf]}
+\setCJKmainfont[AutoFakeSlant=.4]{[kaiu.ttf]}
 \setmainfont{Times New Roman}
+
+\titlespacing\section{0pt}{8pt minus 8pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{8pt minus 8pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{0pt}{8pt minus 8pt}{0pt plus 2pt minus 2pt}
 
 \titleformat{\section}
   {\fontsize{12pt}{15}\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}
- {\fontsize{11pt}{15}\bfseries}{\thesubsection}{1em}{}
+ {\fontsize{11pt}{15}\bfseries}{\thesubsection}{.5cm}{}
 \titleformat{\subsubsection}
- {\fontsize{11pt}{15}\bfseries}{\thesubsubsection}{1em}{}
+ {\fontsize{11pt}{15}\bfseries}{\thesubsubsection}{.5cm}{}
 \titleformat{\subparagraph}
- {\fontsize{11pt}{15}\bfseries}{\thesubsubsection}{1em}{}
+ {\fontsize{11pt}{15}\bfseries}{\thesubsubsection}{.5cm}{}
 \renewcommand\thesection{\arabic{section}.}
 \renewcommand\thesubsection{\thesection\arabic{subsection}}
 \renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
@@ -34,8 +38,8 @@
 }
 
 \makeatletter
-\def\footnoterule{\kern-3\p@
-  \hrule \@width 2in \kern 2.6\p@} % the \hrule is .4pt high
+%\def\footnoterule{\kern-3\p@
+%  \hrule \@width 2in \kern 2.6\p@} % the \hrule is .4pt high
 \makeatother
 
 \pagenumbering{gobble}
@@ -75,23 +79,29 @@
 % packages for code
 \usepackage{verbatim, minted, xparse}
 \input{lib/codeblock}
-\newcommand{\blodcaption}[1]{\caption{\textbf{#1}}}
+\newcommand{\blodcaption}[1]{\captionsetup{justification=centering}\caption{\textbf{#1}}}
 \renewcommand\IEEEkeywordsname{Keywords}
 \newcommand{\titlesize}{\fontsize{16pt}{20pt}\selectfont}
 
-\title{\titlesize \textbf{第三十二屆全國資訊安全會議}\\
-健康資訊交換系統中之容器安全\\
-\textbf{Cryptology and Information Security Conference 2022 (CISC2022)}\\
+\renewcommand{\headrulewidth}{0pt}
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{第三十二屆全國資訊安全會議(CISC 2022) Cryptology and Information Security Conference 2022}
+
+\title{\titlesize
+\textbf{健康資訊交換系統中之容器安全}\\
 The Container Security in Healthcare Data Exchange System}
 
 \renewcommand\Authand{, }
 \setlength{\affilsep}{1mm}
-\renewcommand{\Affilfont}{\fontsize{12pt}{1}\bfseries}
+\renewcommand{\Affilfont}{\fontsize{12pt}{1}}
 \renewcommand{\Authfont}{\fontsize{12pt}{1}\bfseries}
+
 \author{Chih-Hsuan Yang}
-\affil[ ]{\texttt{zxc25077667@protonmail@com}\textsuperscript{1}}
+\affil[ ]{Department of Computer Science and Engineering, National Sun Yat-sen University, Kaohsiung 80424, Taiwan.\textsuperscript{1, 2}}
+\affil[ ]{zxc25077667@protonmail.com\textsuperscript{1}}
 \author{Chun-I Fan}
-\affil[ ]{\texttt{cifan@mail.cse.nsysu.edu.tw}\textsuperscript{2}}
+\affil[ ]{cifan@mail.cse.nsysu.edu.tw\textsuperscript{2}}
 
 \renewcommand{\abstractnamefont}{\fontsize{12pt}{15}\bfseries}
 \renewcommand{\abstracttextfont}{\fontsize{10pt}{15}}
@@ -111,9 +121,10 @@ The Container Security in Healthcare Data Exchange System}
 }
 
 \maketitle
+\thispagestyle{fancy}
 {
-\renewcommand{\thefootnote}{\fnsymbol{footnote}}
-\footnotetext[1]{本研究接受國科會編號：110-2813-C-110-046-E 研究計畫經費補助}
+  \renewcommand{\thefootnote}{\fnsymbol{footnote}}
+  \footnotetext[1]{本研究接受國科會編號：110-2813-C-110-046-E 研究計畫經費補助}
 }
 \IEEEdisplaynontitleabstractindextext
 

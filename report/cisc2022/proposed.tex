@@ -7,8 +7,21 @@ green, and refactor, but also "Test Do what's Designed".
 In short, our proposal is generating a perfectly fittable mask layer which
 is coupled with the healthcare data exchange system in build time.
 
+\begin{figure}[h]
+    \centering
+    \smartdiagramset{
+        module minimum width=3cm,
+        text width=2.5cm,
+    }
+    \smartdiagram[circular diagram:clockwise]{
+        Scan base, Sign, Image checking, Start policy, Runtime enforcement
+    }
+    \blodcaption{Contiguous Integration and Contiguous Deployment}
+    \label{workflow}
+\end{figure}
+
 We proposed a CI/CD workflow to guarantee the runtime enforcement of policies
-in figure \ref{fig:workflow}. Each block of the workflow will be described
+in figure \ref{workflow}. Each block of the workflow will be described
 in the following subsubsection.
 
 Because of the CI/CD workflow, we can rolling update all the features or
@@ -19,18 +32,6 @@ then mitigate them by having multiple layers.” And our layer is enforced
 in kernel space, therefore, there are no existing other attacks that can
 be inflected in the user program except for the kernel exploit.
 
-\begin{figure}
-    \centering
-    \smartdiagramset{
-        module minimum width=3cm,
-        text width=2.5cm,
-    }
-    \smartdiagram[circular diagram:clockwise]{
-        Scan base, Sign, Image checking, Start policy, Runtime enforcement
-    }
-    \label{fig:workflow}
-    \blodcaption{Contiguous Integration and Contiguous Deployment}
-\end{figure}
 
 \subsubsection{Scan Base Image}
 We scan all the layers which construct the image of the container recursively.
