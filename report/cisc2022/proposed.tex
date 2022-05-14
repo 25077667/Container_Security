@@ -1,4 +1,4 @@
-\section{Proposed Scheme}
+\section{The Proposed Scheme}
 It is the programmer's responsibility to write complete unit and integration tests.
 We extend the definition Test-Driven Development (TDD), which is not only red,
 green, and refactor, but also "Test Do what's Designed".
@@ -21,36 +21,36 @@ is coupled with the healthcare data exchange system in build time.
 \end{figure}
 
 We proposed a CI/CD workflow to guarantee the runtime enforcement of policies
-in figure \ref{workflow}. Each block of the workflow will be described
+in Fig. \ref{workflow}. Each block of the workflow will be described
 in the following subsubsection.
 
 Because of the CI/CD workflow, we can rolling update all the features or
-fixing vulnerabilities, such that, the software would be released secure
+patch vulnerabilities such that the software would be released secure
 eventually. Linus Torvalds said\footnote{\url{https://www.youtube.com/watch?v=5CIL54-KKz0}}
-: "The only real solution to security is to admit that bugs happen, and
+"The only real solution to security is to admit that bugs happen, and
 then mitigate them by having multiple layers.” And our layer is enforced
-in kernel space, therefore, there are no existing other attacks that can
+in kernel space; therefore, there are not existing other attacks that can
 be inflected in the user program except for the kernel exploit.
 
 
 \subsubsection{Scan Base Image}
 We scan all the layers which construct the image of the container recursively.
-All containers are images in execution, that is we can treat the container
+All containers are images in execution, that is, we can treat the container
 as an image in runtime. Therefore, the layers of image construction have to
 be trusted.
 
 For a general image $I_i$ which has been constructed in $n$ layers $L_i$,
 $\forall i \le n$, $n \in \mathbb{N}$, we can use the spotbugs\footnote{\url{https://spotbugs.github.io/}}
 or the other bug-scanning tools to ensure that the software is a bugless program.
-The bugless program $p_i$ is in the layer $L_i$ which construct the $I_i$
+The bugless program $p_i$ is in the layer $L_i$ which constructs the $I_i$
 
 \subsubsection{Building and Signing}
 
 We will execute the developer's unit tests and the integration test in the build time.
-We catch all the system calls $s_i$ by the BoSC\cite{1495942} method,
+We catch all the system calls $s_i$ by the BoSC \cite{1495942} method,
 and generate the $S = \{s_1, s_2, \dots s_i \dots s_n\}$ set from the
-program's $n$ system calls, $S \subseteq \mathbb{S}$, the $\mathbb{S}$ is all the system
-calls that the kernel supported.  We wrote a driver to parse the $S$ into
+program's $n$ system calls, where $S \subseteq \mathbb{S}$, and $\mathbb{S}$ is the set of
+all the system calls that the kernel supported.  We wrote a driver to parse the $S$ into
 a whitelist filter of seccomp's policy $P$.
 
 % To catch the system calls of the programs in the container, we use a 
@@ -73,7 +73,7 @@ launched by the user in runtime, that is the container.
 
 \subsubsection{Enforce the Policy}
 
-The kernel of the active machine can help us to guarantee the policy $P$ is enforced in
+The kernel of the active machine can help us to guarantee that the policy $P$ is enforced in
 kernel space. Since the container is launched by the user, the policy $P$
 has been invoked in each system calls of the container. Because the policy $P$ is a whitelist,
 all of the other system calls which do not belong to the signed container's application
@@ -83,6 +83,6 @@ would send a permission denied signal from the kernel.
 
 The rolling update is a trend of software engineering products, which is
 also named agile software development. Eric S. Raymond formulated
-the Linus's law in \emph{The Cathedral and the Bazaar}\cite{9780596001087}.
-We give enough eyeballs and layers, all bugs or vulnerabilities are shallow in our
-healthcare data exchange system. Therefore the container can be secure eventually.
+the Linus's law in \emph{The Cathedral and the Bazaar} \cite{9780596001087}.
+We give enough eyeballs and layers, and all bugs or vulnerabilities are shallow in our
+healthcare data exchange system. Therefore, the container can be secure eventually.

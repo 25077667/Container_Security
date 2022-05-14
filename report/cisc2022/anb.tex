@@ -1,7 +1,7 @@
 \section{Analysis and Benchmark}
 
 The proposed scheme profiles an image of containers via cgroup and namespace
-and use the seccomp mechanism to force the policy in the kernel.
+and uses the seccomp mechanism to force the policy in the kernel.
 We will analyze how the proposed scheme protects our system when hackers land
 into the container, and we profile the concurrent costs of this
 mechanism.
@@ -17,21 +17,21 @@ In the health and medical information exchange system, the health and
 medical information we protect is specialized and fixed. For example,
 we do not have any attack on parsing some format string,
 %\footnote{\url{https://owasp.org/www-community/attacks/Format_string_attack}},
-which is an exploit of bypassing the ASLR \footnote{\url{https://lwn.net/Articles/569635/}}.
+which is an exploit of bypassing the ASLR\footnote{\url{https://lwn.net/Articles/569635/}}.
 
-So the proposed scheme can remove some redundant system call support has reached to
-limit the possibility of hacker exploitation. In order to protect
-the user's data from being attacked or leaked in the information exchange system.
+So the proposed scheme can remove some redundant system calls that could
+limit the possibility of hacker exploitation. Therefore, we can protect
+the user's data from being hacked in the information exchange system.
 
 \subsubsection{Attacking Surface}
 We discuessed the five stages of malware in \ref{Five_stage_of_malware}. We analyzed
 three possible attacking scenarios for hackers in this subsubsection.
 
-\subsubsection{Administrator account leakage}
+\subsubsection{Administrator Account Leakage}
 There are many situations where administrator accounts are accidentally
 leaked, such as social engineering attacks, side-channel attacks,
 or account IDs and passwords known through other ways.
-In 2020, 20 million household registration information in Taiwan is
+In 2020, 20 million household registration records in Taiwan are
 suspected to be sold in the dark web.%\footnote{\url{https://www.ithome.com.tw/news/137955}}.
 
 We can prevent such attacks in advance by setting up a system-call filter
@@ -45,16 +45,16 @@ at build time and block unexpected behavior.
 \subsubsection{Zero-day or One-day Vulnerability}
 Assuming that the hacker does not have system administration privileges,
 but exploits the vulnerability of the health information exchange system
-(IBM/FHIR server) to conduct malicious attacks, we can also use the same
+(IBM/FHIR server) to conduct malicious attacks. We can also use the same
 behavioral filter to filter the attack.
-For example the log4j attack (CVE-2021-44228), which is a vulnerability
-been published while we researching this container security issue.
+For example, the log4j attack (CVE-2021-44228), which has been a published
+vulnerability while we researching this container security issue.
 Before our research, this vulnerability existed in IBM/FHIR container server.
 %\footnote{\url{https://github.com/IBM/FHIR/issues/3156}}.
-When a user turns the "export to parquet" feature on, which would
+When a user turns the "export to parquet" feature on, it would
 bring in much of Apache Spark which leads to enable the vulnerable log4j.
 
-But unfortunately, we have to admit that the defenses we propose cannot
+However, unfortunately, we have to admit that the defenses we propose cannot
 withstand this log4j attack. The IBM/FHIR server itself can enable such a mechanism,
 so actions using log4j are invoked at build time. We would admit these
 behaviors as normal behavior at the system-call filter level.
@@ -79,7 +79,7 @@ behaviors as normal behavior at the system-call filter level.
 Containers can theoretically have more secure ring protection in the
 protection ring than in the host environment. Because the permissions
 of a container could have at most as many permissions as the host environment.
-Therefore a container could break the protection ring, only if the host
+Therefore, a container could break the protection ring only if the host
 machine could be cracked by those attacks which are applied to the container.
 
 In other words, when a Container can break the protection ring, we permitted
@@ -96,14 +96,14 @@ which is said that containers are isolated processes.
 \subsubsection{Statistics}
 According to our experiments, the integration tests and unit
 tests were executed on IBM/FHIR server 4.9.0, and the system calls,
-and system events we collected are shown in the figure \ref{hist}.
+and system events we collected are shown in Fig. \ref{hist}.
 
-The figure \ref{hist} is the FHIR server's all system calls in
-BoSC\cite{1495942} and the number of called times.
+Fig. \ref{hist} illustrates the FHIR server's all system calls in
+BoSC \cite{1495942} and the number of times that had been called.
 \begin{figure}
     \centering
     \includegraphics[width=.5\textwidth]{src/hist.png}
-    \blodcaption{All the system calls which the FHIR called times}
+    \blodcaption{All the system calls from the FHIR Server}
     \label{hist}
 \end{figure}
 Among them, we can find that the most used is the `stat' system call.
@@ -115,7 +115,7 @@ focused on the requirement of parallel multiplexing
 important issue for the server's high multiplexing performance service client.
 
 \subsubsection{Latency}
-Figure \ref{conc} is the concurrent processes transporting time
+Fig. \ref{conc} is the concurrent processes transporting time
 difference in a container and a virtual machine.
 \textcite{234857} showed that the latency of opening and closing files
 is no significant difference between native and runc. But there was 12 times
@@ -124,11 +124,11 @@ cannot be executed in gVisor, it is the same in native and runc with no
 significant difference.
 
 \textcite{7095802} showed the relation between the throughput and the concurrency,
-both have the transaction's upper bound cost in MySQL. The overhead of KVM is
-much higher, above 40\% in all measured cases. We think there is a driver
+where both have the transaction's upper bound cost in MySQL. The overhead of KVM is
+much higher, above 40\% in all measured cases. We think that there is a driver
 buffering bottleneck in the hypervisor of KVM in ring 0.
 
-So we compare the time lag between Ubuntu 20.04 in QEMU/KVM in Archlinux
+Hence, we compare the time lag between Ubuntu 20.04 in QEMU/KVM in Archlinux
 and native Alpine container in Archlinux on concurrent requests.
 A phenomenon we found is that the latency curve of a virtual
 machine seems to be different in complexity from that of a native container.
