@@ -11,7 +11,7 @@ Our defense level is at the kernel level, but the virtual machine's
 defense level is at the instruction level. Because we do not impose any
 restrictions on the CPU instruction set, nor isolate the host operating system.
 Although the defense level at the instruction set seems to be more efficient,
-the virtual machine's protection consumes more time. We will show that in \ref{conc}.
+the virtual machine's protection consumes more time. We will show that in Fig \ref{conc}.
 
 In the health and medical information exchange system, the health and
 medical information we protect is specialized and fixed. For example,
@@ -26,21 +26,6 @@ the user's data from being hacked in the information exchange system.
 \subsubsection{Attacking Surface}
 We discuessed the five stages of malware in \ref{Five_stage_of_malware}. We analyzed
 three possible attacking scenarios for hackers in this subsubsection.
-
-\subsubsection{Administrator Account Leakage}
-There are many situations where administrator accounts are accidentally
-leaked, such as social engineering attacks, side-channel attacks,
-or account IDs and passwords known through other ways.
-In 2020, 20 million household registration records in Taiwan are
-suspected to be sold in the dark web.%\footnote{\url{https://www.ithome.com.tw/news/137955}}.
-
-We can prevent such attacks in advance by setting up a system-call filter
-in seccomp. When a hacker logs into the system as a system administrator
-and executes a foreign malicious program, the malicious program will call
-the system out of the schedule to perform malicious actions.
-Even though we normally give the system administrator the highest privileges
-to perform arbitrary tasks, we can analyze the behavior of the container
-at build time and block unexpected behavior.
 
 \subsubsection{Zero-day or One-day Vulnerability}
 Assuming that the hacker does not have system administration privileges,
@@ -76,25 +61,13 @@ behaviors as normal behavior at the system-call filter level.
 %hierarchical levels or layers of privilege. Which was proposed by the Multics
 %operating system \cite{6234805}.
 
-Containers can theoretically have more secure ring protection in the
-protection ring than in the host environment. Because the permissions
-of a container could have at most as many permissions as the host environment.
-Therefore, a container could break the protection ring only if the host
-machine could be cracked by those attacks which are applied to the container.
-
-In other words, when a Container can break the protection ring, we permitted
-too much capability to that container. Therefore, in our proposed method, the
-system call limit during the container execution period is given at build time,
-which can effectively defend against attacks such as breaking the protection ring.
-
 \subsubsection{Time Consuming}
 \textcite{KOZHIRBAYEV2017175} showed that there is basically no
 statistical difference between container and host environment.
 This is completely in line with our perception of a container,
 which is said that containers are isolated processes.
 
-\subsubsection{Statistics}
-According to our experiments, the integration tests and unit
+According to our experiments, to do a statict that the integration tests and unit
 tests were executed on IBM/FHIR server 4.9.0, and the system calls,
 and system events we collected are shown in Fig. \ref{hist}.
 
@@ -107,12 +80,11 @@ BoSC \cite{1495942} and the number of times that had been called.
     \label{hist}
 \end{figure}
 Among them, we can find that the most used is the `stat' system call.
-
-\subsection{Benchmark}
-It is found that the discussion of container performance testing is less
+To benchmark, it is found that the discussion of container performance testing is less
 focused on the requirement of parallel multiplexing
 \cite{7371699,KOZHIRBAYEV2017175,7095802,234857}. And it is a more
 important issue for the server's high multiplexing performance service client.
+Which result is same as our tesing results.
 
 \subsubsection{Latency}
 Fig. \ref{conc} is the concurrent processes transporting time

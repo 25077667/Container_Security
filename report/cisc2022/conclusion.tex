@@ -7,12 +7,8 @@ IBM/FHIR server system, which is the target of our research.
 We also expect that the gVisor might run faster significantly than the virtual
 machine; however, our target cannot be launched successfully in
 gVisor's sandbox.
-
-We thought that there might have been some race condition bugs via JWE(JAVA Web
-Engine) in gVisor. We found that the IBM/FHIR server returns an error code $141$
-while launching. However, we did the same configuration in Docker with
-our policy and raw gVisor. Therefore, we thought that the gVisor did not do
-well in supporting all system calls.
+We thought that there might have been some race condition bugs via JWE (JAVA Web
+Engine) in gVisor, such that the gVisor did not do well in supporting all system calls.
 
 And the time complexity of the virtual machine is significantly different from
 the container. We propose a hypothesis of the time complexity of the virtual
@@ -26,27 +22,3 @@ benchmarked the protection via virtual machine and our proposed scheme in
 the container. It can be concluded that it is a good solution if we want
 low latency and security.
 
-% \paragraph*{Better Architecture}
-% To better profile the IBM/FHIR server, we can start with the Hooked JVM,
-% which prevents unexpected objects from being generated at execution time,
-% such as fetching unspecified settings from JDBC. To make this method come
-% true, we will need to do two things: 1. JVM Hook, 2. Pre-parse the relationship
-% between Java bytecode and system calls.
-
-% In order to better provide the maintenance of information security for specific
-% applications, containerization is one of the means. In the face of more detailed
-% security controls, we should especially focus on more detailed patterns. The
-% collection system call is of course more versatile, but this is where we can
-% design better.
-
-% We think the problem with delay is the hypervisor's driver buffer bottleneck, but
-% there might be still too many variables in the middle. We need more analysis of
-% hypervisor and hardware communication mechanisms' formula to determine the root
-% causes.
-
-% \paragraph*{Future Machine Learning in Kernel}
-% Each FHIR request will conform to a certain format, and even when it is highly
-% parallel, it will have a certain pattern. We can start from the FHIR container
-% and put recurrent neural network or Hidden Markov Model into the kernel via ebpf.
-% Perhaps we will have more accurate and flexible containers to protect the health
-% and medical information exchange system.

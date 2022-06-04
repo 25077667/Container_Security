@@ -11,6 +11,7 @@
 
 \setCJKmainfont[AutoFakeSlant=.4]{[kaiu.ttf]}
 \setmainfont{Times New Roman}
+\newcommand{\lmr}{\fontfamily{lmr}\selectfont} % Latin Modern Roman
 
 \titlespacing\section{0pt}{8pt minus 8pt}{0pt plus 2pt minus 2pt}
 \titlespacing\subsection{0pt}{8pt minus 8pt}{0pt plus 2pt minus 2pt}
@@ -46,7 +47,6 @@
 
 % packages for code
 \usepackage{verbatim, minted, xparse}
-\input{lib/codeblock}
 \newcommand{\blodcaption}[1]{\captionsetup{justification=centering}\caption{\textbf{#1}}}
 \renewcommand\IEEEkeywordsname{Keywords}
 \newcommand{\titlesize}{\fontsize{16pt}{20pt}\selectfont}
@@ -63,7 +63,7 @@ The Container Security in Healthcare Data Exchange System}
 \renewcommand\Authand{, }
 \setlength{\affilsep}{1mm}
 \renewcommand{\Affilfont}{\fontsize{12pt}{1}}
-\renewcommand{\Authfont}{\fontsize{12pt}{1}\bfseries}
+\renewcommand{\Authfont}{\fontsize{12pt}{1}}
 
 \author{Chih-Hsuan Yang}
 \affil[ ]{Department of Computer Science and Engineering, National Sun Yat-sen University, Kaohsiung 80424, Taiwan}
@@ -103,6 +103,7 @@ The Container Security in Healthcare Data Exchange System}
 \input{anb.tex}
 \input{conclusion.tex}
 
-\printbibliography[title=Reference]
+\lmr
+\printbibliography[title=References]
 
 \end{document}
